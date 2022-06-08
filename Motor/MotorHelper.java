@@ -1,4 +1,4 @@
-package sushilib.motor;
+package SushiFrcLib.Motor;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;

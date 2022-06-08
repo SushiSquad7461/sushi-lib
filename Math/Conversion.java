@@ -1,4 +1,4 @@
-package sushilib.math;
+package SushiFrcLib.Math;
 
 public class Conversion {
     public static double ticksToMeters(double ticks, double wheelDiamater) {
