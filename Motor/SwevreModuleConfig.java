@@ -25,5 +25,6 @@ public class SwerveModuleConfig {
             STEER_ID,
             ENCODER_ID,
             STEER_OFFSET
-    );
+        );
+    }
 }
