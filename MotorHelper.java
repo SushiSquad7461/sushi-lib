@@ -1,4 +1,4 @@
-package frc.robot.util;
+package SushiLib;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;

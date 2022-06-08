@@ -1,4 +1,4 @@
-package frc.robot.util;
+package SushiLib;
 
 public class Conversion {
     public static double ticksToMeters(double ticks, double wheelDiamater) {
