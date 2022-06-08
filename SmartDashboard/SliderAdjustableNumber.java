@@ -3,11 +3,9 @@ package SushiFrcLib.SmartDashboard;
 import java.util.ArrayList;
 import java.util.Map;
 
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Class for a tunable number. Gets value from dashboard in tuning mode, returns
@@ -19,7 +17,6 @@ public class SliderAdjustableNumber {
 
     private String key;
     private double defaultValue;
-    private double lastHasChangedValue = defaultValue;
     private NetworkTableEntry slider;
     private NetworkTableEntry savedValue;
     private NetworkTableEntry button;
