@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class MotorHelper {
+    // Create a new falcon motor
     public static WPI_TalonFX createFalconMotor(int canID, int currentLimit, NeutralMode neutralMode, TalonFXInvertType inversion) {
         WPI_TalonFX motor = new WPI_TalonFX(canID);
         motor.configFactoryDefault();
@@ -16,6 +17,7 @@ public class MotorHelper {
         return motor;
     }
 
+    // Create a new falcon motor
     public static WPI_TalonFX createFalconMotor(int canID, int currentLimit, TalonFXInvertType inversion) {
         WPI_TalonFX motor = new WPI_TalonFX(canID);
         motor.configFactoryDefault();
@@ -25,6 +27,7 @@ public class MotorHelper {
         return motor;
     }
 
+    // Create a new falcon motor
     public static WPI_TalonFX createFalconMotor(int canID) {
         WPI_TalonFX motor = new WPI_TalonFX(canID);
         motor.configFactoryDefault();
@@ -32,6 +35,7 @@ public class MotorHelper {
         return motor;
     }
 
+    // Create a new falcon motor
     public static WPI_TalonFX createFalconMotor(int canID, TalonFXInvertType inversion) {
         WPI_TalonFX motor = new WPI_TalonFX(canID);
         motor.configFactoryDefault();
@@ -40,6 +44,7 @@ public class MotorHelper {
         return motor;
     }
 
+    // Create a new falcon current limit
     public static SupplyCurrentLimitConfiguration createCurrentLimt(int currentLimit) {
         return new SupplyCurrentLimitConfiguration(true, currentLimit-5, currentLimit, 0.75);
     }

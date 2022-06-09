@@ -18,8 +18,20 @@ public class SwerveModuleConfig {
         this.GEAR_RATIO = GEAR_RATIO;
     }
 
+    // Create a swerve neo module
     public SwerveModule createNeoModule() {
         return Mk4SwerveModuleHelper.createNeo(
+            GEAR_RATIO,
+            POWER_ID,
+            STEER_ID,
+            ENCODER_ID,
+            STEER_OFFSET
+        );
+    }
+
+    // Ceate a swerve falcon module
+    public SwerveModule createFalconModule() {
+        return Mk4SwerveModuleHelper.createFalcon500(
             GEAR_RATIO,
             POWER_ID,
             STEER_ID,
