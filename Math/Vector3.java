@@ -4,6 +4,7 @@ import SushiFrcLib.Math.MathUtils;
 
 import java.text.DecimalFormat;
 import java.util.Objects;
+import SushiFrcLib.Math.Rotation3;
 
 /**
  * A vector representing a point in 3d space
