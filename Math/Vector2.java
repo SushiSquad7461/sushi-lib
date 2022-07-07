@@ -1,12 +1,9 @@
 package SushiFrcLib.Math;
 
-import SushiFrcLib.Math.Interpolable;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.Objects;
-import SushiFrcLib.Math.Rotation2;
 
-import SushiFrcLib.Math.MathUtils.epsilonEquals;
 
 /**
  * A vector representing a point in 2d space.
