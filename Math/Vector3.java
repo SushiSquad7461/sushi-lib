@@ -1,6 +1,6 @@
-package SushiFrcLib.Math;
+package libraries.SushiFrcLib.Math;
 
-import SushiFrcLib.Math.MathUtils;
+import libraries.SushiFrcLib.Math.MathUtils;
 
 import java.text.DecimalFormat;
 import java.util.Objects;

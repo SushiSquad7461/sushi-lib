@@ -1,4 +1,4 @@
-package SushiFrcLib.Math;
+package libraries.SushiFrcLib.Math;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -64,8 +64,8 @@ public final class Vector2 implements Interpolable<Vector2>, Serializable {
 	 * @return A unit vector with the specified angle.
      * @since 0.2
 	 */
-	public static Vector2 fromAngle(Rotation2 rotation) {
-		return new Vector2(rotation.cos, rotation.sin);
+	public static Vector2 fromAngle(Rotation2 rotation, double length) {
+		return new Vector2(length*rotation.cos, length*rotation.sin);
 	}
 
 	/**

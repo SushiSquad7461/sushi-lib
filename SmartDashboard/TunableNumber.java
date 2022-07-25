@@ -1,4 +1,4 @@
-package SushiFrcLib.SmartDashboard;
+package libraries.SushiFrcLib.SmartDashboard;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

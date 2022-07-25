@@ -1,4 +1,4 @@
-package SushiFrcLib.Math;
+package libraries.SushiFrcLib.Math;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -148,6 +148,10 @@ public final class Rotation2 implements Interpolable<Rotation2>, Serializable {
         return new Rotation2(cos, -sin, false);
     }
 
+    public Rotation2 negate() {
+        return new Rotation2(-cos, -sin, false);
+    }
+
     /**
      * Check whether this rotation is parallel to another rotation.
      * <p>
@@ -158,7 +162,7 @@ public final class Rotation2 implements Interpolable<Rotation2>, Serializable {
      * @return If the rotations are parallel.
      */
     public boolean isParallel(Rotation2 other) {
-        return MathUtils.epsilonEquals(Vector2.fromAngle(this).cross(Vector2.fromAngle(other)), 0.0);
+        return MathUtils.epsilonEquals(Vector2.fromAngle(this, 1).cross(Vector2.fromAngle(other, 1)), 0.0);
     }
 
     /**

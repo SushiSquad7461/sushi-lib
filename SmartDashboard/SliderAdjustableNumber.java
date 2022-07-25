@@ -1,4 +1,4 @@
-package SushiFrcLib.SmartDashboard;
+package libraries.SushiFrcLib.SmartDashboard;
 
 import java.util.ArrayList;
 import java.util.Map;
