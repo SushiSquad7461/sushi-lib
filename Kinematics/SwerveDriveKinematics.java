@@ -1,9 +1,9 @@
-package libraries.SushiFrcLib.Kinematics;
+package SushiFrcLib.Kinematics;
 
 import java.util.ArrayList;
 
-import libraries.SushiFrcLib.Math.Rotation2;
-import libraries.SushiFrcLib.Math.Vector2;
+import SushiFrcLib.Math.Rotation2;
+import SushiFrcLib.Math.Vector2;
 
 public class SwerveDriveKinematics {
     private final ArrayList<Vector2> kModulePositions;

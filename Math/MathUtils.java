@@ -1,4 +1,4 @@
-package libraries.SushiFrcLib.Math;
+package SushiFrcLib.Math;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.max;

@@ -1,4 +1,4 @@
-package libraries.SushiFrcLib.Math;
+package SushiFrcLib.Math;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;

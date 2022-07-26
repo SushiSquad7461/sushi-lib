@@ -1,4 +1,4 @@
-package libraries.SushiFrcLib.Math;
+package SushiFrcLib.Math;
 
 public class Conversion {
     // Convert ticks to meters

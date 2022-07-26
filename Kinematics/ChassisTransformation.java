@@ -1,6 +1,6 @@
-package libraries.SushiFrcLib.Kinematics;
+package SushiFrcLib.Kinematics;
 
-import libraries.SushiFrcLib.Math.Vector2;
+import SushiFrcLib.Math.Vector2;
 
 public class ChassisTransformation {
     Vector2 translation;

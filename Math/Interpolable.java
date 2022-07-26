@@ -1,4 +1,4 @@
-package libraries.SushiFrcLib.Math;
+package SushiFrcLib.Math;
 
 /**
  * Credit: 2910

@@ -1,4 +1,4 @@
-// package libraries.SushiFrcLib.Motor;
+// package SushiFrcLib.Motor;
 
 // import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 // import com.swervedrivespecialties.swervelib.SwerveModule;
