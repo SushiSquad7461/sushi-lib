@@ -71,9 +71,7 @@ public class SubsystemManager implements ILooper {
 
     private int runALoop(int index){
         Subsystem s = mAllSubsystems.get(index);
-        s.readPeriodicInputs();
         s.onLoop(Timer.getFPGATimestamp());
-        s.writePeriodicOutputs();
         mSSLogMngr.addToLine(s.getLogValues(false));
         return s.whenRunAgain();
     }
@@ -88,7 +86,6 @@ public class SubsystemManager implements ILooper {
     }
 
     private class TheLoop implements Loop {
-        private final int lSchedLength = 1000;  // 1000 msec == one second, cannot schedule beyond one sec ahead
         private final int lInitialDelay = 10;
         private long[] lSchedule = new long[mSSCount];
         private long lTicToc;

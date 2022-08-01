@@ -54,25 +54,6 @@ public abstract class Subsystem<SubsystemState extends Enum<SubsystemState>>  {
     }
 
 
-    // Optional design pattern for caching periodic reads to avoid hammering the HAL/CAN.
-    public final void readPeriodicInputs() {
-        double now = Timer.getFPGATimestamp();
-        actualPeriod = now - lastSchedStart;
-        lastSchedStart = now;
-
-        readPeriodic();
-    }
-
-    public void readPeriodic() {}
-
-    // Optional design pattern for caching periodic writes to avoid hammering the HAL/CAN.
-    public final void writePeriodicOutputs() {
-        writePeriodic();
-    }
-
-    public void writePeriodic() {}
-
-
     public final int whenRunAgain () { return desiredPeriod; }
 
     public void passInIndex(int listIndex){
@@ -82,26 +63,22 @@ public abstract class Subsystem<SubsystemState extends Enum<SubsystemState>>  {
     public final void onStart(Phase phase) {
         start(phase);
         mStateChanged = true;
-            System.out.println(subsystemName + " state " + getCurrentState());
+        System.out.println(subsystemName + " state " + getCurrentState());
         mLB_SystemStateChange.update(false); // reset
-            onStop(); // put into a known state
+        onStop(); // put into a known state
     }
 
     public abstract void start(Phase phase);
 
-
-    public final void onLoop(double timestamp){
+    public final void onLoop(double timestamp) {
         synchronized (this) {
-            do {
-                changeState();
-                if (wantedState != currentState) {
-                    System.out.println(
-                        subsystemName + " state " + currentState + " to " + wantedState + " (" + timestamp + ")");
-                    currentState = wantedState;
-                    mStateChanged = true;
-                } else {
-                }
-            } while (mLB_SystemStateChange.update(mStateChanged));
+            double now = Timer.getFPGATimestamp();
+            actualPeriod = now - lastSchedStart;
+            lastSchedStart = now;
+
+            transferState();
+            // TODO: figure out if to reintrouduce for loop
+            periodic();
         }
     }
 
@@ -113,13 +90,12 @@ public abstract class Subsystem<SubsystemState extends Enum<SubsystemState>>  {
         return false;
     }
 
-    public abstract void changeState();
+    public abstract void periodic();
 
     public void zeroSensors() {}
     
     public final void onStop() {
         stop();
-        writePeriodicOutputs();
     }
 
     public abstract void stop();
@@ -133,8 +109,7 @@ public abstract class Subsystem<SubsystemState extends Enum<SubsystemState>>  {
         subsystemName+".mSystemState" + (headers.length() > 0 ? "," + headers : "");
     }
 
-    public abstract String getPeriodicLogHeaders();
-
+    public String getPeriodicLogHeaders() { return ""; }
 
     public final String getLogValues(boolean telemetry) {
         String ret;
@@ -151,10 +126,10 @@ public abstract class Subsystem<SubsystemState extends Enum<SubsystemState>>  {
         return ret + getCurrentState() + (vals.length() > 0 ?  "," + vals : "");
     }
 
-    public abstract String getLogValues();
+    public String getLogValues() { return ""; }
 
 
-    public abstract void outputTelemetry();
+    public void outputTelemetry() {}
 
     public void scheduleForStateChange() {
         mSubsystemManager.scheduleMe(mListIndex, 1, true);
