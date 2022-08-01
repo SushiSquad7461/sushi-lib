@@ -2,6 +2,7 @@ package SushiFrcLib.Scheduler.Subsystems;
 
 import SushiFrcLib.ChesyLibUtil.LatchedBoolean;
 import SushiFrcLib.Scheduler.Loops.Loop.Phase;
+import SushiFrcLib.State.State.SuperiorState;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
@@ -28,6 +29,11 @@ public abstract class Subsystem<SubsystemState extends Enum<SubsystemState>>  {
     private int sInstanceCount = 0;
     private boolean mStateChanged;
     private LatchedBoolean mLB_SystemStateChange = new LatchedBoolean();
+
+    
+    private SuperiorState superiorState = SuperiorState.ENABLED;
+    private SuperiorState prevSuperiorState = superiorState;
+    private boolean manualControl = false;
 
     public int desiredPeriod = 20; // in ms, set to 20 by defualt
 
@@ -61,6 +67,16 @@ public abstract class Subsystem<SubsystemState extends Enum<SubsystemState>>  {
     }
 
     public final void onStart(Phase phase) {
+        switch (phase) {
+            case TEST:
+                superiorState = SuperiorState.ASSESS;
+                break;
+            case DISABLED:
+                superiorState = SuperiorState.DISABLED;
+            default:
+                superiorState = SuperiorState.ENABLED;
+        }
+
         start(phase);
         mStateChanged = true;
         System.out.println(subsystemName + " state " + getCurrentState());
@@ -77,10 +93,41 @@ public abstract class Subsystem<SubsystemState extends Enum<SubsystemState>>  {
             lastSchedStart = now;
 
             transferState();
-            // TODO: figure out if to reintrouduce for loop
-            periodic();
+
+            switch (superiorState) {
+                case ENABLED:
+                    periodic();
+                    break;
+                case DISABLED:
+                    break;
+                case ASSESS:
+                    assessPeriodic();
+                case MANUAL_CONTROL:
+                    manualControlPeriodic();
+            }
         }
     }
+
+    public void turnOnManulControl(String caller) {
+        prevSuperiorState = superiorState;
+        superiorState = SuperiorState.MANUAL_CONTROL;
+        manualControl = true;
+        System.out.println("Manual control turned on by " + caller);
+    }
+
+    public void turnOffManulControl(String caller) {
+        if (manualControl) {
+            superiorState = prevSuperiorState;
+            manualControl = false;
+        } else {
+            System.out.println("Manual control was trying to be turned off but alread off by " + caller);
+        }
+    }
+
+    // Run during test mode
+    public void assessPeriodic() { System.out.println("Assess Periodic for " + subsystemName + " has not been provided"); } 
+
+    public void manualControlPeriodic() {  System.out.println("Manual Control Periodic for " + subsystemName + " has not been provided"); }
 
     protected boolean stateChanged() {
         if(mStateChanged) {

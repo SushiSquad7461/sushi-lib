@@ -15,4 +15,11 @@ public class State {
             return state;
         }
     }
+
+    public static enum SuperiorState {
+        ASSESS,
+        DISABLED,
+        MANUAL_CONTROL,
+        ENABLED;
+    }
 }
