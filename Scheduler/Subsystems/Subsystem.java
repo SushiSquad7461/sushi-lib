@@ -119,6 +119,7 @@ public abstract class Subsystem<SubsystemState extends Enum<SubsystemState>>  {
         if (manualControl) {
             superiorState = prevSuperiorState;
             manualControl = false;
+            System.out.println("Manual control turned off by " + caller);
         } else {
             System.out.println("Manual control was trying to be turned off but alread off by " + caller);
         }
