@@ -6,6 +6,17 @@ public class Conversion {
         return (ticks / 2048.0) * ((wheelDiamater * Math.PI) / 39.37);
     }
 
+    // the unit of measurement for Talon FX encoder velocity is known as the "Tran"
+    // encoder ticks per 100ms
+    public static double convertRPMtoTrans(double RPM) {
+        return RPM * 2048.0 / 600.0;
+    }
+
+    // used for unit conversions for ff constants on talon fx
+    public static double voltageToPercent(double voltage) {
+        return voltage / 12.0;
+    }
+
     // Return a value of currAngle between -180 and 180
     public static double normalizeGyro(double currAngle) {
         if (currAngle < -180) {
