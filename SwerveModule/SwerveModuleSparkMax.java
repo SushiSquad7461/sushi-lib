@@ -40,4 +40,14 @@ public class SwerveModuleSparkMax extends SwerveModule {
         double output = pidController.calculate(error, 0);
         turn.set(output);
     }
+
+    @Override
+    protected void setTurn(double speed) {
+        turn.set(0);        
+    }
+
+    @Override
+    protected void setDrive(double speed) {
+        turn.set(0);        
+    }
 }

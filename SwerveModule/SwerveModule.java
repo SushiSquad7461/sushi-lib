@@ -4,17 +4,17 @@
 
 package SushiFrcLib.SwerveModule;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import SushiFrcLib.Constants.SushiConstants;
 import SushiFrcLib.Math.Conversion;
 import SushiFrcLib.Math.Vector2;
 import SushiFrcLib.Motor.SwerveModuleConfig;
+import SushiFrcLib.Scheduler.Loops.Loop.Phase;
+import SushiFrcLib.Scheduler.Subsystems.Subsystem;
+import SushiFrcLib.State.State.SwerveModuleState;
 
-public abstract class SwerveModule extends SubsystemBase {
+public abstract class SwerveModule extends Subsystem<SwerveModuleState> {
   private final CANCoder canCoder;
   private final double angleOffest;
 
@@ -83,6 +83,16 @@ public abstract class SwerveModule extends SubsystemBase {
   }
 
   @Override
+  public void start(Phase phase) {    
+  }
+
+  @Override
+  public void stop() { 
+    setTurn(0);
+    setDrive(0);
+  }
+
+  @Override
   public void periodic() {
     turn(angle, turnInversion);
     drive(driveVelocity);
@@ -92,6 +102,6 @@ public abstract class SwerveModule extends SubsystemBase {
 
   abstract protected void turn(double angle, int inversion);
 
-  @Override
-  public void simulationPeriodic() { }
+  abstract protected void setTurn(double speed);
+  abstract protected void setDrive(double speed);
 }

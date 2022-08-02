@@ -1,5 +1,7 @@
 package SushiFrcLib.SwerveModule;
 
+import java.sql.Driver;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -34,5 +36,15 @@ public class SwerveModuleFalcon extends SwerveModule {
     protected void turn(double angle, int inversion) {
         turn.setInverted(inversion == -1 ? (defaultInversion == TalonFXInvertType.Clockwise ? TalonFXInvertType.CounterClockwise : TalonFXInvertType.Clockwise) : defaultInversion);
         turn.set(ControlMode.Position, angle);
+    }
+
+    @Override
+    protected void setTurn(double speed) {
+        turn.set(ControlMode.PercentOutput, 0);
+    }
+
+    @Override
+    protected void setDrive(double speed) {
+        drive.set(ControlMode.PercentOutput, 0);
     }
 }
