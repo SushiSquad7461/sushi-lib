@@ -196,6 +196,11 @@ public abstract class Subsystem<SubsystemState extends Enum<SubsystemState>>  {
         currentState = newState;
     }
 
+    protected void setInitalState(SubsystemState newState) {
+        currentState = newState;
+        wantedState = newState;
+    }
+
 
     // this method should only be used by external subsystems.
     // if you want to change your own wantedState then simply set
