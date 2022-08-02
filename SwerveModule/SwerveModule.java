@@ -10,11 +10,8 @@ import SushiFrcLib.Constants.SushiConstants;
 import SushiFrcLib.Math.Conversion;
 import SushiFrcLib.Math.Vector2;
 import SushiFrcLib.Motor.SwerveModuleConfig;
-import SushiFrcLib.Scheduler.Loops.Loop.Phase;
-import SushiFrcLib.Scheduler.Subsystems.Subsystem;
-import SushiFrcLib.State.State.SwerveModuleState;
 
-public abstract class SwerveModule extends Subsystem<SwerveModuleState> {
+public abstract class SwerveModule {
   private final CANCoder canCoder;
   private final double angleOffest;
 
@@ -51,6 +48,8 @@ public abstract class SwerveModule extends Subsystem<SwerveModuleState> {
       return configMode ? SushiConstants.SWERVE_MODULE.ERROR_BOUND : errorBound;
   }
 
+  // Method uselss now, was used when turn motor was set to set speed until reached postion
+  // however now absoulte since switched to PID
   private double getTurnSpeed() {
     return configMode ? SushiConstants.SWERVE_MODULE.TURN_SPEED : turnSpeed;
   }
@@ -82,17 +81,13 @@ public abstract class SwerveModule extends Subsystem<SwerveModuleState> {
     driveVelocity = newPos.length * driveInversion;
   }
 
-  @Override
-  public void start(Phase phase) {    
-  }
+  public void start() {}
 
-  @Override
   public void stop() { 
     setTurn(0);
     setDrive(0);
   }
 
-  @Override
   public void periodic() {
     turn(angle, turnInversion);
     drive(driveVelocity);

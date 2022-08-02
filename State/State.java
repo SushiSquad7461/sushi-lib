@@ -83,8 +83,4 @@ public class State {
             return brushless ? CANSparkMaxLowLevel.MotorType.kBrushless : CANSparkMaxLowLevel.MotorType.kBrushed;
         }
     }
-
-    public static enum SwerveModuleState {
-        DRIVE;
-    }
 }

@@ -18,20 +18,20 @@ public class MotorConfig {
     public final double f;
     public final MotorType type;
 
-    MotorConfig(int id, int currentLimit, MotorNeturalState neutralMode, MotorDirection inversion) {
+    public MotorConfig(int id, int currentLimit, MotorNeturalState neutralMode, MotorDirection inversion) {
         this(id, currentLimit, neutralMode, inversion, 0, 0, 0, 0, MotorType.BRUSHLESS);
     }
 
-    MotorConfig(int id, int currentLimit, MotorNeturalState neutralMode, MotorDirection inversion, MotorType type) {
+    public MotorConfig(int id, int currentLimit, MotorNeturalState neutralMode, MotorDirection inversion, MotorType type) {
         this(id, currentLimit, neutralMode, inversion, 0, 0, 0, 0, type);
     }
 
-    MotorConfig(int id, int currentLimit, MotorNeturalState neutralMode, MotorDirection inversion, double p, double i, double d, double f) {
+    public MotorConfig(int id, int currentLimit, MotorNeturalState neutralMode, MotorDirection inversion, double p, double i, double d, double f) {
         this(id, currentLimit, neutralMode, inversion, p, i, d, f, MotorType.BRUSHLESS);
     }
 
 
-    MotorConfig(int id, int currentLimit, MotorNeturalState neutralMode, MotorDirection inversion, double p, double i, double d, double f, MotorType type) {
+    public MotorConfig(int id, int currentLimit, MotorNeturalState neutralMode, MotorDirection inversion, double p, double i, double d, double f, MotorType type) {
         this.id = id;
         this.currentLimit = currentLimit;
         this.neutralMode = neutralMode;

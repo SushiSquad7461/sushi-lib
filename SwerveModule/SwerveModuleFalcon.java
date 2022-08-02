@@ -1,7 +1,5 @@
 package SushiFrcLib.SwerveModule;
 
-import java.sql.Driver;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
