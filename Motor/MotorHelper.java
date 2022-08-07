@@ -71,6 +71,7 @@ public class MotorHelper {
     // Create spark max
     public static CANSparkMax createSparkMax(int id, CANSparkMaxLowLevel.MotorType motorType, boolean inverted, int currentLimit, IdleMode idleMode) {
         CANSparkMax motor = new CANSparkMax(id, motorType);
+        motor.restoreFactoryDefaults();
         motor.setInverted(inverted);
         motor.setSmartCurrentLimit(currentLimit);
         motor.setIdleMode(idleMode);
@@ -87,6 +88,7 @@ public class MotorHelper {
     // Create spark max
     public static CANSparkMax createSparkMax(int id, CANSparkMaxLowLevel.MotorType motorType, boolean inverted, int currentLimit, IdleMode idleMode, double p, double i, double d, double f) {
         CANSparkMax motor = new CANSparkMax(id, motorType);
+        motor.restoreFactoryDefaults();
         motor.setInverted(inverted);
         motor.setSmartCurrentLimit(currentLimit);
         motor.setIdleMode(idleMode);
@@ -108,6 +110,7 @@ public class MotorHelper {
     // Create spark max
     public static CANSparkMax createSparkMax(int id, CANSparkMaxLowLevel.MotorType motorType, boolean inverted, int openLoopRampRate, int currentLimit) {
         CANSparkMax motor = new CANSparkMax(id, motorType);
+        motor.restoreFactoryDefaults();
         motor.setInverted(inverted);
         motor.setOpenLoopRampRate(openLoopRampRate);
         motor.setSmartCurrentLimit(currentLimit);
