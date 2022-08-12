@@ -1,6 +1,7 @@
 package SushiFrcLib.Kinematics;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import SushiFrcLib.Math.Rotation2;
 import SushiFrcLib.Math.Vector2;
@@ -9,6 +10,10 @@ public class SwerveDriveKinematics {
     private final ArrayList<Vector2> kModulePositions;
     private final ArrayList<Vector2> kModuleTurnVector;
     private double maxSpeed;
+
+    public SwerveDriveKinematics(double wheelBase, double maxSpeed) {
+        this(new ArrayList<Vector2>(Arrays.asList(new Vector2(wheelBase, wheelBase), new Vector2(-wheelBase, wheelBase), new Vector2(wheelBase, -wheelBase), new Vector2(-wheelBase, -wheelBase))), maxSpeed);
+    }
 
     public SwerveDriveKinematics(ArrayList<Vector2> modulePositions, double maxSpeed) {
         if( modulePositions.size() != 4) {
