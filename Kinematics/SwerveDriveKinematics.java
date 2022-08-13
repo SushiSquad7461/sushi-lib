@@ -11,7 +11,7 @@ public class SwerveDriveKinematics {
     private final ArrayList<Vector2> kModuleTurnVector;
     private double maxSpeed;
 
-    public SwerveDriveKinematics(double wheelBase, double maxSpeed) {
+    public SwerveDriveKinematics(double wheelBase, double maxSpeed) { //front right, front left, back right, back left
         this(new ArrayList<Vector2>(Arrays.asList(new Vector2(wheelBase, wheelBase), new Vector2(-wheelBase, wheelBase), new Vector2(wheelBase, -wheelBase), new Vector2(-wheelBase, -wheelBase))), maxSpeed);
     }
 
@@ -29,15 +29,15 @@ public class SwerveDriveKinematics {
         }
     }
 
-    public ArrayList<Vector2> calculate(Rotation2 robotOrientation, ChassisTransformation chassisSpeed) {
+    public ArrayList<Vector2> calculate(Rotation2 robotOrientation, double x, double y, double angularVelocity) {
         ArrayList<Vector2> res = new ArrayList<Vector2>(4);
 
-        Vector2 desiredTranslation = chassisSpeed.translation;
+        Vector2 desiredTranslation = new Vector2(x, y);
 
         double maxLength = 0;
 
         for(int i = 0; i<res.size(); i++) {
-            res.set(i, desiredTranslation.add(kModuleTurnVector.get(i).scale(chassisSpeed.angularVelocity)).rotateBy(robotOrientation.negate()));
+            res.set(i, desiredTranslation.add(kModuleTurnVector.get(i).scale(angularVelocity)).rotateBy(robotOrientation.negate()));
             maxLength = Math.max(res.get(i).length, maxLength);
         }
 
