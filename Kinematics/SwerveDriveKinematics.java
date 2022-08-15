@@ -5,6 +5,9 @@ import java.util.Arrays;
 
 import SushiFrcLib.Math.Rotation2;
 import SushiFrcLib.Math.Vector2;
+import SushiFrcLib.SwerveModule.SwerveModule;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 public class SwerveDriveKinematics {
     private final ArrayList<Vector2> kModulePositions;
@@ -29,7 +32,7 @@ public class SwerveDriveKinematics {
         }
     }
 
-    public ArrayList<Vector2> calculate(Rotation2 robotOrientation, double x, double y, double angularVelocity) {
+    public ArrayList<SwerveModuleState> calculate(Rotation2 robotOrientation, double x, double y, double angularVelocity) {
         ArrayList<Vector2> res = new ArrayList<Vector2>(4);
 
         Vector2 desiredTranslation = new Vector2(x, y);
@@ -46,6 +49,14 @@ public class SwerveDriveKinematics {
             for ( int i = 0; i<res.size(); i++) {
                 res.set(i, res.get(i).scale(scaleFactor));
             }
+        }
+        return toModuleStates(res);
+    }
+
+    public ArrayList<SwerveModuleState> toModuleStates(ArrayList<Vector2> vectors) {
+        ArrayList<SwerveModuleState> res = new ArrayList<SwerveModuleState>();
+        for (var vector : vectors) {
+            res.add(new SwerveModuleState(vector.length, new Rotation2d(vector.getAngle().toRadians())));
         }
         return res;
     }

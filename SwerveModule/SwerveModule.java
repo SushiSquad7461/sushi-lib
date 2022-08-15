@@ -8,8 +8,10 @@ import com.ctre.phoenix.sensors.CANCoder;
 
 import SushiFrcLib.Constants.SushiConstants;
 import SushiFrcLib.Math.Conversion;
+import SushiFrcLib.Math.Rotation2;
 import SushiFrcLib.Math.Vector2;
 import SushiFrcLib.Motor.SwerveModuleConfig;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 public abstract class SwerveModule {
   private final CANCoder canCoder;
@@ -79,6 +81,10 @@ public abstract class SwerveModule {
 
     }
     driveVelocity = newPos.length * driveInversion;
+  }
+
+  public void updateModule(SwerveModuleState state) {
+    updateModule(Vector2.fromAngle(Rotation2.fromRadians((state.angle).getRadians()), state.speedMetersPerSecond));
   }
 
   public void start() {}
