@@ -1,6 +1,6 @@
 package SushiFrcLib.Scheduler.Subsystems;
 
-import SushiFrcLib.ChesyLibUtil.LatchedBoolean;
+import SushiFrcLib.CheesyLibUtil.LatchedBoolean;
 import SushiFrcLib.Scheduler.Loops.Loop.Phase;
 import SushiFrcLib.State.State.SuperiorState;
 import edu.wpi.first.wpilibj.Timer;

@@ -1,4 +1,4 @@
-package SushiFrcLib.ChesyLibUtil;
+package SushiFrcLib.CheesyLibUtil;
 
 /**
  * A Double that can be interpolated using the InterpolatingTreeMap.

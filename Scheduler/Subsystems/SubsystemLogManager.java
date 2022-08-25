@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import SushiFrcLib.ChesyLibUtil.CrashTrackingRunnable;
+import SushiFrcLib.CheesyLibUtil.CrashTrackingRunnable;
 
 public class SubsystemLogManager {
     private final boolean mLoggingDisabledPermanently = false; // set this to false to permanently disable logging

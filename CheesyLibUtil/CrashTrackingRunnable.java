@@ -1,4 +1,4 @@
-package SushiFrcLib.ChesyLibUtil;
+package SushiFrcLib.CheesyLibUtil;
 
 /**
  * Runnable class with reports all uncaught throws to CrashTracker

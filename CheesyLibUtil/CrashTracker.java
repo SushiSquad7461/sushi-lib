@@ -1,4 +1,4 @@
-package SushiFrcLib.ChesyLibUtil;
+package SushiFrcLib.CheesyLibUtil;
 
 import java.io.FileWriter;
 import java.io.IOException;
