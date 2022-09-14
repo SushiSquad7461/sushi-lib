@@ -14,7 +14,10 @@ public class SushiConstants {
         public static final String COMP_NAME = "comp";
     }
     public static class SWERVE_MODULE {
-        public static double ERROR_BOUND = 2;
-        public static double TURN_SPEED = 0.9;
+        public static final double ERROR_BOUND = 2;
+        public static final double TURN_SPEED = 0.9;
+    }
+    public static class Ports {
+        public static final int PIGEON = 13;
     }
 }
