@@ -1,5 +1,8 @@
 package SushiFrcLib.Constants;
 
+import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
+import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
+
 public class SushiConstants {
     public static class OI {
         public static final int DRIVER_PORT = 0;
@@ -19,5 +22,9 @@ public class SushiConstants {
     }
     public static class Ports {
         public static final int PIGEON = 13;
+    }
+    public static class SDS_SWERVE {
+        public static final Mk4SwerveModuleHelper.GearRatio GEAR_RATIO = Mk4SwerveModuleHelper.GearRatio.L2;
+        public static final Mk4iSwerveModuleHelper.GearRatio FOUR_I_GEAR_RATIO = Mk4iSwerveModuleHelper.GearRatio.L2;
     }
 }
