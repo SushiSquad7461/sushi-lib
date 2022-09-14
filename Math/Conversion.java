@@ -30,12 +30,7 @@ public class Conversion {
 
     // Normalize angle between 0 360
     public static double normalizeAngle(double currAngle) {
-        if (currAngle < 0) {
-            return 360 + currAngle;
-        } else if (currAngle > 360) {
-            return currAngle - 360;
-        } else {
-            return currAngle;
-        }
+        double modules = currAngle % 360;
+        return modules < 0 ? 360 + modules : modules;
     }
 }
