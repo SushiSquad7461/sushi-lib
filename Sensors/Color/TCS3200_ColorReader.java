@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package SushiFrcLib.Sensors.Color;
 
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;

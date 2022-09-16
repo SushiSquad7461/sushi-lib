@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package SushiFrcLib.Sensors.Color;
 
 import java.util.Arrays;
 import java.util.LinkedList;
