@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.Objects;
 
-import SushiFrcLib.SwerveModule.SwerveModule;
-
-
 /**
  * A vector representing a point in 2d space.
  * Credit: 2910

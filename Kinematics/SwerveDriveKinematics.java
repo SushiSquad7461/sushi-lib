@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 import SushiFrcLib.Math.Rotation2;
 import SushiFrcLib.Math.Vector2;
-import SushiFrcLib.SwerveModule.SwerveModule;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
