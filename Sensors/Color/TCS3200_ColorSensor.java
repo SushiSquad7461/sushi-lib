@@ -4,13 +4,13 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import SushiFrcLib.Sensors.Color.TCS3200_ColorReader.ColorSelect;
+import SushiFrcLib.Sensors.Color.TCS3200_ColorReader.FreqScaling;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.util.Color;
-import frc.robot.subsystems.TCS3200_ColorReader.ColorSelect;
-import frc.robot.subsystems.TCS3200_ColorReader.FreqScaling;
 
 public class TCS3200_ColorSensor implements Sendable {
   private static final double MIN_COUNT_TIME = 0.003;
