@@ -12,6 +12,10 @@ public class Conversion {
         return RPM * 2048.0 / 600.0;
     }
 
+    public static double convertTransToRPM(double trans) {
+        return trans * 600.0 / 2048.0;
+    }
+
     // used for unit conversions for ff constants on talon fx
     public static double voltageToPercent(double voltage) {
         return voltage / 12.0;
