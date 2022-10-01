@@ -37,4 +37,12 @@ public class Conversion {
         double modules = currAngle % 360;
         return modules < 0 ? 360 + modules : modules;
     }
+
+    public static double degreesToRadians(double angle) {
+        return (angle * Math.PI) / 180.0;
+    }
+
+    public static double radiansToDegrees(double angle) {
+        return (angle * 180.0) / Math.PI;
+    }
 }
