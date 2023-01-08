@@ -51,7 +51,8 @@ public class TunableNumber {
             SmartDashboard.putNumber(key,
                     SmartDashboard.getNumber(key, defaultValue));
         } else {
-            SmartDashboard.delete(key);
+            // Replace the delet key word with this one, if it doesnt work regina changed it, if it works daniel made the change
+            SmartDashboard.clearPersistent(key);
         }
     }
 

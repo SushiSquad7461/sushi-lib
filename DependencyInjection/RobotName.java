@@ -4,12 +4,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import SushiFrcLib.Constants.SushiConstants.DEPENDENCY_INJECTION;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RobotName {
     private static RobotName sInstance = null;
     private String name = null;
+    private static final String FILE_PATH = "/home/lvuser/name.txt";
+    private static final String COMP_NAME = "comp";
 
     public static RobotName getInstance() {
         if (sInstance == null) {
@@ -30,7 +31,7 @@ public class RobotName {
     public String readRobotName(String path) {
         // Map<String, String> env = System.getenv();
         // SmartDashboard.putString("Home", env.get("HOME"));
-        String filePath = path == null ? DEPENDENCY_INJECTION.FILE_PATH : "/home/lvuser/" + path;
+        String filePath = path == null ? RobotName.FILE_PATH : "/home/lvuser/" + path;
         File f = new File(filePath);
 
         try {
@@ -41,17 +42,17 @@ public class RobotName {
         } catch (FileNotFoundException e) {
           SmartDashboard.putString("Robot Name: ", "file not found exception");
           System.out.println("\n\nERROR: THIS FILE DOES NOT EXSIST: " + filePath + " DEFAULTING TO COMP MODE\n\n");
-          name = DEPENDENCY_INJECTION.COMP_NAME;
+          name = RobotName.COMP_NAME;
         }
 
         return name;
     }
 
     public String getName() {
-        return name == null ? DEPENDENCY_INJECTION.COMP_NAME : name;
+        return name == null ? RobotName.COMP_NAME : name;
     }
 
     public boolean isComp() {
-        return name == null || name == DEPENDENCY_INJECTION.COMP_NAME;
+        return name == null || name == RobotName.COMP_NAME;
     }
 }

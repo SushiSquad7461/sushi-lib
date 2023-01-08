@@ -3,6 +3,7 @@ package SushiFrcLib.SmartDashboard;
 import java.util.ArrayList;
 import java.util.Map;
 
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -17,9 +18,9 @@ public class SliderAdjustableNumber {
 
     private String key;
     private double defaultValue;
-    private NetworkTableEntry slider;
-    private NetworkTableEntry savedValue;
-    private NetworkTableEntry button;
+    private GenericEntry slider;
+    private GenericEntry savedValue;
+    private GenericEntry button;
 
     // contains all the slideradjustablenumbers so that we can check the buttons in
     // periodic
@@ -34,7 +35,7 @@ public class SliderAdjustableNumber {
             double increment) {
         this.key = dashboardKey;
         this.defaultValue = defaultValue;
-        this.savedValue = Shuffleboard.getTab(tabName).addPersistent(key + " saved value", defaultValue).getEntry();
+        this.savedValue = Shuffleboard.getTab(tabName).add(" saved value", defaultValue).withWidget(key).getEntry();
         this.slider = Shuffleboard.getTab(tabName).add(key + " slider", savedValue.getDouble(defaultValue))
                 .withWidget(BuiltInWidgets.kNumberSlider)
                 .withProperties(Map.of("min", minOffset, "max", maxOffset, "block increment", increment)).getEntry();
