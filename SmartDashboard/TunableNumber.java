@@ -1,9 +1,6 @@
 package SushiFrcLib.SmartDashboard;
 
-
-import SushiFrcLib.Constants.SushiConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants;
 
 /**
  * Class for a tunable number. Gets value from dashboard in tuning mode, returns

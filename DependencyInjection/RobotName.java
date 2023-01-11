@@ -29,8 +29,6 @@ public class RobotName {
     }
 
     public String readRobotName(String path) {
-        // Map<String, String> env = System.getenv();
-        // SmartDashboard.putString("Home", env.get("HOME"));
         String filePath = path == null ? RobotName.FILE_PATH : "/home/lvuser/" + path;
         File f = new File(filePath);
 
@@ -45,6 +43,7 @@ public class RobotName {
           name = RobotName.COMP_NAME;
         }
 
+        SmartDashboard.putString("Robot Name", name);
         return name;
     }
 
