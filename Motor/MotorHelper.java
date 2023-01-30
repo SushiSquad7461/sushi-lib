@@ -122,7 +122,6 @@ public class MotorHelper {
             motor.getEncoder().setPosition(0);
         }
 
-        motor.burnFlash();
         return motor;
     }
 
@@ -137,8 +136,6 @@ public class MotorHelper {
         if (motorType == CANSparkMaxLowLevel.MotorType.kBrushless) {
             motor.getEncoder().setPosition(0);
         }
-
-        motor.burnFlash();
 
         return motor;
     }
@@ -160,8 +157,6 @@ public class MotorHelper {
         motor.getPIDController().setD(d);
         motor.getPIDController().setFF(f);
 
-        motor.burnFlash();
-
         return motor;
     }
 
@@ -177,7 +172,6 @@ public class MotorHelper {
             motor.getEncoder().setPosition(0);
         }
 
-        motor.burnFlash();
         return motor;
     }
 

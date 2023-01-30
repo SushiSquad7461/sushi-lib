@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotName {
     private static RobotName sInstance = null;
     private String name = null;
+
     private static final String FILE_PATH = "/home/lvuser/name.txt";
     private static final String COMP_NAME = "comp";
 
