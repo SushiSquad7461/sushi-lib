@@ -42,7 +42,6 @@ public class TunableNumber {
      */
     public void setDefault(double defaultValue) {
         this.defaultValue = defaultValue;
-        System.out.println(tuningMode);
         if (tuningMode) {
             // This makes sure the data is on NetworkTables but will not change it
             SmartDashboard.putNumber(key,

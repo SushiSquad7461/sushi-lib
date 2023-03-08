@@ -41,6 +41,14 @@ public class Pigeon extends Gyro {
         return gyro.getYaw();
     }
 
+    public double getPitch() {
+        return gyro.getPitch();
+    }
+
+    public double getRoll() {
+        return gyro.getRoll();
+    }
+
     @Override
     public void zeroGyro() {
         gyro.setYaw(0);
