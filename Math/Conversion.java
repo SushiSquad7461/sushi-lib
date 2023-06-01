@@ -1,5 +1,8 @@
 package SushiFrcLib.Math;
 
+/**
+ * Conversion helper.
+ */
 public class Conversion {
     // Convert ticks to meters
     public static double ticksToMeters(double ticks, double wheelDiamater) {
@@ -8,8 +11,8 @@ public class Conversion {
 
     // the unit of measurement for Talon FX encoder velocity is known as the "Tran"
     // encoder ticks per 100ms
-    public static double convertRPMtoTrans(double RPM) {
-        return RPM * 2048.0 / 600.0;
+    public static double convertRPMtoTrans(double rpm) {
+        return rpm * 2048.0 / 600.0;
     }
 
     public static double convertTransToRPM(double trans) {
@@ -21,7 +24,9 @@ public class Conversion {
         return voltage / 12.0;
     }
 
-    // Return a value of currAngle between -180 and 180
+    /**
+     * Return a value of currAngle between -180 and 180.
+     */ 
     public static double normalizeGyro(double currAngle) {
         if (currAngle < -180) {
             return 180 + (currAngle + 180);
@@ -47,6 +52,7 @@ public class Conversion {
     }
 
     /**
+     * Converts trans to degrees.
      * @param counts Falcon Counts
      * @param gearRatio Gear Ratio between Falcon and Mechanism
      * @return Degrees of Rotation of Mechanism
@@ -56,6 +62,7 @@ public class Conversion {
     }
 
     /**
+     * Degrees to trans.
      * @param degrees Degrees of rotation of Mechanism
      * @param gearRatio Gear Ratio between Falcon and Mechanism
      * @return Falcon Counts
@@ -66,6 +73,7 @@ public class Conversion {
     }
 
     /**
+     * Trans to rpm.
      * @param velocityCounts Falcon Velocity Counts
      * @param gearRatio Gear Ratio between Falcon and Mechanism (set to 1 for Falcon RPM)
      * @return RPM of Mechanism
@@ -77,17 +85,19 @@ public class Conversion {
     }
 
     /**
+     * rpm to trans.
      * @param RPM RPM of mechanism
      * @param gearRatio Gear Ratio between Falcon and Mechanism (set to 1 for Falcon RPM)
      * @return RPM of Mechanism
      */
-    public static double RPMToFalcon(double RPM, double gearRatio) {
-        double motorRPM = RPM * gearRatio;
+    public static double rpmToFalcon(double rpm, double gearRatio) {
+        double motorRPM = rpm * gearRatio;
         double sensorCounts = motorRPM * (2048.0 / 600.0);
         return sensorCounts;
     }
 
     /**
+     * Trans to MPS
      * @param velocitycounts Falcon Velocity Counts
      * @param circumference Circumference of Wheel
      * @param gearRatio Gear Ratio between Falcon and Mechanism (set to 1 for Falcon RPM)
@@ -100,17 +110,21 @@ public class Conversion {
     }
 
     /**
+     * MPS to trans.
      * @param velocity Velocity MPS
      * @param circumference Circumference of Wheel
      * @param gearRatio Gear Ratio between Falcon and Mechanism (set to 1 for Falcon RPM)
      * @return Falcon Velocity Counts
      */
-    public static double MPSToFalcon(double velocity, double circumference, double gearRatio){
+    public static double mpsToFalcon(double velocity, double circumference, double gearRatio){
         double wheelRPM = ((velocity * 60) / circumference);
-        double wheelVelocity = RPMToFalcon(wheelRPM, gearRatio);
+        double wheelVelocity = rpmToFalcon(wheelRPM, gearRatio);
         return wheelVelocity;
     }
 
+    /**
+     * Falcon to meters. 
+     */
     public static double falconToM(double distance, double circumference, double gearRatio) {
         double rotations = distance / 2048.0;
         double axleRotations = rotations / gearRatio;
