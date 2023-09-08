@@ -80,7 +80,6 @@ public class SwerveModuleNeoFalcon extends SwerveModule {
         SmartDashboard.putNumber("Current Mod Encoder Angle: " + moduleNumber, Rotation2d.fromRadians(angleEncoder.getPosition()).getDegrees());
     }
 
-    
     public double getAngle() {
         return -getCanCoder().getDegrees() + angleOffset;
     }

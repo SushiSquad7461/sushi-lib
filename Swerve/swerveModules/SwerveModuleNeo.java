@@ -140,7 +140,7 @@ public class SwerveModuleNeo extends SwerveModule {
         canCoder.configSensorInitializationStrategy(
             SensorInitializationStrategy.BootToAbsolutePosition
         );
-    }
+    }           
 
     @Override
     public void resetToAbsolute() {
