@@ -1,6 +1,7 @@
 package SushiFrcLib.Swerve.swerveModules;
 
 import SushiFrcLib.Math.Conversion;
+import SushiFrcLib.Swerve.CTREModuleState;
 import SushiFrcLib.Swerve.SwerveModuleConstants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -16,7 +17,7 @@ public class SwerveModuleFalcon extends SwerveModule {
     private WPI_TalonFX angleMotor;
     private WPI_TalonFX driveMotor;
 
-    private double lastAngle;
+    private Rotation2d lastAngle;
 
     public SwerveModuleFalcon(SwerveModuleConstants moduleConstants) {
         super(moduleConstants);
@@ -26,74 +27,35 @@ public class SwerveModuleFalcon extends SwerveModule {
 
         resetToAbsolute();
 
-        lastAngle = getPose().angle.getDegrees();
+        lastAngle = getPose().angle;
     }
 
     /**
      * Set the state of the swerve module.
      */
     public void setDesiredState(SwerveModuleState desiredState) {
-        // TODO: test optimization code
-        double targetAngle = placeInAppropriate0To360Scope(
-            lastAngle, desiredState.angle.getDegrees()
-        );
-
-        double targetSpeed = desiredState.speedMetersPerSecond;
-
-        double delta = targetAngle - lastAngle;
-
-        if (Math.abs(delta) > 90) {
-            targetSpeed = -targetSpeed;
-            targetAngle = delta > 90 ? (targetAngle -= 180) : (targetAngle += 180);        
-        }
+        desiredState = CTREModuleState.optimize(desiredState, lastAngle);
 
         driveMotor.set(ControlMode.Velocity, Conversion.MPSToFalcon(
-            targetSpeed, 
+            desiredState.speedMetersPerSecond, 
             SwerveModuleConstants.wheelCircumference,
             swerveModuleConstants.driveGearRatio
         ));
        
         // TODO: Test anti jitter code
-        // anit jitter code
-        // if (targetSpeed < moduleConstants.MAX_SPEED * 0.02) {
-        //     targetAngle = lastAngle;
-        // }
+        if (desiredState.speedMetersPerSecond < swerveModuleConstants.maxSpeed * 0.02) {
+            desiredState.angle = lastAngle;
+        }
 
         angleMotor.set(
             ControlMode.Position, 
             Conversion.degreesToFalcon(
-                targetAngle, 
+                desiredState.angle.getDegrees(), 
                 swerveModuleConstants.angleGearRatio
             )
         );
 
-        lastAngle = targetAngle;
-    }
-
-    // Stolen from CTREModuleState.java in SushiFrcLib
-    private static double placeInAppropriate0To360Scope(double scopeReference, double newAngle) {
-        double lowerBound;
-        double upperBound;
-        double lowerOffset = scopeReference % 360;
-        if (lowerOffset >= 0) {
-            lowerBound = scopeReference - lowerOffset;
-            upperBound = scopeReference + (360 - lowerOffset);
-        } else {
-            upperBound = scopeReference - lowerOffset;
-            lowerBound = scopeReference - (360 + lowerOffset);
-        }
-        while (newAngle < lowerBound) {
-            newAngle += 360;
-        }
-        while (newAngle > upperBound) {
-            newAngle -= 360;
-        }
-        if (newAngle - scopeReference > 180) {
-            newAngle -= 360;
-        } else if (newAngle - scopeReference < -180) {
-            newAngle += 360;
-        }
-        return newAngle;
+        lastAngle = desiredState.angle;
     }
 
     @Override
@@ -101,7 +63,6 @@ public class SwerveModuleFalcon extends SwerveModule {
         double absolutePosition = Conversion.degreesToFalcon(getAngle(), swerveModuleConstants.angleGearRatio);
         angleMotor.setSelectedSensorPosition(absolutePosition);
     }
-
 
     @Override
     public SwerveModulePosition getPose() {
