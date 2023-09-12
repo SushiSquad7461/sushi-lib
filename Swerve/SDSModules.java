@@ -1,6 +1,6 @@
 package SushiFrcLib.Swerve;
 
-enum SDSModules {
+public enum SDSModules {
     MK4i((150.0 / 7.0), 6.75),
     MK4(0,0);
 

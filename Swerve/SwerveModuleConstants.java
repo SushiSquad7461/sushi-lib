@@ -2,6 +2,7 @@ package SushiFrcLib.Swerve;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 
@@ -22,14 +23,23 @@ public abstract class SwerveModuleConstants {
     
     public final static double wheelCircumference = 4;
     
-    private final double driveGearRatio;
-    private final double angleGearRatio;
+    public final double driveGearRatio;
+    public final double angleGearRatio;
+
+    public final double driveRotationsToMeters;
+    public final double driveRMPToMetersPerSec;
+
+    public final double angleRotationsToRadians;
+    public final double angleRMPToRadiansPerSec;
+
+    public final double maxSpeed;
 
 
     /**
      * Swerve Module Constants to be used when creating swerve modules.
      */
-    public SwerveModuleConstants(int moduleNumber, double angleOffset, SDSModules moduleInfo) {
+    public SwerveModuleConstants(int moduleNumber, double angleOffset, SDSModules moduleInfo, double maxSpeed) {
+        this.maxSpeed = maxSpeed;
         this.moduleNumber = moduleNumber;
         this.angleOffset = angleOffset;
 
@@ -39,10 +49,19 @@ public abstract class SwerveModuleConstants {
 
         driveGearRatio = moduleInfo.getDriveGearRatio();
         angleGearRatio = moduleInfo.getAngleGearRatio();
+
+        driveRotationsToMeters = wheelCircumference / driveGearRatio;
+        driveRMPToMetersPerSec = driveRotationsToMeters / 60.0;
+
+        angleRotationsToRadians = (Math.PI * 2) / angleGearRatio;
+        angleRMPToRadiansPerSec = angleRotationsToRadians / 60.0;
     }
 
     public abstract CANSparkMax getDriveNeo();
     public abstract WPI_TalonFX getDriveFalcon();
+
     public abstract CANSparkMax getAngleNeo();
     public abstract WPI_TalonFX getAngleFalcon();
+
+    public abstract WPI_CANCoder getCanCoder();
 }

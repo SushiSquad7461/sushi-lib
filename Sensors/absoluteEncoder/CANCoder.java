@@ -7,11 +7,11 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
-public class CanCoder {
+public class CANCoder {
     private double offset;
     private WPI_CANCoder encoder;
 
-    public CanCoder(int id, double offset, boolean inverted) {
+    public CANCoder(int id, double offset, boolean inverted) {
         this.offset = offset;
         this.encoder = new WPI_CANCoder(id);
 

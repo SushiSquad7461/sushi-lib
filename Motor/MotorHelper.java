@@ -97,6 +97,7 @@ public class MotorHelper {
         motor.config_kI(0, i);
         motor.config_kD(0, d);
         motor.config_kF(0, f);
+        motor.setSelectedSensorPosition(0);
         return motor;
     }
 
