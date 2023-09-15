@@ -1,5 +1,6 @@
 package SushiFrcLib.Swerve.swerveModules;
 import SushiFrcLib.Math.Conversion;
+import SushiFrcLib.Swerve.CTREModuleState;
 import SushiFrcLib.Swerve.SwerveModuleConstants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -8,6 +9,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -21,7 +23,7 @@ public class SwerveModuleNeoFalcon extends SwerveModule {
     private final RelativeEncoder angleEncoder;
     private final SparkMaxPIDController anglePID;
 
-    private double lastAngle;
+    private Rotation2d lastAngle;
 
     public SwerveModuleNeoFalcon(SwerveModuleConstants constants) {
         super(constants);
@@ -34,32 +36,39 @@ public class SwerveModuleNeoFalcon extends SwerveModule {
         angleEncoder = angleMotor.getEncoder();
         anglePID = angleMotor.getPIDController();
 
-        lastAngle = getPose().angle.getRadians();
+        lastAngle = getPose().angle;
+
+        resetToAbsolute();
     }
 
     @Override
     public void setDesiredState(SwerveModuleState state) {
         // Prevents angle motor from turning further than it needs to. 
         // E.G. rotating from 10 to 270 degrees CW vs CCW.
-        // state = SwerveModuleState.optimize(state, getState().angle); <-- BROKEN
+        state = CTREModuleState.optimize(state, lastAngle);
 
-        double targetAngle = state.angle.getRadians();
-        double targetSpeed = state.speedMetersPerSecond;
 
         driveMotor.set(ControlMode.Velocity, Conversion.MPSToFalcon(
-            targetSpeed, 
+            state.speedMetersPerSecond, 
             SwerveModuleConstants.wheelCircumference,
             moduleConstants.driveGearRatio
         ));
 
         double angle = Math.abs(state.speedMetersPerSecond) <= moduleConstants.maxSpeed * 0.01
-            ? lastAngle
-            :  targetAngle;
+            ? lastAngle.getDegrees()
+            :  state.angle.getDegrees();
 
         anglePID.setReference(angle, CANSparkMax.ControlType.kPosition);
-        lastAngle = angle;
+        lastAngle = Rotation2d.fromDegrees(angle);
 
-        SmartDashboard.putNumber("Current Mod Encoder Angle: " + moduleNumber, Rotation2d.fromRadians(angleEncoder.getPosition()).getDegrees());
+        if (swerveModuleConstants.swerveTuningMode) {
+            SmartDashboard.putNumber("Target Mod Drive Encoder: " + moduleNumber,  Conversion.MPSToFalcon(
+                state.speedMetersPerSecond, 
+                SwerveModuleConstants.wheelCircumference,
+                moduleConstants.driveGearRatio
+            ));
+            SmartDashboard.putNumber("Target Mod Relative Encoder Angle " + moduleNumber, angle);
+        }
     }
 
     @Override
@@ -77,11 +86,18 @@ public class SwerveModuleNeoFalcon extends SwerveModule {
 
     @Override
     public void resetToAbsolute() {
-        angleEncoder.setPosition(Units.degreesToRadians(getAngle())); 
+        angleEncoder.setPosition(getAngle()); 
+        lastAngle = Rotation2d.fromDegrees(getAngle());
     }
 
     @Override
     public void log() {
-        SmartDashboard.putNumber("Angle Current" + moduleNumber, angleMotor.getOutputCurrent());
+
+        if (swerveModuleConstants.swerveTuningMode) {
+            SmartDashboard.putNumber("Angle Current" + moduleNumber, angleMotor.getOutputCurrent());
+            SmartDashboard.putNumber("Current Mod Reltaive Encoder Angle: " + moduleNumber, MathUtil.inputModulus(angleEncoder.getPosition(), 0, 360));
+            SmartDashboard.putNumber("Current Mod Reltaive Encoder Angle Non Mod: " + moduleNumber, angleEncoder.getPosition());
+            SmartDashboard.putNumber("Current Mod Drive Encoder " + moduleNumber, driveMotor.getSelectedSensorVelocity());
+        }
     }
 }
