@@ -6,6 +6,8 @@ import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.math.util.Units;
+
 /**
  * Wrapper class for swerve module constants.
  */
@@ -21,7 +23,7 @@ public abstract class SwerveModuleConstants {
     public static NeutralMode driveNeutralMode = NeutralMode.Brake;
     public static IdleMode driveIdleMode = IdleMode.kBrake;
     
-    public final static double wheelCircumference = 4;
+    public final static double wheelCircumference = Units.inchesToMeters(4) * Math.PI;
     
     public final double driveGearRatio;
     public final double angleGearRatio;
@@ -29,16 +31,18 @@ public abstract class SwerveModuleConstants {
     public final double driveRotationsToMeters;
     public final double driveRMPToMetersPerSec;
 
-    public final double angleRotationsToRadians;
-    public final double angleRMPToRadiansPerSec;
+    public final double angleRotationsToDegrees;
+    public final double angleRMPToDegreesPerSec;
 
     public final double maxSpeed;
+
+    public final boolean swerveTuningMode;
 
 
     /**
      * Swerve Module Constants to be used when creating swerve modules.
      */
-    public SwerveModuleConstants(int moduleNumber, double angleOffset, SDSModules moduleInfo, double maxSpeed) {
+    public SwerveModuleConstants(int moduleNumber, double angleOffset, SDSModules moduleInfo, double maxSpeed, boolean swerveTuningMode) {
         this.maxSpeed = maxSpeed;
         this.moduleNumber = moduleNumber;
         this.angleOffset = angleOffset;
@@ -53,8 +57,10 @@ public abstract class SwerveModuleConstants {
         driveRotationsToMeters = wheelCircumference / driveGearRatio;
         driveRMPToMetersPerSec = driveRotationsToMeters / 60.0;
 
-        angleRotationsToRadians = (Math.PI * 2) / angleGearRatio;
-        angleRMPToRadiansPerSec = angleRotationsToRadians / 60.0;
+        angleRotationsToDegrees = (360.0) / angleGearRatio;
+        angleRMPToDegreesPerSec = angleRotationsToDegrees / 60.0;
+
+        this.swerveTuningMode = swerveTuningMode;
     }
 
     public abstract CANSparkMax getDriveNeo();
