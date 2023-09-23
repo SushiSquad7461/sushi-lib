@@ -5,12 +5,12 @@ import frc.robot.Constants;
 import com.revrobotics.CANSparkMax;
 
 
-public class PID {
+public class PIDTuning {
     private final TunableNumber kP;
     private final TunableNumber kI;
     private final TunableNumber kD;
 
-    public PID(double motor_kP, double motor_kI, double motor_kD){
+    public PIDTuning(double motor_kP, double motor_kI, double motor_kD){
         kP = new TunableNumber("kP", motor_kP, Constants.kTuningMode);
         kI = new TunableNumber("kI", motor_kI, Constants.kTuningMode);
         kD = new TunableNumber("kD", motor_kD, Constants.kTuningMode);
