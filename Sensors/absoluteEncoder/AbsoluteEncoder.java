@@ -1,5 +1,6 @@
 package SushiFrcLib.Sensors.absoluteEncoder;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 public class AbsoluteEncoder {
@@ -13,5 +14,9 @@ public class AbsoluteEncoder {
 
     public double getPosition() {
         return encoder.get() * 360 - offset;
+    }
+
+    public double getNormalizedPosition() {
+        return MathUtil.inputModulus(getPosition(), -180, 180);
     }
 }
