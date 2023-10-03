@@ -47,7 +47,6 @@ public class SwerveModuleNeoFalcon extends SwerveModule {
         // E.G. rotating from 10 to 270 degrees CW vs CCW.
         state = CTREModuleState.optimize(state, lastAngle);
 
-
         driveMotor.set(ControlMode.Velocity, Conversion.MPSToFalcon(
             state.speedMetersPerSecond, 
             SwerveModuleConstants.wheelCircumference,
@@ -78,7 +77,7 @@ public class SwerveModuleNeoFalcon extends SwerveModule {
             moduleConstants.driveGearRatio
         );
         
-        Rotation2d rot = new Rotation2d(angleEncoder.getPosition());
+        Rotation2d rot = Rotation2d.fromDegrees(angleEncoder.getPosition());
 
         return new SwerveModulePosition(distance, rot);
     }
@@ -95,6 +94,7 @@ public class SwerveModuleNeoFalcon extends SwerveModule {
 
         if (swerveModuleConstants.swerveTuningMode) {
             SmartDashboard.putNumber("Angle Current" + moduleNumber, angleMotor.getOutputCurrent());
+
             SmartDashboard.putNumber("Current Mod Reltaive Encoder Angle: " + moduleNumber, MathUtil.inputModulus(angleEncoder.getPosition(), 0, 360));
             SmartDashboard.putNumber("Current Mod Reltaive Encoder Angle Non Mod: " + moduleNumber, angleEncoder.getPosition());
             SmartDashboard.putNumber("Current Mod Drive Encoder " + moduleNumber, driveMotor.getSelectedSensorVelocity());
