@@ -8,10 +8,10 @@ public class PIDTuning {
     private final TunableNumber kI;
     private final TunableNumber kD;
 
-    public PIDTuning(double motor_kP, double motor_kI, double motor_kD, boolean kTuningMode){
-        kP = new TunableNumber("kP", motor_kP, kTuningMode);
-        kI = new TunableNumber("kI", motor_kI, kTuningMode);
-        kD = new TunableNumber("kD", motor_kD, kTuningMode);
+    public PIDTuning(String motorName, double motor_kP, double motor_kI, double motor_kD, boolean kTuningMode){
+        kP = new TunableNumber(motorName + "kP", motor_kP, kTuningMode);
+        kI = new TunableNumber(motorName + "kI", motor_kI, kTuningMode);
+        kD = new TunableNumber(motorName + "kD", motor_kD, kTuningMode);
     }
 
     public void updatePID(CANSparkMax motor){
