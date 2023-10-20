@@ -1,4 +1,4 @@
-package SushiFrcLib.Swerve.swerveModules;
+package SushiFrcLib.Swerve.SwerveModules;
 
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 

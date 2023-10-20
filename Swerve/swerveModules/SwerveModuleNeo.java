@@ -1,4 +1,4 @@
-package SushiFrcLib.Swerve.swerveModules;
+package SushiFrcLib.Swerve.SwerveModules;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;

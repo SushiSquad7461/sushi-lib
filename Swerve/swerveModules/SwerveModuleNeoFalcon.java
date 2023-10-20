@@ -1,4 +1,4 @@
-package SushiFrcLib.Swerve.swerveModules;
+package SushiFrcLib.Swerve.SwerveModules;
 import SushiFrcLib.Math.Conversion;
 import SushiFrcLib.Swerve.CTREModuleState;
 import SushiFrcLib.Swerve.SwerveModuleConstants;
@@ -13,7 +13,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveModuleNeoFalcon extends SwerveModule {

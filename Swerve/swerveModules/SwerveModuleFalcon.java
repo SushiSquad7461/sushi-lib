@@ -1,4 +1,4 @@
-package SushiFrcLib.Swerve.swerveModules;
+package SushiFrcLib.Swerve.SwerveModules;
 
 import SushiFrcLib.Math.Conversion;
 import SushiFrcLib.Swerve.CTREModuleState;
