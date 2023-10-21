@@ -7,8 +7,10 @@ public class Normalization {
     return Math.pow(triggerVal, 3);
   }
   
-  public static double linearDeadzone(double triggerVal, double deadzone) {
-    return ((Math.abs(triggerVal) > deadzone) ? triggerVal : 0);
+  public static double applyDeadband(double initalVal, double deadband) {
+    return Math.abs(initalVal) <  deadband ? 0 : (
+        (initalVal - ((initalVal < 0 ? -1 : 1) * deadband)) 
+        / (1 - deadband));
   }
   
   public static double logistic(double triggerVal, double k) {
