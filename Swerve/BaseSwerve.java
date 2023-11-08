@@ -1,6 +1,7 @@
 package SushiFrcLib.Swerve;
 
 import SushiFrcLib.Sensors.gyro.Gyro;
+import SushiFrcLib.Sensors.gyro.Pigeon;
 import SushiFrcLib.Swerve.SwerveModules.SwerveModule;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -22,6 +23,9 @@ abstract public class BaseSwerve extends SubsystemBase {
 
     private final boolean tuningMode;
 
+    private Pose2d oldPose;
+    private double oldTimeStamp;
+
     public BaseSwerve(SwerveModule[] swerveMods, Gyro gyro, SwerveKinematics kinematics, double maxSpeed,  boolean tuningMode) {
         this.tuningMode = tuningMode;
 
@@ -36,6 +40,9 @@ abstract public class BaseSwerve extends SubsystemBase {
         this.field = new Field2d();
 
         this.maxSpeed = maxSpeed;
+
+        this.oldPose = this.odom.getPose();
+        this.oldTimeStamp = System.currentTimeMillis();
 
         SmartDashboard.putData("Field", field);
     }
@@ -117,6 +124,16 @@ abstract public class BaseSwerve extends SubsystemBase {
         odom.updatePoseWithGyro(getPose(),  gyro.getAngle());
 
         SmartDashboard.putNumber("Angle", MathUtil.inputModulus(gyro.getAngle().getDegrees(), 0, 360));
+
+        if (tuningMode) {
+            double angleVelo = (odom.getPose().getRotation().getRadians() - oldPose.getRotation().getRadians()) / (System.currentTimeMillis() - oldTimeStamp); // in radians per milisecond
+            double robotVelo = (odom.getPose().getTranslation().getNorm() - oldPose.getTranslation().getNorm()) / (System.currentTimeMillis() - oldTimeStamp); // in meters per milisecond
+            SmartDashboard.putNumber("Robot Angle Velo", angleVelo * 1000);
+            SmartDashboard.putNumber("Robot Velo", robotVelo * 1000);
+
+            oldPose = odom.getPose();
+            oldTimeStamp = System.currentTimeMillis();
+        }
 
         field.setRobotPose(odom.getPose());
 
