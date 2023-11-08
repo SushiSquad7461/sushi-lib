@@ -5,6 +5,7 @@ import SushiFrcLib.Sensors.gyro.Pigeon;
 import SushiFrcLib.Swerve.SwerveModules.SwerveModule;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -83,7 +84,7 @@ abstract public class BaseSwerve extends SubsystemBase {
             SmartDashboard.putString("Input: ", vector.getX() + ", " + vector.getY() + ", " + rot);
         }
 
-        vector = vector.rotateBy(gyro.getAngle());
+        vector = vector.rotateBy(gyro.getAngle().plus(Rotation2d.fromRadians(getDriveVelo() * 0.0)));
 
         if (tuningMode) {
             SmartDashboard.putString("Input Post Rotate : ", vector.getX() + ", " + vector.getY() + ", " + rot);
@@ -119,6 +120,14 @@ abstract public class BaseSwerve extends SubsystemBase {
 
     public void resetGyro() { gyro.zeroGyro(); }
 
+    public double getAngleVelo() {
+        return 1000 * (odom.getPose().getRotation().getRadians() - oldPose.getRotation().getRadians()) / (System.currentTimeMillis() - oldTimeStamp); // in radians per milisecond
+    }
+
+    public double getDriveVelo() {
+        return 1000 * (odom.getPose().getTranslation().getNorm() - oldPose.getTranslation().getNorm()) / (System.currentTimeMillis() - oldTimeStamp); // in meters per milisecond 
+    }
+
     @Override
     public void periodic() { 
         odom.updatePoseWithGyro(getPose(),  gyro.getAngle());
@@ -126,14 +135,12 @@ abstract public class BaseSwerve extends SubsystemBase {
         SmartDashboard.putNumber("Angle", MathUtil.inputModulus(gyro.getAngle().getDegrees(), 0, 360));
 
         if (tuningMode) {
-            double angleVelo = (odom.getPose().getRotation().getRadians() - oldPose.getRotation().getRadians()) / (System.currentTimeMillis() - oldTimeStamp); // in radians per milisecond
-            double robotVelo = (odom.getPose().getTranslation().getNorm() - oldPose.getTranslation().getNorm()) / (System.currentTimeMillis() - oldTimeStamp); // in meters per milisecond
-            SmartDashboard.putNumber("Robot Angle Velo", angleVelo * 1000);
-            SmartDashboard.putNumber("Robot Velo", robotVelo * 1000);
-
-            oldPose = odom.getPose();
-            oldTimeStamp = System.currentTimeMillis();
+            SmartDashboard.putNumber("Robot Angle Velo", getAngleVelo());
+            SmartDashboard.putNumber("Robot Velo", getDriveVelo());
         }
+
+        oldPose = odom.getPose();
+        oldTimeStamp = System.currentTimeMillis();
 
         field.setRobotPose(odom.getPose());
 
