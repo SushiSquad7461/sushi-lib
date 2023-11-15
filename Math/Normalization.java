@@ -2,6 +2,7 @@ package SushiFrcLib.Math;
 
 import java.lang.Math;
 
+// TODO bruh moment
 public class Normalization {
   public static double cube(double triggerVal) {
     return Math.pow(triggerVal, 3);

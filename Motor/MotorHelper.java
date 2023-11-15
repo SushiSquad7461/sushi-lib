@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
 
+// TODO I'd recommend using DTOs to reduce overloading/repetition
 public class MotorHelper {
     // Create a new falcon motor
     public static WPI_TalonFX createFalconMotor(int canID) {

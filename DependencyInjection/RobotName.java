@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+// TODO what is even the point of this
 public class RobotName {
     private static RobotName sInstance = null;
     private String name = null;

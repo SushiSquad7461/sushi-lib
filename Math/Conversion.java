@@ -8,6 +8,7 @@ public class Conversion {
 
     // the unit of measurement for Talon FX encoder velocity is known as the "Tran"
     // encoder ticks per 100ms
+    // TODO did you make up this name? also convert this to a proper JavaDoc comment
     public static double convertRPMtoTrans(double RPM) {
         return RPM * 2048.0 / 600.0;
     }

@@ -3,6 +3,7 @@ package SushiFrcLib.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
+// TODO see notes in Robot.java of futomaki-2023
 public class AllianceColor {
     private Boolean isRedAlliance;
     private NetworkTable table;

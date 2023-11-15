@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Timer;
 
+// TODO is there a purpose for this class outside of being used in the color sensor? If not consider changing to package visibility
 public class TCS3200_ColorReader implements Sendable {
   // Output managment
   private final Counter m_counter;

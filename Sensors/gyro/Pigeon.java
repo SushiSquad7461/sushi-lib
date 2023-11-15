@@ -41,6 +41,7 @@ public class Pigeon extends Gyro {
         return gyro.getYaw();
     }
 
+    // TODO why aren't these in the base class?
     public double getPitch() {
         return gyro.getPitch();
     }

@@ -1,7 +1,6 @@
 package SushiFrcLib.Swerve;
 
 import SushiFrcLib.Sensors.gyro.Gyro;
-import SushiFrcLib.Sensors.gyro.Pigeon;
 import SushiFrcLib.Swerve.SwerveModules.SwerveModule;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
