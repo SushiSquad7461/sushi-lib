@@ -11,6 +11,10 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
 
+@Deprecated
+/**
+ * Class deprecated as of Novemeber 2023, use MotorConfig instead
+ */
 public class MotorHelper {
     // Create a new falcon motor
     public static WPI_TalonFX createFalconMotor(int canID) {
