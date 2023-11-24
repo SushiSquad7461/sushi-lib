@@ -2,7 +2,6 @@ package SushiFrcLib.Swerve.SwerveModules;
 
 import SushiFrcLib.Math.Conversion;
 import SushiFrcLib.Swerve.CTREModuleState;
-import SushiFrcLib.Swerve.SwerveModuleConstants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;

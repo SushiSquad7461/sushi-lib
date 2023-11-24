@@ -26,5 +26,20 @@ public class Navx extends Gyro {
         gyro.zeroYaw();
         gyro.setAngleAdjustment(newAngle.getDegrees());
     }
+
+    @Override
+    public double getRoll() {
+        return gyro.getRoll();
+    }
+
+    @Override
+    public double getPitch() {
+        return gyro.getPitch();
+    }
+
+    @Override
+    public double getYaw() {
+        return gyro.getYaw();
+    }
     
 }

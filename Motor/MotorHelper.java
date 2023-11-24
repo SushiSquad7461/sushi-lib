@@ -11,11 +11,21 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
 
-@Deprecated
 /**
- * Class deprecated as of Novemeber 2023, use MotorConfig instead
+ * Create Motor Functions deprecated as of Novemeber 2023, use MotorConfig instead
  */
 public class MotorHelper {
+
+    public static void setConversionFactor(CANSparkMax motor, double factor) {
+        motor.getEncoder().setPositionConversionFactor(factor);
+        motor.getEncoder().setVelocityConversionFactor(factor / 60);
+    }
+
+    public static void setDegreeConversionFactor(CANSparkMax motor, double gearing) {
+        setConversionFactor(motor, 360 / gearing);
+    }
+
+    @Deprecated
     // Create a new falcon motor
     public static WPI_TalonFX createFalconMotor(int canID) {
         WPI_TalonFX motor = new WPI_TalonFX(canID, "rio");
@@ -24,6 +34,7 @@ public class MotorHelper {
         return motor;
     }
 
+    @Deprecated
     public static WPI_TalonFX createFalconMotor(int canID, String name) {
         WPI_TalonFX motor = new WPI_TalonFX(canID, name);
         motor.configFactoryDefault();
@@ -31,6 +42,7 @@ public class MotorHelper {
         return motor;
     }
 
+    @Deprecated
     // Create a new falcon motor
     public static WPI_TalonFX createFalconMotor(int canID, TalonFXInvertType inversion) {
         WPI_TalonFX motor = MotorHelper.createFalconMotor(canID);
@@ -38,12 +50,14 @@ public class MotorHelper {
         return motor;
     }
 
+    @Deprecated
     public static WPI_TalonFX createFalconMotor(int canID, TalonFXInvertType inversion, String name) {
         WPI_TalonFX motor = MotorHelper.createFalconMotor(canID, name);
         motor.setInverted(inversion);
         return motor;
     }
 
+    @Deprecated
     // Create a new falcon motor
     public static WPI_TalonFX createFalconMotor(int canID, int currentLimit, TalonFXInvertType inversion) {
         WPI_TalonFX motor = MotorHelper.createFalconMotor(canID, inversion);
@@ -51,12 +65,14 @@ public class MotorHelper {
         return motor;
     }
 
+    @Deprecated
     public static WPI_TalonFX createFalconMotor(int canID, int currentLimit, TalonFXInvertType inversion, String name) {
         WPI_TalonFX motor = MotorHelper.createFalconMotor(canID, inversion, name);
         motor.configSupplyCurrentLimit(createCurrentLimt(currentLimit));
         return motor;
     }
 
+    @Deprecated
     // Create a new falcon motor
     public static WPI_TalonFX createFalconMotor(int canID, int currentLimit, TalonFXInvertType inversion, NeutralMode neutralMode) {
         WPI_TalonFX motor = MotorHelper.createFalconMotor(canID, currentLimit, inversion);
@@ -64,6 +80,7 @@ public class MotorHelper {
         return motor;
     }
 
+    @Deprecated
     public static WPI_TalonFX createFalconMotor(int canID, int currentLimit, TalonFXInvertType inversion,
             NeutralMode neutralMode, String name) {
         WPI_TalonFX motor = MotorHelper.createFalconMotor(canID, currentLimit, inversion, name);
@@ -71,6 +88,7 @@ public class MotorHelper {
         return motor;
     }
 
+    @Deprecated
     public static WPI_TalonFX createFalconMotor(int canID, int currentLimit, TalonFXInvertType inversion, NeutralMode neutralMode, double p, double i, double d, double f) {
         WPI_TalonFX motor = MotorHelper.createFalconMotor(canID, currentLimit, inversion, neutralMode);
         motor.config_kP(0, p);
@@ -80,6 +98,7 @@ public class MotorHelper {
         return motor;
     }
 
+    @Deprecated
     public static WPI_TalonFX createFalconMotor(int canID, int currentLimit, TalonFXInvertType inversion,
             NeutralMode neutralMode, double p, double i, double d, double f, String name) {
         WPI_TalonFX motor = MotorHelper.createFalconMotor(canID, currentLimit, inversion, neutralMode, name);
@@ -90,6 +109,7 @@ public class MotorHelper {
         return motor;
     }
 
+    @Deprecated
     public static WPI_TalonFX createFalconMotor(int canID, int currentLimit, Boolean inversion,
             NeutralMode neutralMode, double p, double i, double d, double f, String name, SensorInitializationStrategy init) {
         WPI_TalonFX motor = MotorHelper.createFalconMotor(canID, name);
@@ -105,6 +125,7 @@ public class MotorHelper {
         return motor;
     }
 
+    @Deprecated
     public static WPI_TalonFX createFalconMotor(int canID, int currentLimit, Boolean inversion,
             NeutralMode neutralMode, double p, double i, double d, double f, String name, SensorInitializationStrategy init, double openLoopRampRate) {
         WPI_TalonFX motor = MotorHelper.createFalconMotor(canID, currentLimit, inversion,
@@ -113,12 +134,12 @@ public class MotorHelper {
         return motor;
     }
     
-
     // Create a new falcon current limit
     public static SupplyCurrentLimitConfiguration createCurrentLimt(int currentLimit) {
         return new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimit, 0);
     }
 
+    @Deprecated
     public static CANSparkMax createSparkMax(int id, CANSparkMaxLowLevel.MotorType motorType) {
         CANSparkMax motor = new CANSparkMax(id, motorType);
         motor.restoreFactoryDefaults();
@@ -130,6 +151,7 @@ public class MotorHelper {
         return motor;
     }
 
+    @Deprecated
     // Create spark max
     public static CANSparkMax createSparkMax(int id, CANSparkMaxLowLevel.MotorType motorType, boolean inverted, int currentLimit, IdleMode idleMode) {
         CANSparkMax motor = new CANSparkMax(id, motorType);
@@ -145,6 +167,7 @@ public class MotorHelper {
         return motor;
     }
 
+    @Deprecated
     // Create spark max
     public static CANSparkMax createSparkMax(int id, CANSparkMaxLowLevel.MotorType motorType, boolean inverted, int currentLimit, IdleMode idleMode, double p, double i, double d, double f) {
         CANSparkMax motor = new CANSparkMax(id, motorType);
@@ -165,6 +188,7 @@ public class MotorHelper {
         return motor;
     }
 
+    @Deprecated
     // Create spark max
     public static CANSparkMax createSparkMax(int id, CANSparkMaxLowLevel.MotorType motorType, boolean inverted, int openLoopRampRate, int currentLimit) {
         CANSparkMax motor = new CANSparkMax(id, motorType);

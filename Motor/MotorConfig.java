@@ -18,7 +18,7 @@ public class MotorConfig {
    public final boolean inversion;
    public final Mode mode;
 
-   enum Mode {
+   public enum Mode {
         COAST(true),
         BRAKE(false);
 
@@ -46,6 +46,12 @@ public class MotorConfig {
         this.mode = mode;
    }
 
+   public MotorConfig(String canBus, int currentLimit, Boolean inversion, PIDConfig pid, Mode mode) { this(-1, canBus, currentLimit, inversion, pid, mode); }
+
+   public MotorConfig(int currentLimit, Boolean inversion, PIDConfig pid, Mode mode) { this(-1, "rio", currentLimit, inversion, pid, mode); }
+
+   public MotorConfig(int canId, int currentLimit, Boolean inversion, PIDConfig pid, Mode mode) { this(canId, "rio", currentLimit, inversion, pid, mode); }
+
    public MotorConfig(int canId) { this(canId, "rio", -1, false, PIDConfig.getZeroPid(), Mode.COAST);}
 
    public MotorConfig(int canId, String canBus) { this(canId, canBus, -1, false, PIDConfig.getZeroPid(), Mode.COAST);}
@@ -54,31 +60,26 @@ public class MotorConfig {
 
    public MotorConfig(int canId, String canBus, int currentLimit, Boolean inversion, Mode mode) { this(canId, canBus, currentLimit, inversion, PIDConfig.getZeroPid(), mode);}
 
-   private SupplyCurrentLimitConfiguration createTalonCurrentLimt(int currentLimit) {
-    return new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimit, 0);
-   }
-
-   public WPI_TalonFX createTalon() {
-        WPI_TalonFX motor = new WPI_TalonFX(canId, canBus);
-
+   public void setTalonConfig(WPI_TalonFX motor) {
         motor.setInverted(inversion);
 
         if (currentLimit < 0) {
-            motor.configSupplyCurrentLimit(createTalonCurrentLimt(currentLimit));
+            motor.configSupplyCurrentLimit(MotorHelper.createCurrentLimt(currentLimit));
         }
 
         motor.setNeutralMode(mode.getTalonMode());
         motor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
 
         pid.setPid(motor);
+   }
 
+   public WPI_TalonFX createTalon() {
+        WPI_TalonFX motor = new WPI_TalonFX(canId, canBus);
+        setTalonConfig(motor);
         return motor;
    }
 
-   public CANSparkMax createSparkMax() { return createSparkMax(CANSparkMaxLowLevel.MotorType.kBrushless); }
-
-   public CANSparkMax createSparkMax(CANSparkMaxLowLevel.MotorType type) {
-        CANSparkMax motor = new CANSparkMax(canId, type);
+   public void setCanSparkMaxConfig(CANSparkMax motor, CANSparkMaxLowLevel.MotorType type) {
         motor.restoreFactoryDefaults();
         motor.setInverted(inversion);
 
@@ -93,7 +94,13 @@ public class MotorConfig {
         }
 
         pid.setPid(motor);
+   }
 
+   public CANSparkMax createSparkMax() { return createSparkMax(CANSparkMaxLowLevel.MotorType.kBrushless); }
+
+   public CANSparkMax createSparkMax(CANSparkMaxLowLevel.MotorType type) {
+        CANSparkMax motor = new CANSparkMax(canId, type);
+        setCanSparkMaxConfig(motor, type);
         return motor;
    }
 }

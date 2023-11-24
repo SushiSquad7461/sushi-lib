@@ -1,8 +1,8 @@
-package SushiFrcLib.Math;
+package SushiFrcLib.Controllers;
 
 import java.lang.Math;
 
-public class Normalization {
+public class ControllerMath {
   public static double cube(double triggerVal) {
     return Math.pow(triggerVal, 3);
   }

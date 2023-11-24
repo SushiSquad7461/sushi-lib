@@ -1,4 +1,4 @@
-package SushiFrcLib.Swerve;
+package SushiFrcLib.Swerve.SwerveModules;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -29,10 +29,6 @@ public abstract class SwerveModuleConstants {
     public final double angleGearRatio;
 
     public final double driveRotationsToMeters;
-    public final double driveRMPToMetersPerSec;
-
-    public final double angleRotationsToDegrees;
-    public final double angleRMPToDegreesPerSec;
 
     public final double maxSpeed;
 
@@ -55,19 +51,27 @@ public abstract class SwerveModuleConstants {
         angleGearRatio = moduleInfo.getAngleGearRatio();
 
         driveRotationsToMeters = wheelCircumference / driveGearRatio;
-        driveRMPToMetersPerSec = driveRotationsToMeters / 60.0;
-
-        angleRotationsToDegrees = (360.0) / angleGearRatio;
-        angleRMPToDegreesPerSec = angleRotationsToDegrees / 60.0;
 
         this.swerveTuningMode = swerveTuningMode;
     }
 
-    public abstract CANSparkMax getDriveNeo();
-    public abstract WPI_TalonFX getDriveFalcon();
+    public CANSparkMax getDriveNeo() throws UnsupportedOperationException { 
+        throw new UnsupportedOperationException("Drive Neo Getter not implemented in child class"); 
+    };
 
-    public abstract CANSparkMax getAngleNeo();
-    public abstract WPI_TalonFX getAngleFalcon();
+    public WPI_TalonFX getDriveFalcon() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Drive Falcon Getter not implemented in child class"); 
+    }
 
-    public abstract WPI_CANCoder getCanCoder();
+    public CANSparkMax getAngleNeo() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Angle Neo Getter not implemented in child class"); 
+    }
+
+    public WPI_TalonFX getAngleFalcon() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Angle Falcon Getter not implemented in child class"); 
+    }
+
+    public WPI_CANCoder getCanCoder() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Can Coder Getter not implemented in child class"); 
+    }
 }

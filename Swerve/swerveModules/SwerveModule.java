@@ -2,7 +2,6 @@ package SushiFrcLib.Swerve.SwerveModules;
 
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 
-import SushiFrcLib.Swerve.SwerveModuleConstants;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;

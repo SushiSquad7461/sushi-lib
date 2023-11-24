@@ -11,4 +11,11 @@ public abstract class Gyro {
     public abstract void zeroGyro();
 
     public abstract void setAngle(Rotation2d newAngle);
+
+    public abstract double getRoll();
+
+    public abstract double getPitch();
+
+    public abstract double getYaw();
+
 }
