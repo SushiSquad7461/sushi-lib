@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Timer;
 
-public class TCS3200_ColorReader implements Sendable {
+class TCS3200_ColorReader implements Sendable {
   // Output managment
   private final Counter m_counter;
 

@@ -6,8 +6,11 @@ public class Conversion {
         return (ticks / 2048.0) * ((wheelDiamater * Math.PI) / 39.37);
     }
 
-    // the unit of measurement for Talon FX encoder velocity is known as the "Tran"
-    // encoder ticks per 100ms
+    /**
+     * Converts RPM to Tran
+     * @param RPM motor rpm
+     * @return the unit of measurement for Talon FX encoder velocity is known as the "Tran" (encoder ticks per 100ms)
+     */
     public static double convertRPMtoTrans(double RPM) {
         return RPM * 2048.0 / 600.0;
     }

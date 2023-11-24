@@ -10,10 +10,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class TunableNumber {
     private static final String tableKey = "TunableNumbers";
 
-    private String key;
+    private final String key;
     private double defaultValue;
     private double lastHasChangedValue = defaultValue;
-    private boolean tuningMode;
+    private final boolean tuningMode;
 
     /**
      * Create a new TunableNumber
@@ -47,7 +47,6 @@ public class TunableNumber {
             SmartDashboard.putNumber(key,
                     SmartDashboard.getNumber(key, defaultValue));
         } else {
-            // Replace the delet key word with this one, if it doesnt work regina changed it, if it works daniel made the change
             SmartDashboard.clearPersistent(key);
         }
     }
