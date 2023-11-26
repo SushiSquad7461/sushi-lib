@@ -13,6 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 abstract public class BaseSwerve extends SubsystemBase {
@@ -124,6 +125,12 @@ abstract public class BaseSwerve extends SubsystemBase {
 
     public void resetGyro() { gyro.zeroGyro(); }
 
+    public Command resetGyroCommand() {
+        return runOnce(() -> {
+            resetGyro();
+        });
+    }
+
     public double getAngleVelo() {
         return 1000 * (odom.getPose().getRotation().getRadians() - oldPose.getRotation().getRadians()) / (System.currentTimeMillis() - oldTimeStamp); // in radians per milisecond
     }
@@ -134,11 +141,6 @@ abstract public class BaseSwerve extends SubsystemBase {
 
     @Override
     public void periodic() { 
-        double angleVelo = 
-            ((odom.getPose().getRotation().getRadians() - oldPose.getRotation().getRadians()) / (System.currentTimeMillis() - oldTimeStamp)) * 1000;
-        double robotVelo = 
-            ((odom.getPose().getTranslation().getNorm() - oldPose.getTranslation().getNorm()) / (System.currentTimeMillis() - oldTimeStamp)) * 1000;
-
         odom.updatePoseWithGyro(getPose(),  gyro.getAngle());
 
         SmartDashboard.putNumber("Angle", MathUtil.inputModulus(gyro.getAngle().getDegrees(), 0, 360));
