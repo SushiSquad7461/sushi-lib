@@ -67,6 +67,8 @@ public class MotorConfig {
 
         motor.setNeutralMode(mode.getTalonMode());
         pid.setPid(motor);
+
+        motor.setPosition(0);
    }
 
    public TalonFX createTalon() {

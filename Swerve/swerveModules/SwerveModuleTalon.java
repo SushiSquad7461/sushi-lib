@@ -1,7 +1,6 @@
 package SushiFrcLib.Swerve.SwerveModules;
 
 import SushiFrcLib.Math.Conversion;
-import SushiFrcLib.Swerve.CTREModuleState;
 import SushiFrcLib.Swerve.SwerveConstants.SwerveModuleConstants;
 
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -9,8 +8,6 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 /**
  * Falcon Swerve Module.
@@ -18,8 +15,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 public class SwerveModuleTalon extends SwerveModule {
     private TalonFX angleMotor;
     private TalonFX driveMotor;
-
-    private Rotation2d lastAngle;
 
     private VelocityVoltage drivePID;
     private PositionVoltage anglePID;
@@ -38,55 +33,54 @@ public class SwerveModuleTalon extends SwerveModule {
         anglePID = new PositionVoltage(0,0,false,0,0,false,false,false); 
     }
 
-    /**
-     * Set the state of the swerve module.
-     */
-    public void setDesiredState(SwerveModuleState desiredState) {
-        desiredState = CTREModuleState.optimize(desiredState, lastAngle);
+    @Override
+    public void resetToAbsolute() {
+        angleMotor.setPosition(getCanCoder().getRotations() * swerveModuleConstants.moduleInfo.angleGearRatio);
+        lastAngle = getCanCoder();
+    }
 
+    @Override
+    protected void applySwerveModuleState(double velocityMPS, Rotation2d angle) {
         driveMotor.setControl(
             drivePID.withVelocity(
                 Conversion.MPSToFalcon(
-                    desiredState.speedMetersPerSecond, 
+                    velocityMPS, 
                     SwerveModuleConstants.wheelCircumference,
                     swerveModuleConstants.moduleInfo.driveGearRatio
                 ) 
             )
         );
 
-        // TODO: Test anti jitter code
-        if (desiredState.speedMetersPerSecond < swerveModuleConstants.moduleInfo.maxSpeed * 0.02) {
-            desiredState.angle = lastAngle;
-        }
-
-
         angleMotor.setControl(
             anglePID.withPosition(
-                Conversion.degreesToFalcon(
-                    desiredState.angle.getDegrees(), 
-                    swerveModuleConstants.moduleInfo.angleGearRatio
-                )
+                angle.getRotations() * swerveModuleConstants.moduleInfo.angleGearRatio
             )
         );
 
-        lastAngle = desiredState.angle;
     }
 
     @Override
-    public void resetToAbsolute() {
-        angleMotor.setPosition(getCanCoder().getRotations());
-    }
-
-    @Override
-    public SwerveModulePosition getPose() {
-        double distance = Conversion.rotationsToM(
-            driveMotor.getPosition().getValue(), SwerveModuleConstants.wheelCircumference,
-            swerveModuleConstants.moduleInfo.driveGearRatio
-        );
-        Rotation2d angle = Rotation2d.fromRotations(
+    protected Rotation2d getEncoderAngle() {
+        return Rotation2d.fromRotations(
             angleMotor.getPosition().getValue() / swerveModuleConstants.moduleInfo.angleGearRatio
         );
+    }
 
-        return new SwerveModulePosition(distance, angle);
+    @Override
+    protected double getPositionMeter() {
+        return Conversion.rotationsToM(
+            driveMotor.getPosition().getValue(), 
+            SwerveModuleConstants.wheelCircumference,
+            swerveModuleConstants.moduleInfo.driveGearRatio
+        );
+    }
+
+    @Override
+    protected double getVelocityMeter() {
+        return Conversion.RPSToMPS(
+            driveMotor.getVelocity().getValue(), 
+            SwerveModuleConstants.wheelCircumference,
+            swerveModuleConstants.moduleInfo.driveGearRatio
+        );
     }
 }

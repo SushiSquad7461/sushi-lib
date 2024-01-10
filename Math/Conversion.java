@@ -102,6 +102,10 @@ public class Conversion {
         return wheelMPS;
     }
 
+    public static double RPSToMPS(double rps, double circumference, double gearRatio) {
+        return (rps * circumference) / gearRatio;
+    }
+
     /**
      * @param velocity Velocity MPS
      * @param circumference Circumference of Wheel
