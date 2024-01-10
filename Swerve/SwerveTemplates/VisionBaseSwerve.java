@@ -1,4 +1,4 @@
-package SushiFrcLib.Swerve;
+package SushiFrcLib.Swerve.SwerveTemplates;
 
 import SushiFrcLib.Sensors.gyro.Gyro;
 import SushiFrcLib.Swerve.SwerveModules.SwerveModule;
@@ -13,8 +13,8 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
     private final SwerveDrivePoseEstimator odom;
     private final SwerveDriveKinematics kinematics;
 
-    public VisionBaseSwerve(SwerveModule[] swerveMods, Gyro gyro, SwerveDriveKinematics kinematics, double maxSpeed,  boolean tuningMode) {
-        super(swerveMods, gyro, maxSpeed, tuningMode);
+    public VisionBaseSwerve(SwerveModule[] swerveMods, Gyro gyro, SwerveDriveKinematics kinematics) {
+        super(swerveMods, gyro);
         this.kinematics = kinematics;
 
         this.odom = new SwerveDrivePoseEstimator(
@@ -24,9 +24,6 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
             new Pose2d(0,0, getGyro().getAngle())
         );
     }
-
-    public VisionBaseSwerve(SwerveModule[] swerveMods, Gyro gyro, SwerveDriveKinematics kinematics, double maxSpeed) { this(swerveMods, gyro, kinematics, maxSpeed, false); }
-
 
     @Override
     public void driveRobotOriented(Translation2d vector, double rot) {

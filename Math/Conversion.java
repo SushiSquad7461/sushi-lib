@@ -114,8 +114,18 @@ public class Conversion {
         return wheelVelocity;
     }
 
+    public static double MPSToRPS(double velocity, double circumference, double gearRatio){
+        double wheelRPM = ((velocity * 60) / circumference);
+        double wheelVelocity = RPMToFalcon(wheelRPM, gearRatio);
+        return wheelVelocity;
+    }
+
     public static double falconToM(double distance, double circumference, double gearRatio) {
         double rotations = distance / 2048.0;
+        return rotationsToM(rotations, circumference, gearRatio);
+    }
+
+    public static double rotationsToM(double rotations, double circumference, double gearRatio) {
         double axleRotations = rotations / gearRatio;
         return axleRotations * circumference;
     }

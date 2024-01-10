@@ -2,22 +2,25 @@ package SushiFrcLib.Swerve.SwerveModules;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkPIDController;
+
+import SushiFrcLib.Swerve.SwerveConstants.SwerveModuleConstants;
+
+import com.revrobotics.CANSparkBase;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveModuleNeo extends SwerveModule {
     private final CANSparkMax driveMotor;
     private final RelativeEncoder driveEncoder;
-    private final SparkMaxPIDController drivePID;
+    private final SparkPIDController drivePID;
 
     private final CANSparkMax angleMotor;
     private final RelativeEncoder angleEncoder;
-    private final SparkMaxPIDController anglePID;
+    private final SparkPIDController anglePID;
 
 
     private double lastAngle;
@@ -53,16 +56,16 @@ public class SwerveModuleNeo extends SwerveModule {
         //     targetAngle = delta > 90 ? (targetAngle -= 180) : (targetAngle += 180);        
         // }
 
-        drivePID.setReference(state.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
+        drivePID.setReference(state.speedMetersPerSecond, CANSparkBase.ControlType.kVelocity);
 
-        double angle = Math.abs(state.speedMetersPerSecond) <= swerveModuleConstants.maxSpeed * 0.01
+        double angle = Math.abs(state.speedMetersPerSecond) <= swerveModuleConstants.moduleInfo.maxSpeed * 0.01
             ? lastAngle
             :  targetAngle;
 
         anglePID.setReference(angle, CANSparkMax.ControlType.kPosition);
         lastAngle = angle;
 
-        SmartDashboard.putNumber("Current Mod Encoder Angle: " + moduleNumber, Rotation2d.fromRadians(angleEncoder.getPosition()).getDegrees());
+        SmartDashboard.putNumber("Current Encoder Angle: " + swerveModuleConstants.moduleNumber, Rotation2d.fromRadians(angleEncoder.getPosition()).getDegrees());
     }
 
     public SwerveModuleState getState() {
@@ -80,6 +83,6 @@ public class SwerveModuleNeo extends SwerveModule {
 
     @Override
     public void resetToAbsolute() {
-        angleEncoder.setPosition(Units.degreesToRadians(getAngle())); 
+        angleEncoder.setPosition(getCanCoder().getRadians()); 
     }
 }

@@ -1,6 +1,8 @@
-package SushiFrcLib.Swerve;
+package SushiFrcLib.Swerve.SwerveTemplates;
 
 import SushiFrcLib.Sensors.gyro.Gyro;
+import SushiFrcLib.Swerve.CustomSwerve.SwerveKinematics;
+import SushiFrcLib.Swerve.CustomSwerve.SwerveOdom;
 import SushiFrcLib.Swerve.SwerveModules.SwerveModule;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -10,14 +12,11 @@ public abstract class CustomBaseSwerve extends BaseSwerve {
     private final SwerveOdom odom;
     private final SwerveKinematics kinematics;
 
-    public CustomBaseSwerve(SwerveModule[] swerveMods, Gyro gyro, SwerveKinematics kinematics, double maxSpeed,  boolean tuningMode) {
-        super(swerveMods, gyro, maxSpeed, tuningMode);
+    public CustomBaseSwerve(SwerveModule[] swerveMods, Gyro gyro, SwerveKinematics kinematics) {
+        super(swerveMods, gyro);
         this.kinematics = kinematics;
         this.odom = new SwerveOdom(kinematics, getPose());
     }
-
-    public CustomBaseSwerve(SwerveModule[] swerveMods, Gyro gyro, SwerveKinematics kinematics, double maxSpeed) { this(swerveMods, gyro, kinematics, maxSpeed, false); }
-
 
     public void driveRobotOriented(Translation2d vector, double rot) {
         SwerveModuleState[] states = kinematics.getStates(vector, rot);

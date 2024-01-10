@@ -1,12 +1,10 @@
 package SushiFrcLib.Motor;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.sensors.SensorInitializationStrategy;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import SushiFrcLib.Control.PIDConfig;
 
@@ -28,8 +26,8 @@ public class MotorConfig {
             this.mode = mode;
         }
 
-        public NeutralMode getTalonMode() {
-            return mode ? NeutralMode.Coast : NeutralMode.Brake;
+        public NeutralModeValue getTalonMode() {
+            return mode ? NeutralModeValue.Coast : NeutralModeValue.Brake;
         }
 
         public IdleMode getSparkMaxMode() {
@@ -60,26 +58,24 @@ public class MotorConfig {
 
    public MotorConfig(int canId, String canBus, int currentLimit, Boolean inversion, Mode mode) { this(canId, canBus, currentLimit, inversion, PIDConfig.getZeroPid(), mode);}
 
-   public void setTalonConfig(WPI_TalonFX motor) {
+   public void setTalonConfig(TalonFX motor) {
         motor.setInverted(inversion);
 
-        if (currentLimit < 0) {
-            motor.configSupplyCurrentLimit(MotorHelper.createCurrentLimt(currentLimit));
+        if (currentLimit > 0) {
+            motor.getConfigurator().apply(MotorHelper.createSupplyCurrentLimit(currentLimit));
         }
 
         motor.setNeutralMode(mode.getTalonMode());
-        motor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
-
         pid.setPid(motor);
    }
 
-   public WPI_TalonFX createTalon() {
-        WPI_TalonFX motor = new WPI_TalonFX(canId, canBus);
+   public TalonFX createTalon() {
+        TalonFX motor = new TalonFX(canId, canBus);
         setTalonConfig(motor);
         return motor;
    }
 
-   public void setCanSparkMaxConfig(CANSparkMax motor, CANSparkMaxLowLevel.MotorType type) {
+   public void setCanSparkMaxConfig(CANSparkMax motor, CANSparkLowLevel.MotorType type) {
         motor.restoreFactoryDefaults();
         motor.setInverted(inversion);
 
@@ -89,16 +85,16 @@ public class MotorConfig {
 
         motor.setIdleMode(mode.getSparkMaxMode());
 
-        if (type == CANSparkMaxLowLevel.MotorType.kBrushless) {
+        if (type == CANSparkLowLevel.MotorType.kBrushless) {
             motor.getEncoder().setPosition(0);
         }
 
         pid.setPid(motor);
    }
 
-   public CANSparkMax createSparkMax() { return createSparkMax(CANSparkMaxLowLevel.MotorType.kBrushless); }
+   public CANSparkMax createSparkMax() { return createSparkMax(CANSparkLowLevel.MotorType.kBrushless); }
 
-   public CANSparkMax createSparkMax(CANSparkMaxLowLevel.MotorType type) {
+   public CANSparkMax createSparkMax(CANSparkLowLevel.MotorType type) {
         CANSparkMax motor = new CANSparkMax(canId, type);
         setCanSparkMaxConfig(motor, type);
         return motor;

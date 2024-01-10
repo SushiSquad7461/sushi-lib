@@ -1,4 +1,4 @@
-package SushiFrcLib.Swerve;
+package SushiFrcLib.Swerve.SwerveTemplates;
 
 import SushiFrcLib.Sensors.gyro.Gyro;
 import SushiFrcLib.Swerve.SwerveModules.SwerveModule;
@@ -21,14 +21,15 @@ abstract public class BaseSwerve extends SubsystemBase {
     private final Field2d field;
 
     private final double maxSpeed;
+    private final double maxAngularVelocity;
 
     private final boolean tuningMode;
 
     private Pose2d oldPose;
     private double oldTimeStamp;
 
-    public BaseSwerve(SwerveModule[] swerveMods, Gyro gyro, double maxSpeed,  boolean tuningMode) {
-        this.tuningMode = tuningMode;
+    public BaseSwerve(SwerveModule[] swerveMods, Gyro gyro) {
+        this.tuningMode = swerveMods[0].swerveModuleConstants.swerveTuningMode;
 
         this.gyro = gyro;
         gyro.zeroGyro();
@@ -37,12 +38,11 @@ abstract public class BaseSwerve extends SubsystemBase {
 
         this.field = new Field2d();
 
-        this.maxSpeed = maxSpeed;
+        this.maxSpeed = swerveMods[0].swerveModuleConstants.moduleInfo.maxSpeed;
+        this.maxAngularVelocity = swerveMods[0].swerveModuleConstants.moduleInfo.maxAngularVelocity;
 
         SmartDashboard.putData("Field", field);
     }
-
-    public BaseSwerve(SwerveModule[] swerveMods, Gyro gyro, double maxSpeed) { this(swerveMods, gyro, maxSpeed, false); }
 
     public void drive(ChassisSpeeds chassisSpeeds) {
         driveRobotOriented(
@@ -66,14 +66,17 @@ abstract public class BaseSwerve extends SubsystemBase {
 
         for (SwerveModule i : swerveMods) {
             if (tuningMode) {
-                SmartDashboard.putString("Swerve Module State " + i.moduleNumber, states[i.moduleNumber].speedMetersPerSecond + ", " + states[i.moduleNumber].angle.getDegrees());
+                SmartDashboard.putString("Swerve Module State " + i.swerveModuleConstants.moduleNumber, states[i.swerveModuleConstants.moduleNumber].speedMetersPerSecond + ", " + states[i.swerveModuleConstants.moduleNumber].angle.getDegrees());
             }
-            i.setDesiredState(states[i.moduleNumber]);
+            i.setDesiredState(states[i.swerveModuleConstants.moduleNumber]);
         }
     }
 
     // Vector is in mps, and rot is in radians per sec
     public void drive(Translation2d vector, double rot) {
+        vector = vector.times(maxSpeed);
+        rot *= maxAngularVelocity;
+
         if (tuningMode) {
             SmartDashboard.putString("Input: ", vector.getX() + ", " + vector.getY() + ", " + rot);
         }
@@ -97,7 +100,7 @@ abstract public class BaseSwerve extends SubsystemBase {
         SwerveModulePosition[] ret = new SwerveModulePosition[]{null, null, null, null};
 
         for (SwerveModule i : swerveMods) {
-            ret[i.moduleNumber] = i.getPose();
+            ret[i.swerveModuleConstants.moduleNumber] = i.getPose();
         } 
 
         return ret;
@@ -142,7 +145,7 @@ abstract public class BaseSwerve extends SubsystemBase {
 
         for (SwerveModule i : swerveMods) {
             if (tuningMode) {
-                SmartDashboard.putNumber("Swerve Module Angle " + i.moduleNumber, i.getAngle());
+                SmartDashboard.putNumber("Swerve Module Angle " + i.swerveModuleConstants.moduleNumber, i.getAbsoluteAngleDegrees());
             }
             i.log();
         }

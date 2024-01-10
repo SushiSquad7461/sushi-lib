@@ -1,9 +1,9 @@
 package SushiFrcLib.Control;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
 
-import SushiFrcLib.SmartDashboard.PIDTuning;
 import edu.wpi.first.math.controller.PIDController;
 
 public class PIDConfig {
@@ -35,11 +35,13 @@ public class PIDConfig {
 
    public static PIDConfig getPid(double p) { return new PIDConfig(p); }
 
-   public void setPid(WPI_TalonFX talon) {
-    talon.config_kP(0, P);
-    talon.config_kI(0, I);
-    talon.config_kD(0, D);
-    talon.config_kF(0, F);
+   public void setPid(TalonFX talon) {
+      Slot0Configs slot0Configs = new Slot0Configs();
+      slot0Configs.kV = F;
+      slot0Configs.kP = P;
+      slot0Configs.kI = I;
+      slot0Configs.kD = D;
+      talon.getConfigurator().apply(slot0Configs);
    }
 
    public void setPid(CANSparkMax sparkMax) {

@@ -1,29 +1,28 @@
 package SushiFrcLib.Sensors.absoluteEncoder;
 
-import com.ctre.phoenix.sensors.WPI_CANCoder;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
-import com.ctre.phoenix.sensors.AbsoluteSensorRange;
-import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
 public class CANCoder {
-    private double offset;
-    private WPI_CANCoder encoder;
+    private CANcoder encoder;
 
-    public CANCoder(int id, double offset, boolean inverted) {
-        this.offset = offset;
-        this.encoder = new WPI_CANCoder(id);
+    public CANCoder(int id, Rotation2d offset, SensorDirectionValue inverted) {
+        this.encoder = new CANcoder(id);
 
-        this.encoder.configFactoryDefault();
-        this.encoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
-        this.encoder.configSensorDirection(inverted);
-        this.encoder.configSensorInitializationStrategy(
-            SensorInitializationStrategy.BootToAbsolutePosition
-        );
+        CANcoderConfiguration config = new CANcoderConfiguration();
+        config.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
+        config.MagnetSensor.SensorDirection = inverted;
+        config.MagnetSensor.MagnetOffset = offset.getRotations();
+
+        encoder.getConfigurator().apply(config);
     }
 
     public Rotation2d getPosition() {
-        return Rotation2d.fromDegrees(encoder.getAbsolutePosition() - offset);
+        return Rotation2d.fromRotations(encoder.getAbsolutePosition().getValue());
     }
 }

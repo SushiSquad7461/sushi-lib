@@ -1,4 +1,4 @@
-package SushiFrcLib.Swerve;
+package SushiFrcLib.Swerve.CustomSwerve;
 
 import org.ejml.simple.SimpleMatrix;
 

@@ -1,6 +1,8 @@
 package SushiFrcLib.Sensors.gyro;
 
-import com.ctre.phoenix.sensors.Pigeon2;
+import com.ctre.phoenix6.configs.Pigeon2Configuration;
+import com.ctre.phoenix6.hardware.Pigeon2;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 
 /**
@@ -14,9 +16,7 @@ public class Pigeon extends Gyro {
      * Set id and inversion of pigeon.
      */
     public Pigeon(int id, boolean inversion) {
-        gyro = new Pigeon2(id);
-        gyro.configFactoryDefault();
-        this.inversion = inversion;
+        this(id, inversion, "");
     }
 
     /**
@@ -24,7 +24,7 @@ public class Pigeon extends Gyro {
      */
     public Pigeon(int id, boolean inversion, String canBusName) {
         gyro = new Pigeon2(id, canBusName);
-        gyro.configFactoryDefault();
+        gyro.getConfigurator().apply(new Pigeon2Configuration());
         this.inversion = inversion;
     }
 
@@ -38,15 +38,15 @@ public class Pigeon extends Gyro {
     }
 
     public double getYaw() {
-        return gyro.getYaw();
+        return gyro.getYaw().getValue();
     }
 
     public double getPitch() {
-        return gyro.getPitch();
+        return gyro.getPitch().getValue();
     }
 
     public double getRoll() {
-        return gyro.getRoll();
+        return gyro.getRoll().getValue();
     }
 
     @Override

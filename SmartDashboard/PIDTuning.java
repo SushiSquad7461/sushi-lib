@@ -1,6 +1,7 @@
 package SushiFrcLib.SmartDashboard;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
 
 import SushiFrcLib.Control.PIDConfig;
@@ -30,10 +31,14 @@ public class PIDTuning {
         if (kF.hasChanged()) motor.getPIDController().setFF(kF.get());
     }
 
-    public void updatePID(WPI_TalonFX motor){
-        if (kP.hasChanged()) motor.config_kP(0, kP.get());
-        if (kI.hasChanged()) motor.config_kI(0, kI.get());
-        if (kD.hasChanged()) motor.config_kD(0, kD.get());
-        if (kF.hasChanged()) motor.config_kF(0, kF.get());
+    public void updatePID(TalonFX motor){
+        if (kP.hasChanged() || kI.hasChanged() || kD.hasChanged() || kF.hasChanged()) {
+            Slot0Configs slot0Configs = new Slot0Configs();
+            slot0Configs.kV = kF.get();
+            slot0Configs.kP = kP.get();
+            slot0Configs.kI = kI.get();
+            slot0Configs.kD = kD.get();
+            motor.getConfigurator().apply(slot0Configs);
+        }
     }
 }

@@ -1,7 +1,10 @@
 package SushiFrcLib.Swerve.SwerveModules;
 
-import com.ctre.phoenix.sensors.WPI_CANCoder;
 
+
+import com.ctre.phoenix6.hardware.CANcoder;
+
+import SushiFrcLib.Swerve.SwerveConstants.SwerveModuleConstants;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -9,15 +12,10 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 
 public abstract class SwerveModule {
-    public int moduleNumber;
-
-    protected double angleOffset;
-    protected SwerveModuleConstants swerveModuleConstants;
-    protected WPI_CANCoder angleEncoder;
+    public SwerveModuleConstants swerveModuleConstants;
+    protected CANcoder angleEncoder;
 
     public SwerveModule(SwerveModuleConstants moduleConstants) {
-        this.moduleNumber = moduleConstants.moduleNumber;
-        angleOffset = moduleConstants.angleOffset;
         angleEncoder = moduleConstants.getCanCoder();
         this.swerveModuleConstants = moduleConstants;
     }
@@ -31,10 +29,10 @@ public abstract class SwerveModule {
     public void log() {}
 
     public Rotation2d getCanCoder() {
-        return Rotation2d.fromDegrees(angleEncoder.getAbsolutePosition());
+        return Rotation2d.fromRotations(angleEncoder.getAbsolutePosition().getValue());
     }
 
-    public double getAngle() {
-        return MathUtil.inputModulus(getCanCoder().getDegrees() - angleOffset, 0, 360);
+    public double getAbsoluteAngleDegrees() {
+        return MathUtil.inputModulus(getCanCoder().getDegrees(), 0, 360);
     }
 }
