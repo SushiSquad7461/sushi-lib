@@ -1,10 +1,10 @@
 package SushiFrcLib.Swerve.SwerveConstants;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -27,9 +27,9 @@ public class SwerveModuleConstants {
 
     public final Rotation2d angleOffset;
 
-    public final static NeutralMode angleNeutralMode = NeutralMode.Coast;
+    public final static NeutralModeValue angleNeutralMode = NeutralModeValue.Coast;
     public final static IdleMode angleIdleMode = IdleMode.kCoast;
-    public static NeutralMode driveNeutralMode = NeutralMode.Brake;
+    public static NeutralModeValue driveNeutralMode = NeutralModeValue.Brake;
     public static IdleMode driveIdleMode = IdleMode.kBrake;
     
     public final static double wheelCircumference = Units.inchesToMeters(4) * Math.PI;

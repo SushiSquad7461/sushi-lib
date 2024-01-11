@@ -1,7 +1,5 @@
 package SushiFrcLib.Swerve.SwerveModules;
 
-
-
 import com.ctre.phoenix6.hardware.CANcoder;
 
 import SushiFrcLib.Swerve.CTREModuleState;
@@ -19,7 +17,7 @@ public abstract class SwerveModule {
     public SwerveModule(SwerveModuleConstants moduleConstants) {
         angleEncoder = moduleConstants.getCanCoder();
         this.swerveModuleConstants = moduleConstants;
-        lastAngle = getPose().angle;
+        lastAngle = Rotation2d.fromDegrees(0);
     }
 
     abstract public void resetToAbsolute();

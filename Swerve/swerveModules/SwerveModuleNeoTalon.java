@@ -22,7 +22,6 @@ public class SwerveModuleNeoTalon extends SwerveModule {
 
     public SwerveModuleNeoTalon(SwerveModuleConstants constants) {
         super(constants);
-
         driveMotor = constants.getDriveFalcon(); 
 
         angleMotor = constants.getAngleNeo();
@@ -32,6 +31,7 @@ public class SwerveModuleNeoTalon extends SwerveModule {
         resetToAbsolute();
 
         drivePID = new VelocityVoltage(0,0,false,0,0,false,false,false); 
+        lastAngle = getPose().angle;
     }
 
 
