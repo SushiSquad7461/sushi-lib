@@ -70,7 +70,7 @@ public class SwerveModuleConstants {
 
         for (int i=0; i < 4; ++i) {
             ret[i] = new SwerveModuleConstants(
-                i+1,
+                i,
                 angleOffsets[i],
                 moduleInfo,
                 swerveTuningMode,
@@ -82,12 +82,12 @@ public class SwerveModuleConstants {
         return ret;
     }
 
-    public CANSparkMax getDriveNeo() throws UnsupportedOperationException { 
+    public CANSparkMax getDriveNeo() { 
         CANSparkMax neo = new CANSparkMax(angleMotorId, MotorType.kBrushless);
-        Constants.Swerve.ANGLE_CONFIG.setCanSparkMaxConfig(neo, MotorType.kBrushless);
+        driveConfig.setCanSparkMaxConfig(neo, MotorType.kBrushless);
         MotorHelper.setConversionFactor(neo, driveRotationsToMeters);
         return neo;    
-    };
+    }
 
     public TalonFX getDriveFalcon() {
         TalonFX drive = new TalonFX(driveMotorId, Constants.Ports.CANIVORE_NAME);
@@ -97,14 +97,14 @@ public class SwerveModuleConstants {
 
     public CANSparkMax getAngleNeo() {
         CANSparkMax neo = new CANSparkMax(angleMotorId, MotorType.kBrushless);
-        Constants.Swerve.ANGLE_CONFIG.setCanSparkMaxConfig(neo, MotorType.kBrushless);
+        angleConfig.setCanSparkMaxConfig(neo, MotorType.kBrushless);
         MotorHelper.setDegreeConversionFactor(neo, moduleInfo.angleGearRatio);
         return neo;
     }
 
     public TalonFX getAngleFalcon() {
         TalonFX drive = new TalonFX(driveMotorId, Constants.Ports.CANIVORE_NAME);
-        driveConfig.setTalonConfig(drive);
+        angleConfig.setTalonConfig(drive);
         return drive;
     }
 
@@ -113,8 +113,8 @@ public class SwerveModuleConstants {
 
         CANcoderConfiguration config = new CANcoderConfiguration();
         config.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
-        config.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
-        config.MagnetSensor.MagnetOffset = angleOffset.getRotations(); 
+        config.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
+        config.MagnetSensor.MagnetOffset = -angleOffset.getRotations(); 
 
         angleEncoder.getConfigurator().apply(config);
 

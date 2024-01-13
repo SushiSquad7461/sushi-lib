@@ -16,6 +16,7 @@ public abstract class CustomBaseSwerve extends BaseSwerve {
         super(swerveMods, gyro);
         this.kinematics = kinematics;
         this.odom = new SwerveOdom(kinematics, getPose());
+        setOldPose(this.odom.getPose());
     }
 
     public void driveRobotOriented(Translation2d vector, double rot) {

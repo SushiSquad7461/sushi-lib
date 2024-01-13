@@ -37,7 +37,7 @@ public class SwerveModuleNeoTalon extends SwerveModule {
 
     @Override
     public void resetToAbsolute() {
-        angleEncoder.setPosition(getCanCoder().getRotations()); 
+        angleEncoder.setPosition(getCanCoder().getDegrees()); 
         lastAngle = getCanCoder();
     }
 
@@ -48,6 +48,7 @@ public class SwerveModuleNeoTalon extends SwerveModule {
             SmartDashboard.putNumber("Current Reltaive Encoder Angle " + swerveModuleConstants.moduleNumber, MathUtil.inputModulus(angleEncoder.getPosition(), 0, 360));
             SmartDashboard.putNumber("Current Reltaive Encoder Angle Non Mod " + swerveModuleConstants.moduleNumber, angleEncoder.getPosition());
             SmartDashboard.putNumber("Current Drive Velocity" + swerveModuleConstants.moduleNumber, driveMotor.getVelocity().getValue());
+            SmartDashboard.putNumber("CanCoder Angle" + swerveModuleConstants.moduleNumber, getAbsoluteAngleDegrees());
         }
     }
 
@@ -63,7 +64,7 @@ public class SwerveModuleNeoTalon extends SwerveModule {
             )
         );
 
-        anglePID.setReference(angleRadians.getRadians(), CANSparkMax.ControlType.kPosition);
+        anglePID.setReference(angleRadians.getDegrees(), CANSparkMax.ControlType.kPosition);
 
 
         if (swerveModuleConstants.swerveTuningMode) {
@@ -72,7 +73,7 @@ public class SwerveModuleNeoTalon extends SwerveModule {
                 SwerveModuleConstants.wheelCircumference,
                 swerveModuleConstants.moduleInfo.driveGearRatio
             ));
-            SmartDashboard.putNumber("Target Relative Encoder Angle " + swerveModuleConstants.moduleNumber, angleRadians.getRadians());
+            SmartDashboard.putNumber("Target Relative Encoder Angle " + swerveModuleConstants.moduleNumber, angleRadians.getDegrees());
         }
     }
 
