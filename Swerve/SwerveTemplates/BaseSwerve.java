@@ -106,6 +106,16 @@ abstract public class BaseSwerve extends SubsystemBase {
         return ret;
     }
 
+    public SwerveModuleState[] getState() {
+        SwerveModuleState[] ret = new SwerveModuleState[]{null, null, null, null};
+
+        for (SwerveModule i : swerveMods) {
+            ret[i.swerveModuleConstants.moduleNumber] = i.getState();
+        } 
+
+        return ret;
+    }
+
     protected void setGyro(Pose2d pose) {
         gyro.setAngle(pose.getRotation());
     }
@@ -157,4 +167,6 @@ abstract public class BaseSwerve extends SubsystemBase {
         oldPose = getOdomPose();
         oldTimeStamp = System.currentTimeMillis();
     }
+
+    abstract public ChassisSpeeds getChassisSpeeds();
 }

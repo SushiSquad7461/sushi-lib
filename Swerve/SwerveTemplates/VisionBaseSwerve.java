@@ -37,6 +37,11 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
     }
 
     @Override
+    public ChassisSpeeds getChassisSpeeds() {
+        return kinematics.toChassisSpeeds(getState());
+    }
+
+    @Override
     public Pose2d getOdomPose() { return odom.getEstimatedPosition(); }
 
     @Override
