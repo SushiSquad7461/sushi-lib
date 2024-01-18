@@ -38,7 +38,7 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
 
     @Override
     public ChassisSpeeds getChassisSpeeds() {
-        return kinematics.toChassisSpeeds(getState());
+        return kinematics.toChassisSpeeds(getStates());
     }
 
     @Override
