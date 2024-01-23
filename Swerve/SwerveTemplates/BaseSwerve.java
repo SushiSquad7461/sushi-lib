@@ -25,8 +25,8 @@ abstract public class BaseSwerve extends SubsystemBase {
 
     private final boolean tuningMode;
 
-    protected Pose2d oldPose;
-    protected double oldTimeStamp;
+    protected Pose2d prevPose;
+    protected double prevPoseTimeStamp;
 
     public BaseSwerve(SwerveModule[] swerveMods, Gyro gyro) {
         this.tuningMode = swerveMods[0].swerveModuleConstants.swerveTuningMode;
@@ -108,7 +108,8 @@ abstract public class BaseSwerve extends SubsystemBase {
         return ret;
     }
 
-    public SwerveModuleState[] getState() {
+
+    public SwerveModuleState[] getStates() {
         SwerveModuleState[] ret = new SwerveModuleState[] { null, null, null, null };
 
         for (SwerveModule i : swerveMods) {
@@ -139,21 +140,20 @@ abstract public class BaseSwerve extends SubsystemBase {
     }
 
     public double getAngleVelo() {
-        return 1000 * (getOdomPose().getRotation().getRadians() - oldPose.getRotation().getRadians())
-                / (System.currentTimeMillis() - oldTimeStamp); // in radians per milisecond
+        return 1000 * (getOdomPose().getRotation().getRadians() - prevPose.getRotation().getRadians())
+                / (System.currentTimeMillis() - prevPoseTimeStamp); // in radians per milisecond
     }
 
     public double getDriveVelo() {
-        return 1000 * (getOdomPose().getTranslation().getNorm() - oldPose.getTranslation().getNorm())
-                / (System.currentTimeMillis() - oldTimeStamp); // in meters per milisecond
+        return 1000 * (getOdomPose().getTranslation().getNorm() - prevPose.getTranslation().getNorm())
+                / (System.currentTimeMillis() - prevPoseTimeStamp); // in meters per milisecond
     }
 
-    protected void setOldPose(Pose2d newPose) {
-        oldPose = newPose;
-        oldTimeStamp = System.currentTimeMillis();
+    protected void setPrevPose(Pose2d newPose) {
+        prevPose = newPose;
+        prevPoseTimeStamp = System.currentTimeMillis();
     }
 
-    @Override
     public void periodic() {
         SmartDashboard.putNumber("Angle", MathUtil.inputModulus(gyro.getAngle().getDegrees(), 0, 360));
 
@@ -162,9 +162,9 @@ abstract public class BaseSwerve extends SubsystemBase {
             SmartDashboard.putNumber("Robot Velo", getDriveVelo());
         }
 
-        setOldPose(getOdomPose());
+        Pose2d newOdomPose = getOdomPose();
 
-        field.setRobotPose(getOdomPose());
+        field.setRobotPose(newOdomPose);
 
         for (SwerveModule i : swerveMods) {
             if (tuningMode) {
@@ -174,8 +174,7 @@ abstract public class BaseSwerve extends SubsystemBase {
             i.log();
         }
 
-        oldPose = getOdomPose();
-        oldTimeStamp = System.currentTimeMillis();
+        setPrevPose(newOdomPose);
     }
 
     abstract public ChassisSpeeds getChassisSpeeds();

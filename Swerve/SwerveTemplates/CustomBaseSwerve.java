@@ -16,7 +16,7 @@ public abstract class CustomBaseSwerve extends BaseSwerve {
         super(swerveMods, gyro);
         this.kinematics = kinematics;
         this.odom = new SwerveOdom(kinematics, getPose());
-        setOldPose(this.odom.getPose());
+        setPrevPose(this.odom.getPose());
     }
 
     public void driveRobotOriented(Translation2d vector, double rot) {
@@ -24,17 +24,19 @@ public abstract class CustomBaseSwerve extends BaseSwerve {
         driveRobotOriented(states);
     }
 
-    public void setOdomPose(Pose2d pose) { 
+    public void setOdomPose(Pose2d pose) {
         odom.setPose(pose);
         setGyro(pose);
     }
 
     @Override
-    public Pose2d getOdomPose() { return odom.getPose(); }
+    public Pose2d getOdomPose() {
+        return odom.getPose();
+    }
 
     @Override
-    public void periodic() { 
+    public void periodic() {
         super.periodic();
         odom.updatePoseWithGyro(getPose(), getGyro().getAngle());
-    } 
+    }
 }
