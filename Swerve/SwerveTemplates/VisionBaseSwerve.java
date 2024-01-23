@@ -18,20 +18,22 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
         this.kinematics = kinematics;
 
         this.odom = new SwerveDrivePoseEstimator(
-            kinematics, 
-            getGyro().getAngle(),
-            getPose(),
-            new Pose2d(0,0, getGyro().getAngle())
-        );
+                kinematics,
+                getGyro().getAngle(),
+                getPose(),
+                new Pose2d(0, 0, getGyro().getAngle()));
+
+        setOldPose(this.odom.getEstimatedPosition());
     }
 
     @Override
     public void driveRobotOriented(Translation2d vector, double rot) {
-        SwerveModuleState[] states = kinematics.toSwerveModuleStates(new ChassisSpeeds(vector.getX(), vector.getY(), rot));
+        SwerveModuleState[] states = kinematics
+                .toSwerveModuleStates(new ChassisSpeeds(vector.getX(), vector.getY(), rot));
         driveRobotOriented(states);
     }
 
-    public void setOdomPose(Pose2d pose) { 
+    public void setOdomPose(Pose2d pose) {
         odom.resetPosition(pose.getRotation(), getPose(), pose);
         setGyro(pose);
     }
@@ -42,11 +44,13 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
     }
 
     @Override
-    public Pose2d getOdomPose() { return odom.getEstimatedPosition(); }
+    public Pose2d getOdomPose() {
+        return odom.getEstimatedPosition();
+    }
 
     @Override
-    public void periodic() { 
+    public void periodic() {
         super.periodic();
         odom.update(getGyro().getAngle(), getPose());
-    } 
+    }
 }

@@ -18,7 +18,7 @@ abstract public class BaseSwerve extends SubsystemBase {
     private final SwerveModule[] swerveMods;
     private final Gyro gyro;
 
-    private final Field2d field;
+    protected final Field2d field;
 
     private final double maxSpeed;
     private final double maxAngularVelocity;
@@ -107,6 +107,7 @@ abstract public class BaseSwerve extends SubsystemBase {
 
         return ret;
     }
+
 
     public SwerveModuleState[] getStates() {
         SwerveModuleState[] ret = new SwerveModuleState[] { null, null, null, null };
