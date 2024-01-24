@@ -1,5 +1,4 @@
 package SushiFrcLib.Swerve.SwerveModules;
-import SushiFrcLib.Math.Conversion;
 import SushiFrcLib.Swerve.SwerveConstants.SwerveModuleConstants;
 
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -54,49 +53,27 @@ public class SwerveModuleNeoTalon extends SwerveModule {
 
     @Override
     protected void applySwerveModuleState(double velocityMPS, Rotation2d angleRadians) {
-        driveMotor.setControl(
-            drivePID.withVelocity(
-                Conversion.MPSToFalcon(
-                    velocityMPS, 
-                    SwerveModuleConstants.wheelCircumference,
-                    swerveModuleConstants.moduleInfo.driveGearRatio
-                )
-            )
-        );
-
+        driveMotor.setControl(drivePID.withVelocity(velocityMPS));
         anglePID.setReference(angleRadians.getDegrees(), CANSparkMax.ControlType.kPosition);
 
-
         if (swerveModuleConstants.swerveTuningMode) {
-            SmartDashboard.putNumber("Target Drive Velocity: " + swerveModuleConstants.moduleNumber,  Conversion.MPSToFalcon(
-                velocityMPS, 
-                SwerveModuleConstants.wheelCircumference,
-                swerveModuleConstants.moduleInfo.driveGearRatio
-            ));
+            SmartDashboard.putNumber("Target Drive Velocity: " + swerveModuleConstants.moduleNumber, velocityMPS);
             SmartDashboard.putNumber("Target Relative Encoder Angle " + swerveModuleConstants.moduleNumber, angleRadians.getDegrees());
         }
     }
 
     @Override
     protected Rotation2d getEncoderAngle() {
-        return Rotation2d.fromRadians(angleEncoder.getPosition());
+        return Rotation2d.fromDegrees(angleEncoder.getPosition());
     }
 
     @Override
     protected double getPositionMeter() {
-        return Conversion.rotationsToM(
-            driveMotor.getPosition().getValue(), 
-            SwerveModuleConstants.wheelCircumference,
-            swerveModuleConstants.moduleInfo.driveGearRatio
-        );
+        return driveMotor.getPosition().getValue();
     }
 
     @Override
     protected double getVelocityMeter() {
-        return Conversion.RPSToMPS(
-            driveMotor.getVelocity().getValue(), 
-            SwerveModuleConstants.wheelCircumference,
-            swerveModuleConstants.moduleInfo.driveGearRatio
-        );
+        return driveMotor.getVelocity().getValue();
     }
 }

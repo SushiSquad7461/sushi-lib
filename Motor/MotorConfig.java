@@ -1,6 +1,8 @@
 package SushiFrcLib.Motor;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
@@ -58,22 +60,24 @@ public class MotorConfig {
 
    public MotorConfig(int canId, String canBus, int currentLimit, Boolean inversion, Mode mode) { this(canId, canBus, currentLimit, inversion, PIDConfig.getZeroPid(), mode);}
 
-   public void setTalonConfig(TalonFX motor) {
-        motor.setInverted(inversion);
+   public TalonFXConfiguration getTalonConfig() {
+        TalonFXConfiguration talonConfig = new TalonFXConfiguration();
 
         if (currentLimit > 0) {
-            motor.getConfigurator().apply(MotorHelper.createSupplyCurrentLimit(currentLimit));
+            MotorHelper.updateSupplyCurrentLimit(currentLimit, talonConfig);
         }
 
-        motor.setNeutralMode(mode.getTalonMode());
-        pid.setPid(motor);
+        talonConfig.MotorOutput.NeutralMode = mode.getTalonMode();
+        talonConfig.MotorOutput.Inverted = inversion ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
 
-        motor.setPosition(0);
+        pid.updatePidConfig(talonConfig);
+
+        return talonConfig;
    }
 
    public TalonFX createTalon() {
         TalonFX motor = new TalonFX(canId, canBus);
-        setTalonConfig(motor);
+        motor.getConfigurator().apply(getTalonConfig());
         return motor;
    }
 

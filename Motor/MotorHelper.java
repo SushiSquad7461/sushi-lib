@@ -1,6 +1,7 @@
 package SushiFrcLib.Motor;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -18,6 +19,16 @@ public class MotorHelper {
         setConversionFactor(motor, 360 / gearing);
     }
 
+    public static TalonFXConfiguration setConversionFactor(TalonFXConfiguration config, double factor) {
+        config.Feedback.SensorToMechanismRatio = factor;
+        return config;
+    }
+
+    public static TalonFXConfiguration setDegreeConversionFactor(TalonFXConfiguration config, double gearing) {
+        return setConversionFactor(config, 360 / gearing);
+    }
+
+
     public static CurrentLimitsConfigs createSupplyCurrentLimit(int currentLimit) {
         CurrentLimitsConfigs config = new CurrentLimitsConfigs();
 
@@ -27,6 +38,13 @@ public class MotorHelper {
         config.SupplyCurrentLimitEnable = true;
 
         return config;
+    }
+
+    public static void updateSupplyCurrentLimit(int currentLimit, TalonFXConfiguration config) {
+        config.CurrentLimits.SupplyCurrentLimit = currentLimit;
+        config.CurrentLimits.SupplyCurrentLimit = currentLimit;
+        config.CurrentLimits.SupplyCurrentLimit = 0;
+        config.CurrentLimits.SupplyCurrentLimitEnable = true;
     }
 
     public static PIDController getWpiPidController(double p, double i, double d) {
