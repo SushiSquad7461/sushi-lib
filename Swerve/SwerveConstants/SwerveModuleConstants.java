@@ -15,6 +15,7 @@ import SushiFrcLib.Motor.MotorConfig;
 import SushiFrcLib.Motor.MotorHelper;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 /**
@@ -58,7 +59,8 @@ public class SwerveModuleConstants {
 
         this.moduleInfo = moduleInfo;
 
-        driveRotationsToMeters = wheelCircumference / moduleInfo.driveGearRatio;
+        driveRotationsToMeters = wheelCircumference * moduleInfo.driveGearRatio;
+        SmartDashboard.putNumber("Rot to Meters", driveRotationsToMeters);
 
         this.swerveTuningMode = swerveTuningMode;
 
@@ -93,7 +95,7 @@ public class SwerveModuleConstants {
     public TalonFX getDriveFalcon() {
         TalonFX drive = new TalonFX(driveMotorId, Constants.Ports.CANIVORE_NAME);
         TalonFXConfiguration config = driveConfig.getTalonConfig();
-        MotorHelper.setConversionFactor(config, driveRotationsToMeters);
+        // config.Feedback.SensorToMechanismRatio = moduleInfo.driveGearRatio;
         drive.getConfigurator().apply(config);
         return drive;
     }

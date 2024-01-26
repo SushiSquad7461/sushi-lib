@@ -46,10 +46,13 @@ public class PIDConfig {
    }
 
    public void updatePidConfig(TalonFXConfiguration config) {
-      config.Slot0.kV = F;
-      config.Slot0.kP = P;
-      config.Slot0.kI = I;
-      config.Slot0.kD = D;
+      Slot0Configs slot0Configs = new Slot0Configs();
+   
+      slot0Configs.kP = P;
+      slot0Configs.kI = I;
+      slot0Configs.kD = D;
+
+      config.withSlot0(slot0Configs);
    }
 
    public void setPid(CANSparkMax sparkMax) {
