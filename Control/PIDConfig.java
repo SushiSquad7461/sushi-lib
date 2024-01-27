@@ -48,6 +48,7 @@ public class PIDConfig {
    public void updatePidConfig(TalonFXConfiguration config) {
       Slot0Configs slot0Configs = new Slot0Configs();
    
+      slot0Configs.kV = F;
       slot0Configs.kP = P;
       slot0Configs.kI = I;
       slot0Configs.kD = D;
