@@ -170,6 +170,8 @@ abstract public class BaseSwerve extends SubsystemBase {
             if (tuningMode) {
                 SmartDashboard.putNumber("Swerve Module Angle " + i.swerveModuleConstants.moduleNumber,
                         i.getAbsoluteAngleDegrees());
+
+                i.updatePID();
             }
             i.log();
         }

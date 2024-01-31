@@ -20,14 +20,13 @@ public class MotorHelper {
     }
 
     public static TalonFXConfiguration setConversionFactor(TalonFXConfiguration config, double factor) {
-        config.Feedback.SensorToMechanismRatio = factor;
+        config.Feedback.SensorToMechanismRatio = 1.0 / factor;
         return config;
     }
 
     public static TalonFXConfiguration setDegreeConversionFactor(TalonFXConfiguration config, double gearing) {
-        return setConversionFactor(config, 360 / gearing);
+        return setConversionFactor(config, (360.0 / gearing));
     }
-
 
     public static CurrentLimitsConfigs createSupplyCurrentLimit(int currentLimit) {
         CurrentLimitsConfigs config = new CurrentLimitsConfigs();
@@ -42,8 +41,8 @@ public class MotorHelper {
 
     public static void updateSupplyCurrentLimit(int currentLimit, TalonFXConfiguration config) {
         config.CurrentLimits.SupplyCurrentLimit = currentLimit;
-        config.CurrentLimits.SupplyCurrentLimit = currentLimit;
-        config.CurrentLimits.SupplyCurrentLimit = 0;
+        config.CurrentLimits.SupplyTimeThreshold = currentLimit;
+        config.CurrentLimits.SupplyCurrentThreshold = 0;
         config.CurrentLimits.SupplyCurrentLimitEnable = true;
     }
 

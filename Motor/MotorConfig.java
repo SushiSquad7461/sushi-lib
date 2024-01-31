@@ -68,7 +68,7 @@ public class MotorConfig {
         }
 
         talonConfig.MotorOutput.NeutralMode = mode.getTalonMode();
-        talonConfig.MotorOutput.Inverted = inversion ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
+        talonConfig.MotorOutput.Inverted = inversion ? InvertedValue.CounterClockwise_Positive : InvertedValue.Clockwise_Positive;
 
         pid.updatePidConfig(talonConfig);
 

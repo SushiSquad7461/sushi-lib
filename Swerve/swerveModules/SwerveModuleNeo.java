@@ -59,4 +59,10 @@ public class SwerveModuleNeo extends SwerveModule {
     protected double getVelocityMeter() {
         return driveEncoder.getVelocity();
     }
+
+    @Override
+    public void updatePID() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updatePID'");
+    }
 }
