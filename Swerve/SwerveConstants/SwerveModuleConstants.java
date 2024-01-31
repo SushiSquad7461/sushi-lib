@@ -1,6 +1,7 @@
 package SushiFrcLib.Swerve.SwerveConstants;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
@@ -14,6 +15,7 @@ import SushiFrcLib.Motor.MotorConfig;
 import SushiFrcLib.Motor.MotorHelper;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 /**
@@ -57,7 +59,8 @@ public class SwerveModuleConstants {
 
         this.moduleInfo = moduleInfo;
 
-        driveRotationsToMeters = wheelCircumference / moduleInfo.driveGearRatio;
+        driveRotationsToMeters = wheelCircumference * moduleInfo.driveGearRatio;
+        SmartDashboard.putNumber("Rot to Meters", driveRotationsToMeters);
 
         this.swerveTuningMode = swerveTuningMode;
 
@@ -83,7 +86,7 @@ public class SwerveModuleConstants {
     }
 
     public CANSparkMax getDriveNeo() { 
-        CANSparkMax neo = new CANSparkMax(angleMotorId, MotorType.kBrushless);
+        CANSparkMax neo = new CANSparkMax(driveMotorId, MotorType.kBrushless);
         driveConfig.setCanSparkMaxConfig(neo, MotorType.kBrushless);
         MotorHelper.setConversionFactor(neo, driveRotationsToMeters);
         return neo;    
@@ -91,7 +94,9 @@ public class SwerveModuleConstants {
 
     public TalonFX getDriveFalcon() {
         TalonFX drive = new TalonFX(driveMotorId, Constants.Ports.CANIVORE_NAME);
-        driveConfig.setTalonConfig(drive);
+        TalonFXConfiguration config = driveConfig.getTalonConfig();
+        // config.Feedback.SensorToMechanismRatio = moduleInfo.driveGearRatio;
+        drive.getConfigurator().apply(config);
         return drive;
     }
 
@@ -103,9 +108,11 @@ public class SwerveModuleConstants {
     }
 
     public TalonFX getAngleFalcon() {
-        TalonFX drive = new TalonFX(driveMotorId, Constants.Ports.CANIVORE_NAME);
-        angleConfig.setTalonConfig(drive);
-        return drive;
+        TalonFX angle = new TalonFX(angleMotorId, Constants.Ports.CANIVORE_NAME);
+        TalonFXConfiguration config = angleConfig.getTalonConfig();
+        MotorHelper.setDegreeConversionFactor(config, moduleInfo.angleGearRatio);
+        angle.getConfigurator().apply(config);        
+        return angle;
     }
 
     public CANcoder getCanCoder()  {

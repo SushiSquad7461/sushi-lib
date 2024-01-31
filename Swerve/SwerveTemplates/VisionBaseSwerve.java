@@ -23,7 +23,7 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
                 getPose(),
                 new Pose2d(0, 0, getGyro().getAngle()));
 
-        setOldPose(this.odom.getEstimatedPosition());
+        setPrevPose(this.odom.getEstimatedPosition());
     }
 
     @Override
@@ -40,7 +40,7 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
 
     @Override
     public ChassisSpeeds getChassisSpeeds() {
-        return kinematics.toChassisSpeeds(getState());
+        return kinematics.toChassisSpeeds(getStates());
     }
 
     @Override

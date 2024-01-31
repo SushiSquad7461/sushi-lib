@@ -1,6 +1,7 @@
 package SushiFrcLib.Control;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
 
@@ -42,6 +43,17 @@ public class PIDConfig {
       slot0Configs.kI = I;
       slot0Configs.kD = D;
       talon.getConfigurator().apply(slot0Configs);
+   }
+
+   public void updatePidConfig(TalonFXConfiguration config) {
+      Slot0Configs slot0Configs = new Slot0Configs();
+   
+      slot0Configs.kV = F;
+      slot0Configs.kP = P;
+      slot0Configs.kI = I;
+      slot0Configs.kD = D;
+
+      config.withSlot0(slot0Configs);
    }
 
    public void setPid(CANSparkMax sparkMax) {
