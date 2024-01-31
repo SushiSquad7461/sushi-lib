@@ -2,6 +2,7 @@ package SushiFrcLib.Swerve.SwerveModules;
 
 import com.ctre.phoenix6.hardware.CANcoder;
 
+import SushiFrcLib.SmartDashboard.PIDTuning;
 import SushiFrcLib.Swerve.CTREModuleState;
 import SushiFrcLib.Swerve.SwerveConstants.SwerveModuleConstants;
 import edu.wpi.first.math.MathUtil;
@@ -14,11 +15,17 @@ public abstract class SwerveModule {
     protected CANcoder angleEncoder;
     protected Rotation2d lastAngle;
 
+    protected PIDTuning angleTuning;
+    protected PIDTuning driveTuning;
+
     public SwerveModule(SwerveModuleConstants moduleConstants) {
         angleEncoder = moduleConstants.getCanCoder();
         this.swerveModuleConstants = moduleConstants;
         lastAngle = Rotation2d.fromDegrees(0);
-    }
+
+        angleTuning = new PIDTuning("Angle Motor" + moduleConstants.moduleNumber, moduleConstants.angleConfig.pid, moduleConstants.swerveTuningMode);
+        driveTuning = new PIDTuning("Drive Motor" + moduleConstants.moduleNumber, moduleConstants.driveConfig.pid, moduleConstants.swerveTuningMode);
+     }
 
     abstract public void resetToAbsolute();
 
@@ -28,6 +35,8 @@ public abstract class SwerveModule {
     abstract protected Rotation2d getEncoderAngle();
     abstract protected double getPositionMeter();
     abstract protected double getVelocityMeter();
+
+    abstract public void updatePID();
 
     public Rotation2d getCanCoder() {
         return Rotation2d.fromRotations(angleEncoder.getAbsolutePosition().getValue());

@@ -76,4 +76,11 @@ public class SwerveModuleNeoTalon extends SwerveModule {
     protected double getVelocityMeter() {
         return driveMotor.getVelocity().getValue();
     }
+
+
+    @Override
+    public void updatePID() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updatePID'");
+    }
 }

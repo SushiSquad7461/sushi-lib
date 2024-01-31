@@ -52,7 +52,7 @@ public class SwerveModuleTalon extends SwerveModule {
         if (swerveModuleConstants.swerveTuningMode) {
             SmartDashboard.putNumber("Current Reltaive Encoder Angle " + swerveModuleConstants.moduleNumber, MathUtil.inputModulus(angleMotor.getPosition().getValue(), 0, 360));
             SmartDashboard.putNumber("Current Reltaive Encoder Angle Non Mod " + swerveModuleConstants.moduleNumber, angleEncoder.getPosition().getValue());
-            SmartDashboard.putNumber("Current Drive Velocity" + swerveModuleConstants.moduleNumber, Conversion.RPSToMPS(driveMotor.getVelocity().getValue(), SwerveModuleConstants.wheelCircumference, SDSModules.MK4i.driveGearRatio));
+            SmartDashboard.putNumber("Current Drive Velocity" + swerveModuleConstants.moduleNumber, Conversion.RPSToMPS(driveMotor.getVelocity().getValue(), SwerveModuleConstants.wheelCircumference));
             SmartDashboard.putNumber("CanCoder Angle" + swerveModuleConstants.moduleNumber, getAbsoluteAngleDegrees());
             SmartDashboard.putNumber("PID Error " + swerveModuleConstants.moduleNumber,driveMotor.getClosedLoopError().getValue());
         }
@@ -61,7 +61,7 @@ public class SwerveModuleTalon extends SwerveModule {
 
     @Override
     protected void applySwerveModuleState(double velocityMPS, Rotation2d angle) {
-        driveMotor.setControl(drivePID.withVelocity(Conversion.MPSToRPS(velocityMPS, SwerveModuleConstants.wheelCircumference, SDSModules.MK4i.driveGearRatio))); 
+        driveMotor.setControl(drivePID.withVelocity(Conversion.MPSToRPS(velocityMPS, SwerveModuleConstants.wheelCircumference))); 
                 // driveMotor.setControl(driveD.withOutput(1.0));   
   
         angleMotor.setControl(anglePID.withPosition(angle.getDegrees()));
@@ -85,5 +85,11 @@ public class SwerveModuleTalon extends SwerveModule {
     @Override
     protected double getVelocityMeter() {
         return driveMotor.getVelocity().getValue();
+    }
+
+    @Override
+    public void updatePID() {
+        angleTuning.updatePID(angleMotor);
+        driveTuning.updatePID(driveMotor);
     }
 }

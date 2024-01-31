@@ -95,7 +95,7 @@ public class SwerveModuleConstants {
     public TalonFX getDriveFalcon() {
         TalonFX drive = new TalonFX(driveMotorId, Constants.Ports.CANIVORE_NAME);
         TalonFXConfiguration config = driveConfig.getTalonConfig();
-        // config.Feedback.SensorToMechanismRatio = moduleInfo.driveGearRatio;
+        config.Feedback.SensorToMechanismRatio = moduleInfo.driveGearRatio;
         drive.getConfigurator().apply(config);
         return drive;
     }
