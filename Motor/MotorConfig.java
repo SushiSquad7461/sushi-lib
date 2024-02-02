@@ -85,7 +85,7 @@ public class MotorConfig {
         motor.restoreFactoryDefaults();
         motor.setInverted(inversion);
 
-        if (currentLimit < 0) {
+        if (currentLimit > 0) {
             motor.setSmartCurrentLimit(currentLimit);
         }
 
