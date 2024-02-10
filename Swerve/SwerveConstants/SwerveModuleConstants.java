@@ -33,9 +33,9 @@ public class SwerveModuleConstants {
     public final static IdleMode angleIdleMode = IdleMode.kCoast;
     public static NeutralModeValue driveNeutralMode = NeutralModeValue.Brake;
     public static IdleMode driveIdleMode = IdleMode.kBrake;
-    
+
     public final static double wheelCircumference = Units.inchesToMeters(4) * Math.PI;
-    
+
     public final double driveRotationsToMeters;
 
     public final boolean swerveTuningMode;
@@ -45,11 +45,11 @@ public class SwerveModuleConstants {
 
     public final SDSModules moduleInfo;
 
-
     /**
      * Swerve Module Constants to be used when creating swerve modules.
      */
-    public SwerveModuleConstants(int moduleNumber, Rotation2d angleOffset, SDSModules moduleInfo, boolean swerveTuningMode, MotorConfig driveConfig, MotorConfig anglConfig) {
+    public SwerveModuleConstants(int moduleNumber, Rotation2d angleOffset, SDSModules moduleInfo,
+            boolean swerveTuningMode, MotorConfig driveConfig, MotorConfig anglConfig) {
         this.moduleNumber = moduleNumber;
         this.angleOffset = angleOffset;
 
@@ -68,28 +68,28 @@ public class SwerveModuleConstants {
         this.angleConfig = anglConfig;
     }
 
-    public static SwerveModuleConstants[] generateConstants(Rotation2d[] angleOffsets, SDSModules moduleInfo,boolean swerveTuningMode, MotorConfig driveConfig, MotorConfig anglConfig) {
+    public static SwerveModuleConstants[] generateConstants(Rotation2d[] angleOffsets, SDSModules moduleInfo,
+            boolean swerveTuningMode, MotorConfig driveConfig, MotorConfig anglConfig) {
         SwerveModuleConstants[] ret = new SwerveModuleConstants[4];
 
-        for (int i=0; i < 4; ++i) {
+        for (int i = 0; i < 4; ++i) {
             ret[i] = new SwerveModuleConstants(
-                i,
-                angleOffsets[i],
-                moduleInfo,
-                swerveTuningMode,
-                driveConfig,
-                anglConfig
-            );
+                    i,
+                    angleOffsets[i],
+                    moduleInfo,
+                    swerveTuningMode,
+                    driveConfig,
+                    anglConfig);
         }
 
         return ret;
     }
 
-    public CANSparkMax getDriveNeo() { 
+    public CANSparkMax getDriveNeo() {
         CANSparkMax neo = new CANSparkMax(driveMotorId, MotorType.kBrushless);
         driveConfig.setCanSparkMaxConfig(neo, MotorType.kBrushless);
         MotorHelper.setConversionFactor(neo, driveRotationsToMeters);
-        return neo;    
+        return neo;
     }
 
     public TalonFX getDriveFalcon() {
@@ -111,17 +111,17 @@ public class SwerveModuleConstants {
         TalonFX angle = new TalonFX(angleMotorId, Constants.Ports.CANIVORE_NAME);
         TalonFXConfiguration config = angleConfig.getTalonConfig();
         MotorHelper.setDegreeConversionFactor(config, moduleInfo.angleGearRatio);
-        angle.getConfigurator().apply(config);        
+        angle.getConfigurator().apply(config);
         return angle;
     }
 
-    public CANcoder getCanCoder()  {
+    public CANcoder getCanCoder() {
         CANcoder angleEncoder = new CANcoder(cancoderId, Constants.Ports.CANIVORE_NAME);
 
         CANcoderConfiguration config = new CANcoderConfiguration();
         config.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
-        config.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
-        config.MagnetSensor.MagnetOffset = -angleOffset.getRotations(); 
+        config.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
+        config.MagnetSensor.MagnetOffset = -angleOffset.getRotations();
 
         angleEncoder.getConfigurator().apply(config);
 

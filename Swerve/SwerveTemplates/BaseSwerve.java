@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -48,7 +49,7 @@ abstract public class BaseSwerve extends SubsystemBase {
         driveRobotOriented(
                 new Translation2d(
                         chassisSpeeds.vxMetersPerSecond,
-                        -chassisSpeeds.vyMetersPerSecond // TODO: FIX SHITY NEGATION
+                        chassisSpeeds.vyMetersPerSecond // TODO: FIX SHITY NEGATION
                 ),
                 chassisSpeeds.omegaRadiansPerSecond);
     }
@@ -75,19 +76,16 @@ abstract public class BaseSwerve extends SubsystemBase {
     }
 
     // Vector is in mps, and rot is in radians per sec
-    public void drive(Translation2d vector, double rot) {
+    public void drive(Translation2d vector, double rot, Alliance color) {
         vector = vector.times(maxSpeed);
         rot *= maxAngularVelocity;
 
-        if (tuningMode) {
-            SmartDashboard.putString("Input: ", vector.getX() + ", " + vector.getY() + ", " + rot);
-        }
-
-        vector = vector.rotateBy(gyro.getAngle().plus(Rotation2d.fromRadians(getDriveVelo() * 0.0)));
-
-        if (tuningMode) {
-            SmartDashboard.putString("Input Post Rotate : ", vector.getX() + ", " + vector.getY() + ", " + rot);
-        }
+        vector = vector.rotateBy(
+                gyro.getAngle().plus(
+                        Rotation2d.fromRadians(getDriveVelo() * 0.0)).plus(
+                                Rotation2d.fromDegrees(color == Alliance.Red ? 180 : 0))); // We are adding a value for
+                                                                                           // latency conpensation,
+                                                                                           // currently untuned
 
         driveRobotOriented(vector, rot);
     }
@@ -107,7 +105,6 @@ abstract public class BaseSwerve extends SubsystemBase {
 
         return ret;
     }
-
 
     public SwerveModuleState[] getStates() {
         SwerveModuleState[] ret = new SwerveModuleState[] { null, null, null, null };

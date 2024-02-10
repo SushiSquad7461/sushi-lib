@@ -47,7 +47,7 @@ public class OI {
     }
 
     public double getDriveTrainTranslationX() {
-        return -getRawAxis(OIConstants.DRIVE_TRANSLATION_X);
+        return getRawAxis(OIConstants.DRIVE_TRANSLATION_X);
     }
 
     private double getRawAxis(int id) {
