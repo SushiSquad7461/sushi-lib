@@ -79,12 +79,12 @@ public class SwerveModuleTalon extends SwerveModule {
 
     @Override
     protected double getPositionMeter() {
-        return driveMotor.getPosition().getValue();
+        return Conversion.rotationsToM(driveMotor.getPosition().getValue(), SwerveModuleConstants.wheelCircumference);
     }
 
     @Override
     protected double getVelocityMeter() {
-        return driveMotor.getVelocity().getValue();
+        return Conversion.RPSToMPS(driveMotor.getVelocity().getValue(), SwerveModuleConstants.wheelCircumference);
     }
 
     @Override

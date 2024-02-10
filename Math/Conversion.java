@@ -136,4 +136,8 @@ public class Conversion {
         double axleRotations = rotations / gearRatio;
         return axleRotations * circumference;
     }
+
+    public static double rotationsToM(double rotations, double circumference) {
+        return rotations * circumference;
+    }
 }
