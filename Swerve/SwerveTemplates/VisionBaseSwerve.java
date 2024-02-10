@@ -2,6 +2,7 @@ package SushiFrcLib.Swerve.SwerveTemplates;
 
 import SushiFrcLib.Sensors.gyro.Gyro;
 import SushiFrcLib.Swerve.SwerveModules.SwerveModule;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -21,7 +22,10 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
                 kinematics,
                 getGyro().getAngle(),
                 getPose(),
-                new Pose2d(0, 0, getGyro().getAngle()));
+                new Pose2d(0, 0, getGyro().getAngle()),
+                VecBuilder.fill(0.1, 0.1, 0.1),
+                VecBuilder.fill(0.9, 0.9, 0.9)
+        );
 
         setPrevPose(this.odom.getEstimatedPosition());
     }
