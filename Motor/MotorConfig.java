@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import SushiFrcLib.Control.PIDConfig;
+import SushiFrcLib.SmartDashboard.PIDTuning;
 
 public class MotorConfig {
    public final PIDConfig pid;
@@ -59,6 +60,10 @@ public class MotorConfig {
    public MotorConfig(int canId, int currentLimit, Boolean inversion, Mode mode) { this(canId, "rio", currentLimit, inversion, PIDConfig.getZeroPid(), mode);}
 
    public MotorConfig(int canId, String canBus, int currentLimit, Boolean inversion, Mode mode) { this(canId, canBus, currentLimit, inversion, PIDConfig.getZeroPid(), mode);}
+
+   public PIDTuning genPIDTuning(String motorName, boolean tuningMode) {
+        return new PIDTuning(motorName, pid, tuningMode);
+   }
 
    public TalonFXConfiguration getTalonConfig() {
         TalonFXConfiguration talonConfig = new TalonFXConfiguration();
