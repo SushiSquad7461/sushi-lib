@@ -1,5 +1,9 @@
 package SushiFrcLib.Swerve.SwerveTemplates;
 
+import java.util.ArrayList;
+
+import org.photonvision.EstimatedRobotPose;
+
 import SushiFrcLib.Sensors.gyro.Gyro;
 import SushiFrcLib.Swerve.SwerveModules.SwerveModule;
 import edu.wpi.first.math.VecBuilder;
@@ -23,11 +27,16 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
                 getGyro().getAngle(),
                 getPose(),
                 new Pose2d(0, 0, getGyro().getAngle()),
-                VecBuilder.fill(0.1, 0.1, 0.1),
-                VecBuilder.fill(0.9, 0.9, 0.9)
-        );
+                VecBuilder.fill(0.1, 0.1, 0.05),
+                VecBuilder.fill(0.9, 0.9, 0.9));
 
         setPrevPose(this.odom.getEstimatedPosition());
+    }
+
+    public void addVisionTargets(ArrayList<EstimatedRobotPose> poses) {
+        for (int i = 0; i < poses.size(); ++i) {
+            odom.addVisionMeasurement(poses.get(i).estimatedPose.toPose2d(), poses.get(i).timestampSeconds);
+        }
     }
 
     @Override
