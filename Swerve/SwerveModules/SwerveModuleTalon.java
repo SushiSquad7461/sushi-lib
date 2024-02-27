@@ -1,14 +1,10 @@
 package SushiFrcLib.Swerve.SwerveModules;
 
 import SushiFrcLib.Math.Conversion;
-import SushiFrcLib.Swerve.SwerveConstants.SDSModules;
 import SushiFrcLib.Swerve.SwerveConstants.SwerveModuleConstants;
 
-import com.ctre.phoenix6.configs.TalonFXConfigurator;
-import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
-import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.MathUtil;
@@ -22,9 +18,8 @@ public class SwerveModuleTalon extends SwerveModule {
     private TalonFX angleMotor;
     private TalonFX driveMotor;
 
-    private VelocityVoltage drivePID;
-    private DutyCycleOut driveD;
-    private PositionVoltage anglePID;
+    private VelocityDutyCycle drivePID;
+    private PositionDutyCycle anglePID;
 
     public SwerveModuleTalon(SwerveModuleConstants moduleConstants) {
         super(moduleConstants);
@@ -36,9 +31,8 @@ public class SwerveModuleTalon extends SwerveModule {
 
         lastAngle = getPose().angle;
 
-        driveD = new DutyCycleOut(0);
-        drivePID = new VelocityVoltage(0, 0, false, 0,0, false, false, false); 
-        anglePID = new PositionVoltage(0,0,false,0,0,false,false,false); 
+        drivePID = new VelocityDutyCycle(0, 0, true, 0,0, false, false, false); 
+        anglePID = new PositionDutyCycle(0,0,true,0,0,false,false,false); 
     }
 
     @Override
@@ -62,8 +56,6 @@ public class SwerveModuleTalon extends SwerveModule {
     @Override
     protected void applySwerveModuleState(double velocityMPS, Rotation2d angle) {
         driveMotor.setControl(drivePID.withVelocity(Conversion.MPSToRPS(velocityMPS, SwerveModuleConstants.wheelCircumference))); 
-                // driveMotor.setControl(driveD.withOutput(1.0));   
-  
         angleMotor.setControl(anglePID.withPosition(angle.getDegrees()));
 
         if (swerveModuleConstants.swerveTuningMode) {
