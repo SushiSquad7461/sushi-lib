@@ -1,6 +1,7 @@
 package SushiFrcLib.Swerve.SwerveTemplates;
 
 import SushiFrcLib.Sensors.gyro.Gyro;
+import SushiFrcLib.SmartDashboard.PIDTuning;
 import SushiFrcLib.Swerve.SwerveModules.SwerveModule;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -29,6 +30,9 @@ abstract public class BaseSwerve extends SubsystemBase {
     protected Pose2d prevPose;
     protected double prevPoseTimeStamp;
 
+    protected PIDTuning angleTuning;
+    protected PIDTuning driveTuning;
+
     public BaseSwerve(SwerveModule[] swerveMods, Gyro gyro) {
         this.tuningMode = swerveMods[0].swerveModuleConstants.swerveTuningMode;
 
@@ -41,6 +45,9 @@ abstract public class BaseSwerve extends SubsystemBase {
 
         this.maxSpeed = swerveMods[0].swerveModuleConstants.moduleInfo.maxSpeed;
         this.maxAngularVelocity = swerveMods[0].swerveModuleConstants.moduleInfo.maxAngularVelocity;
+
+        angleTuning = new PIDTuning("Swerve Angle", swerveMods[0].swerveModuleConstants.angleConfig.pid,  swerveMods[0].swerveModuleConstants.swerveTuningMode);
+        driveTuning = new PIDTuning("Swerve Drive",  swerveMods[0].swerveModuleConstants.driveConfig.pid,  swerveMods[0].swerveModuleConstants.swerveTuningMode);
 
         SmartDashboard.putData("Field", field);
     }
@@ -165,10 +172,10 @@ abstract public class BaseSwerve extends SubsystemBase {
 
         for (SwerveModule i : swerveMods) {
             if (tuningMode) {
-                SmartDashboard.putNumber("Swerve Module Angle " + i.swerveModuleConstants.moduleNumber,
+                SmartDashboard.putNumber("Cancoder Angle " + i.swerveModuleConstants.moduleNumber,
                         i.getAbsoluteAngleDegrees());
 
-                i.updatePID();
+                i.updatePID(angleTuning, driveTuning);
             }
             i.log();
         }

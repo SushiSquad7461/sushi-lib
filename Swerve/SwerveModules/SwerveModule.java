@@ -15,17 +15,11 @@ public abstract class SwerveModule {
     protected CANcoder angleEncoder;
     protected Rotation2d lastAngle;
 
-    protected PIDTuning angleTuning;
-    protected PIDTuning driveTuning;
-
     public SwerveModule(SwerveModuleConstants moduleConstants) {
         angleEncoder = moduleConstants.getCanCoder();
         this.swerveModuleConstants = moduleConstants;
         lastAngle = Rotation2d.fromDegrees(0);
-
-        angleTuning = new PIDTuning("Angle Motor" + moduleConstants.moduleNumber, moduleConstants.angleConfig.pid, moduleConstants.swerveTuningMode);
-        driveTuning = new PIDTuning("Drive Motor" + moduleConstants.moduleNumber, moduleConstants.driveConfig.pid, moduleConstants.swerveTuningMode);
-     }
+    }
 
     abstract public void resetToAbsolute();
 
@@ -36,7 +30,7 @@ public abstract class SwerveModule {
     abstract protected double getPositionMeter();
     abstract protected double getVelocityMeter();
 
-    abstract public void updatePID();
+    abstract public void updatePID(PIDTuning angle, PIDTuning drive);
 
     public Rotation2d getCanCoder() {
         return Rotation2d.fromRotations(angleEncoder.getAbsolutePosition().getValue());

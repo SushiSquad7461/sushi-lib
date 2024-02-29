@@ -1,4 +1,5 @@
 package SushiFrcLib.Swerve.SwerveModules;
+import SushiFrcLib.SmartDashboard.PIDTuning;
 import SushiFrcLib.Swerve.SwerveConstants.SwerveModuleConstants;
 
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -77,9 +78,8 @@ public class SwerveModuleNeoTalon extends SwerveModule {
         return driveMotor.getVelocity().getValue();
     }
 
-
     @Override
-    public void updatePID() {
+    public void updatePID(PIDTuning angle, PIDTuning drive) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updatePID'");
     }

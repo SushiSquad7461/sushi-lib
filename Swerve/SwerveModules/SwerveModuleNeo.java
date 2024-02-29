@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
+import SushiFrcLib.SmartDashboard.PIDTuning;
 import SushiFrcLib.Swerve.SwerveConstants.SwerveModuleConstants;
 
 import com.revrobotics.CANSparkBase;
@@ -61,8 +62,7 @@ public class SwerveModuleNeo extends SwerveModule {
     }
 
     @Override
-    public void updatePID() {
-        // TODO Auto-generated method stub
+    public void updatePID(PIDTuning angle, PIDTuning drive) {
         throw new UnsupportedOperationException("Unimplemented method 'updatePID'");
     }
 }

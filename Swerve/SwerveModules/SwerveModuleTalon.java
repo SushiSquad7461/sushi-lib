@@ -1,6 +1,7 @@
 package SushiFrcLib.Swerve.SwerveModules;
 
 import SushiFrcLib.Math.Conversion;
+import SushiFrcLib.SmartDashboard.PIDTuning;
 import SushiFrcLib.Swerve.SwerveConstants.SwerveModuleConstants;
 
 import com.ctre.phoenix6.controls.PositionDutyCycle;
@@ -47,8 +48,6 @@ public class SwerveModuleTalon extends SwerveModule {
             SmartDashboard.putNumber("Current Reltaive Encoder Angle " + swerveModuleConstants.moduleNumber, MathUtil.inputModulus(angleMotor.getPosition().getValue(), 0, 360));
             SmartDashboard.putNumber("Current Reltaive Encoder Angle Non Mod " + swerveModuleConstants.moduleNumber, angleEncoder.getPosition().getValue());
             SmartDashboard.putNumber("Current Drive Velocity" + swerveModuleConstants.moduleNumber, Conversion.RPSToMPS(driveMotor.getVelocity().getValue(), SwerveModuleConstants.wheelCircumference));
-            SmartDashboard.putNumber("CanCoder Angle" + swerveModuleConstants.moduleNumber, getAbsoluteAngleDegrees());
-            SmartDashboard.putNumber("PID Error " + swerveModuleConstants.moduleNumber,driveMotor.getClosedLoopError().getValue());
         }
 
     }
@@ -80,8 +79,8 @@ public class SwerveModuleTalon extends SwerveModule {
     }
 
     @Override
-    public void updatePID() {
-        angleTuning.updatePID(angleMotor);
-        driveTuning.updatePID(driveMotor);
+    public void updatePID(PIDTuning angle, PIDTuning drive) {
+        angle.updatePID(angleMotor);
+        drive.updatePID(driveMotor);
     }
 }
