@@ -45,7 +45,7 @@ abstract public class BaseSwerve extends SubsystemBase {
         SmartDashboard.putData("Field", field);
     }
 
-    public void drive(ChassisSpeeds chassisSpeeds) {
+    public void driveChassis(ChassisSpeeds chassisSpeeds) {
         driveRobotOriented(
                 new Translation2d(
                         chassisSpeeds.vxMetersPerSecond,
