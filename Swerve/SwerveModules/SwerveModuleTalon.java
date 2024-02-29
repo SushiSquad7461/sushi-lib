@@ -31,8 +31,8 @@ public class SwerveModuleTalon extends SwerveModule {
 
         lastAngle = getPose().angle;
 
-        drivePID = new VelocityDutyCycle(0, 0, true, 0,0, false, false, false); 
-        anglePID = new PositionDutyCycle(0,0,true,0,0,false,false,false); 
+        drivePID = new VelocityDutyCycle(0, 0, false, 0,0, false, false, false); 
+        anglePID = new PositionDutyCycle(0,0,false,0,0,false,false,false); 
     }
 
     @Override
