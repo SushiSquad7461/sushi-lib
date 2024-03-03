@@ -61,7 +61,7 @@ abstract public class BaseSwerve extends SubsystemBase {
                 chassisSpeeds.omegaRadiansPerSecond);
     }
 
-    abstract void driveRobotOriented(Translation2d vector, double rot);
+    public abstract void driveRobotOriented(Translation2d vector, double rot);
 
     public void driveRobotOriented(SwerveModuleState[] states) {
         // TODO: FIX SHITY CODE
@@ -80,6 +80,10 @@ abstract public class BaseSwerve extends SubsystemBase {
             }
             i.setDesiredState(states[i.swerveModuleConstants.moduleNumber]);
         }
+    }
+
+    public Command zeroGyro() {
+        return runOnce(() -> gyro.zeroGyro());
     }
 
     // Vector is in mps, and rot is in radians per sec
