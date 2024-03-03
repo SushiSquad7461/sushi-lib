@@ -46,8 +46,8 @@ public class TunableNumber {
             // This makes sure the data is on NetworkTables but will not change it
             SmartDashboard.putNumber(key,
                     SmartDashboard.getNumber(key, defaultValue));
-        } else {
-            SmartDashboard.clearPersistent(key);
+        } else if (SmartDashboard.containsKey(key) && SmartDashboard.isPersistent(key)) {
+                SmartDashboard.clearPersistent(key);
         }
     }
 
