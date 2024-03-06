@@ -18,7 +18,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 
 public abstract class VisionBaseSwerve extends BaseSwerve {
-    private final SwerveDrivePoseEstimator odom;
+    protected final SwerveDrivePoseEstimator odom;
     private final SwerveDriveKinematics kinematics;
 
     public VisionBaseSwerve(SwerveModule[] swerveMods, Gyro gyro, SwerveDriveKinematics kinematics, Matrix<N3, N1> stateStdDevs, Matrix<N3, N1> visionMeasurementStdDevs ) {
@@ -44,7 +44,7 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
 
     public void addVisionTargets(ArrayList<EstimatedRobotPose> poses) {
         for (int i = 0; i < poses.size(); ++i) {
-            odom.addVisionMeasurement(poses.get(i).estimatedPose.toPose2d(), poses.get(i).timestampSeconds);
+            //odom.addVisionMeasurement(poses.get(i).estimatedPose.toPose2d(), poses.get(i).timestampSeconds);
         }
     }
 
@@ -52,6 +52,12 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
     public void driveRobotOriented(Translation2d vector, double rot) {
         SwerveModuleState[] states = kinematics
                 .toSwerveModuleStates(new ChassisSpeeds(vector.getX(), vector.getY(), rot));
+        driveRobotOriented(states);
+    }
+
+    @Override
+    public void driveChassis(ChassisSpeeds chassisSpeeds) {
+        SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
         driveRobotOriented(states);
     }
 
