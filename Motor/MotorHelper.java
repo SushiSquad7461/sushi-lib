@@ -41,8 +41,8 @@ public class MotorHelper {
 
     public static void updateSupplyCurrentLimit(int currentLimit, TalonFXConfiguration config) {
         config.CurrentLimits.SupplyCurrentLimit = currentLimit;
-        config.CurrentLimits.SupplyTimeThreshold = currentLimit;
-        config.CurrentLimits.SupplyCurrentThreshold = 0;
+        config.CurrentLimits.SupplyTimeThreshold = 0;
+        config.CurrentLimits.SupplyCurrentThreshold = currentLimit;
         config.CurrentLimits.SupplyCurrentLimitEnable = true;
     }
 

@@ -68,10 +68,8 @@ public class MotorConfig {
    public TalonFXConfiguration getTalonConfig() {
         TalonFXConfiguration talonConfig = new TalonFXConfiguration();
 
-        if (currentLimit > 0) {
-            MotorHelper.updateSupplyCurrentLimit(currentLimit, talonConfig);
-        }
-
+        MotorHelper.updateSupplyCurrentLimit(currentLimit, talonConfig);
+ 
         talonConfig.MotorOutput.NeutralMode = mode.getTalonMode();
         talonConfig.MotorOutput.Inverted = inversion ? InvertedValue.CounterClockwise_Positive : InvertedValue.Clockwise_Positive;
 
@@ -90,10 +88,8 @@ public class MotorConfig {
         motor.restoreFactoryDefaults();
         motor.setInverted(inversion);
 
-        if (currentLimit > 0) {
-            motor.setSmartCurrentLimit(currentLimit);
-        }
-
+        motor.setSmartCurrentLimit(currentLimit);
+ 
         motor.setIdleMode(mode.getSparkMaxMode());
 
         if (type == CANSparkLowLevel.MotorType.kBrushless) {
