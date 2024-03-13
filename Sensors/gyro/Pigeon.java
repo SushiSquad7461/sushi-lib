@@ -3,6 +3,7 @@ package SushiFrcLib.Sensors.gyro;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 
 /**
@@ -33,8 +34,8 @@ public class Pigeon extends Gyro {
         double yaw = getYaw();
 
         return inversion 
-            ? Rotation2d.fromDegrees(360 - yaw)
-            : Rotation2d.fromDegrees(yaw);
+            ? Rotation2d.fromDegrees(MathUtil.inputModulus(360 - yaw, 0, 360))
+            : Rotation2d.fromDegrees(MathUtil.inputModulus(yaw, 0, 360));
     }
 
     public double getYaw() {
