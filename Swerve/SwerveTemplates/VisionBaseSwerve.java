@@ -1,6 +1,6 @@
 package SushiFrcLib.Swerve.SwerveTemplates;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.photonvision.EstimatedRobotPose;
 
@@ -21,18 +21,18 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
     protected final SwerveDrivePoseEstimator odom;
     private final SwerveDriveKinematics kinematics;
 
-    public VisionBaseSwerve(SwerveModule[] swerveMods, Gyro gyro, SwerveDriveKinematics kinematics, Matrix<N3, N1> stateStdDevs, Matrix<N3, N1> visionMeasurementStdDevs ) {
+    public VisionBaseSwerve(SwerveModule[] swerveMods, Gyro gyro, SwerveDriveKinematics kinematics,
+            Matrix<N3, N1> stateStdDevs, Matrix<N3, N1> visionMeasurementStdDevs) {
         super(swerveMods, gyro);
         this.kinematics = kinematics;
 
         this.odom = new SwerveDrivePoseEstimator(
-            kinematics,
-            getGyro().getAngle(),
-            getPose(),
-            new Pose2d(0, 0, getGyro().getAngle()),
-            stateStdDevs,
-            visionMeasurementStdDevs
-        );
+                kinematics,
+                getGyro().getAngle(),
+                getPose(),
+                new Pose2d(0, 0, getGyro().getAngle()),
+                stateStdDevs,
+                visionMeasurementStdDevs);
 
         setPrevPose(this.odom.getEstimatedPosition());
     }
@@ -42,9 +42,9 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
                 VecBuilder.fill(0.9, 0.9, 0.9));
     }
 
-    public void addVisionTargets(ArrayList<EstimatedRobotPose> poses) {
+    public void addVisionTargets(List<EstimatedRobotPose> poses) {
         for (int i = 0; i < poses.size(); ++i) {
-            //odom.addVisionMeasurement(poses.get(i).estimatedPose.toPose2d(), poses.get(i).timestampSeconds);
+            odom.addVisionMeasurement(poses.get(i).estimatedPose.toPose2d(), poses.get(i).timestampSeconds);
         }
     }
 
