@@ -2,6 +2,7 @@ package SushiFrcLib.Swerve.SwerveConstants;
 
 public enum SDSModules {
     MK4i((150.0 / 7.0), 6.12, 5.6, 4, 2 * Math.PI, 4),
+    MK4iOutreach((150.0 / 7.0), 6.12, 0.5, 4, 2 * Math.PI, 4),
     MK4(0, 0, 0, 0,0,0);
 
     public double angleGearRatio;
