@@ -92,8 +92,8 @@ abstract public class BaseSwerve extends SubsystemBase {
         rot *= maxAngularVelocity;
 
         vector = vector.rotateBy(
-                        Rotation2d.fromRadians(getDriveVelo() * 0.0).plus(
-                                Rotation2d.fromDegrees(color == Alliance.Red ? 180 : 0)).minus(gyro.getAngle())); // We are adding a value for
+                        //Rotation2d.fromRadians(getDriveVelo() * 0.0).plus 
+                        Rotation2d.fromDegrees(color == Alliance.Red ? 180 : 0).minus(gyro.getAngle())); // We are adding a value for
                                                                                            // latency conpensation,
                                                                                            // currently untuned
 

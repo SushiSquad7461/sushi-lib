@@ -43,7 +43,7 @@ public class SwerveModuleNeo extends SwerveModule {
 
     @Override
     public void resetToAbsolute() {
-        angleEncoder.setPosition(getCanCoder().getDegrees()); 
+        angleEncoder.setPosition(getCanCoder().getRotations()); 
     }
 
     @Override

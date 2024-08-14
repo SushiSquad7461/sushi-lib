@@ -23,11 +23,15 @@ public abstract class SwerveModule {
 
     abstract public void resetToAbsolute();
 
-    public void log() {}
+    public void log() {
+    }
 
     abstract protected void applySwerveModuleState(double velocityMPS, Rotation2d angleRadians);
+
     abstract protected Rotation2d getEncoderAngle();
+
     abstract protected double getPositionMeter();
+
     abstract protected double getVelocityMeter();
 
     abstract public void updatePID(PIDTuning angle, PIDTuning drive);
@@ -41,7 +45,7 @@ public abstract class SwerveModule {
     }
 
     public SwerveModuleState getState() {
-         return new SwerveModuleState(getVelocityMeter(), getEncoderAngle());
+        return new SwerveModuleState(getVelocityMeter(), getEncoderAngle());
     }
 
     public SwerveModulePosition getPose() {
@@ -49,13 +53,14 @@ public abstract class SwerveModule {
     }
 
     public void setDesiredState(SwerveModuleState state) {
-        // Prevents angle motor from turning further than it needs to. 
+        // Prevents angle motor from turning further than it needs to.
         // E.G. rotating from 10 to 270 degrees CW vs CCW.
         state = CTREModuleState.optimize(state, lastAngle);
 
-        Rotation2d angle = Math.abs(state.speedMetersPerSecond) <= swerveModuleConstants.moduleInfo.driveGearRatio * 0.01
-            ? lastAngle
-            :  state.angle;
+        Rotation2d angle = Math.abs(state.speedMetersPerSecond) <=
+        swerveModuleConstants.moduleInfo.driveGearRatio * 0.01
+        ? lastAngle
+        : state.angle;
 
         lastAngle = angle;
 

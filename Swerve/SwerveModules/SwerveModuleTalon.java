@@ -57,6 +57,7 @@ public class SwerveModuleTalon extends SwerveModule {
         driveMotor.setControl(drivePID.withVelocity(Conversion.MPSToRPS(velocityMPS, SwerveModuleConstants.wheelCircumference))); 
         angleMotor.setControl(anglePID.withPosition(angle.getDegrees()));
 
+        
         if (swerveModuleConstants.swerveTuningMode) {
             SmartDashboard.putNumber("Target Drive Velocity: " + swerveModuleConstants.moduleNumber, velocityMPS);
             SmartDashboard.putNumber("Target Relative Encoder Angle " + swerveModuleConstants.moduleNumber, angle.getDegrees());
