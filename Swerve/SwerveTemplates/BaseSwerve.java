@@ -1,5 +1,8 @@
+
+//Importing the Sushi Library
 package SushiFrcLib.Swerve.SwerveTemplates;
 
+//Importing Libraries
 import SushiFrcLib.Sensors.gyro.Gyro;
 import SushiFrcLib.SmartDashboard.PIDTuning;
 import SushiFrcLib.Swerve.SwerveModules.SwerveModule;
@@ -16,12 +19,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+
 abstract public class BaseSwerve extends SubsystemBase {
+    
     private final SwerveModule[] swerveMods;
+    
+    //Declaring the Gyro
     private final Gyro gyro;
 
     protected final Field2d field;
 
+    //Declaring the constants for the max speed and max angular velocity
     private final double maxSpeed;
     private final double maxAngularVelocity;
 
