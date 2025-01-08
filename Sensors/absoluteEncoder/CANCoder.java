@@ -6,6 +6,7 @@ import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.units.Units;
 
 
 public class CANCoder {
@@ -23,6 +24,6 @@ public class CANCoder {
     }
 
     public Rotation2d getPosition() {
-        return Rotation2d.fromRotations(encoder.getAbsolutePosition().getValue());
+        return Rotation2d.fromRotations(encoder.getAbsolutePosition().getValue().in(Units.Rotations));
     }
 }

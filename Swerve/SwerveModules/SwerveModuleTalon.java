@@ -10,6 +10,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -32,8 +33,8 @@ public class SwerveModuleTalon extends SwerveModule {
 
         lastAngle = getPose().angle;
 
-        drivePID = new VelocityDutyCycle(0, 0, false, 0,0, false, false, false); 
-        anglePID = new PositionDutyCycle(0,0,false,0,0,false,false,false); 
+        drivePID = new VelocityDutyCycle(0); 
+        anglePID = new PositionDutyCycle(0); 
     }
 
     @Override
@@ -45,9 +46,9 @@ public class SwerveModuleTalon extends SwerveModule {
     @Override
     public void log() {
         if (swerveModuleConstants.swerveTuningMode) {
-            SmartDashboard.putNumber("Current Reltaive Encoder Angle " + swerveModuleConstants.moduleNumber, MathUtil.inputModulus(angleMotor.getPosition().getValue(), 0, 360));
-            SmartDashboard.putNumber("Current Reltaive Encoder Angle Non Mod " + swerveModuleConstants.moduleNumber, angleEncoder.getPosition().getValue());
-            SmartDashboard.putNumber("Current Drive Velocity" + swerveModuleConstants.moduleNumber, Conversion.RPSToMPS(driveMotor.getVelocity().getValue(), SwerveModuleConstants.wheelCircumference));
+            SmartDashboard.putNumber("Current Relative Encoder Angle " + swerveModuleConstants.moduleNumber, MathUtil.inputModulus(angleMotor.getPosition().getValueAsDouble(), 0, 360));
+            SmartDashboard.putNumber("Current Relative Encoder Angle Non Mod " + swerveModuleConstants.moduleNumber, angleEncoder.getPosition().getValueAsDouble());
+            SmartDashboard.putNumber("Current Drive Velocity" + swerveModuleConstants.moduleNumber, Conversion.RPSToMPS(driveMotor.getVelocity().getValue().in(Units.RotationsPerSecond), SwerveModuleConstants.wheelCircumference));
         }
 
     }
@@ -66,17 +67,17 @@ public class SwerveModuleTalon extends SwerveModule {
 
     @Override
     protected Rotation2d getEncoderAngle() {
-        return Rotation2d.fromDegrees(angleMotor.getPosition().getValue());
+        return Rotation2d.fromDegrees(angleMotor.getPosition().getValue().in(Units.Degrees));
     }
 
     @Override
     protected double getPositionMeter() {
-        return Conversion.rotationsToM(driveMotor.getPosition().getValue(), SwerveModuleConstants.wheelCircumference);
+        return Conversion.rotationsToM(driveMotor.getPosition().getValue().in(Units.Rotations), SwerveModuleConstants.wheelCircumference);
     }
 
     @Override
     protected double getVelocityMeter() {
-        return Conversion.RPSToMPS(driveMotor.getVelocity().getValue(), SwerveModuleConstants.wheelCircumference);
+        return Conversion.RPSToMPS(driveMotor.getVelocity().getValue().in(Units.RotationsPerSecond), SwerveModuleConstants.wheelCircumference);
     }
 
     @Override

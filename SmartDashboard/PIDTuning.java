@@ -2,7 +2,9 @@ package SushiFrcLib.SmartDashboard;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.config.ClosedLoopConfig;
 
 import SushiFrcLib.Control.PIDConfig;
 
@@ -24,11 +26,13 @@ public class PIDTuning {
         kF = new TunableNumber(motorName + "kF", motor_kF, kTuningMode);
     }
 
-    public void updatePID(CANSparkMax motor){
-        if (kP.hasChanged()) motor.getPIDController().setP(kP.get());
-        if (kI.hasChanged()) motor.getPIDController().setI(kI.get());
-        if (kD.hasChanged()) motor.getPIDController().setD(kD.get());
-        if (kF.hasChanged()) motor.getPIDController().setFF(kF.get());
+  
+    public void updatePID(SparkMax motor){
+        ClosedLoopConfig closedLoopConfig = new ClosedLoopConfig();
+        if (kP.hasChanged()) closedLoopConfig.p(kP.get());
+        if (kI.hasChanged()) closedLoopConfig.i(kI.get());
+        if (kD.hasChanged()) closedLoopConfig.d(kD.get());
+        if (kF.hasChanged()) closedLoopConfig.velocityFF(kF.get());
     }
 
     public void updatePID(TalonFX motor){

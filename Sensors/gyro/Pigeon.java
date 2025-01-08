@@ -39,15 +39,15 @@ public class Pigeon extends Gyro {
     }
 
     public double getYaw() {
-        return gyro.getYaw().getValue();
+        return gyro.getYaw().getValueAsDouble();
     }
 
     public double getPitch() {
-        return gyro.getPitch().getValue();
+        return gyro.getPitch().getValueAsDouble();
     }
 
     public double getRoll() {
-        return gyro.getRoll().getValue();
+        return gyro.getRoll().getValueAsDouble();
     }
 
     @Override

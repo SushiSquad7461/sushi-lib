@@ -1,6 +1,6 @@
 package SushiFrcLib.Sensors.gyro;
 
-import com.kauailabs.navx.frc.AHRS;
+import com.studica.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
@@ -8,7 +8,7 @@ public class Navx extends Gyro {
     private final AHRS gyro;
 
     public Navx() {
-        gyro = new AHRS();
+        gyro = new AHRS(null);
     }
 
     @Override

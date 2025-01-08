@@ -4,9 +4,14 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.revrobotics.CANSparkLowLevel;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.jni.CANSparkJNI;
+import com.revrobotics.spark.config.SparkBaseConfig;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import SushiFrcLib.Control.PIDConfig;
 import SushiFrcLib.SmartDashboard.PIDTuning;
@@ -84,25 +89,25 @@ public class MotorConfig {
         return motor;
    }
 
-   public void setCanSparkMaxConfig(CANSparkMax motor, CANSparkLowLevel.MotorType type) {
-        motor.restoreFactoryDefaults();
-        motor.setInverted(inversion);
+   public void setCanSparkMaxConfig(SparkMax motor, MotorType type) {
+     SparkMaxConfig config = new SparkMaxConfig();
+     config.inverted(inversion);
+     config.smartCurrentLimit(currentLimit);
+     config.idleMode(mode.getSparkMaxMode());
+     config.closedLoop.apply(pid.createSparkMaxConfig());
 
-        motor.setSmartCurrentLimit(currentLimit);
- 
-        motor.setIdleMode(mode.getSparkMaxMode());
+     motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-        if (type == CANSparkLowLevel.MotorType.kBrushless) {
-            motor.getEncoder().setPosition(0);
-        }
+     if (type == MotorType.kBrushless) {
+          motor.getEncoder().setPosition(0);
+     }
 
-        pid.setPid(motor);
    }
 
-   public CANSparkMax createSparkMax() { return createSparkMax(CANSparkLowLevel.MotorType.kBrushless); }
+   public SparkMax createSparkMax() { return createSparkMax(MotorType.kBrushless); }
 
-   public CANSparkMax createSparkMax(CANSparkLowLevel.MotorType type) {
-        CANSparkMax motor = new CANSparkMax(canId, type);
+   public SparkMax createSparkMax(MotorType type) {
+        SparkMax motor = new SparkMax(canId, type);
         setCanSparkMaxConfig(motor, type);
         return motor;
    }

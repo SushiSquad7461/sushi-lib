@@ -9,6 +9,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.units.Units;
 
 public abstract class SwerveModule {
     public SwerveModuleConstants swerveModuleConstants;
@@ -37,7 +38,7 @@ public abstract class SwerveModule {
     abstract public void updatePID(PIDTuning angle, PIDTuning drive);
 
     public Rotation2d getCanCoder() {
-        return Rotation2d.fromRotations(angleEncoder.getAbsolutePosition().getValue());
+        return Rotation2d.fromRotations(angleEncoder.getAbsolutePosition().getValue().in(Units.Rotations));
     }
 
     public double getAbsoluteAngleDegrees() {

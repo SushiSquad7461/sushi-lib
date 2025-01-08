@@ -2,7 +2,7 @@ package SushiFrcLib.Motor;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.math.controller.PIDController;
 
@@ -10,12 +10,12 @@ import edu.wpi.first.math.controller.PIDController;
  * Create Motor Functions deprecated as of Novemeber 2023, use MotorConfig instead
  */
 public class MotorHelper {
-    public static void setConversionFactor(CANSparkMax motor, double factor) {
+    public static void setConversionFactor(SparkMax motor, double factor) {
         motor.getEncoder().setPositionConversionFactor(factor);
         motor.getEncoder().setVelocityConversionFactor(factor / 60);
     }
 
-    public static void setDegreeConversionFactor(CANSparkMax motor, double gearing) {
+    public static void setDegreeConversionFactor(SparkMax motor, double gearing) {
         setConversionFactor(motor, 360 / gearing);
     }
 

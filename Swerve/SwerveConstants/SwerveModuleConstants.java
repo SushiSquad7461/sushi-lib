@@ -4,12 +4,11 @@ import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import SushiFrcLib.Motor.MotorConfig;
 import SushiFrcLib.Motor.MotorHelper;
@@ -85,8 +84,8 @@ public class SwerveModuleConstants {
         return ret;
     }
 
-    public CANSparkMax getDriveNeo() {
-        CANSparkMax neo = new CANSparkMax(driveMotorId, MotorType.kBrushless);
+    public SparkMax getDriveNeo() {
+        SparkMax neo = new SparkMax(driveMotorId, MotorType.kBrushless);
         driveConfig.setCanSparkMaxConfig(neo, MotorType.kBrushless);
         MotorHelper.setConversionFactor(neo, driveRotationsToMeters);
         return neo;
@@ -100,8 +99,8 @@ public class SwerveModuleConstants {
         return drive;
     }
 
-    public CANSparkMax getAngleNeo() {
-        CANSparkMax neo = new CANSparkMax(angleMotorId, MotorType.kBrushless);
+    public SparkMax getAngleNeo() {
+        SparkMax neo = new SparkMax(angleMotorId, MotorType.kBrushless);
         angleConfig.setCanSparkMaxConfig(neo, MotorType.kBrushless);
         MotorHelper.setDegreeConversionFactor(neo, moduleInfo.angleGearRatio);
         return neo;

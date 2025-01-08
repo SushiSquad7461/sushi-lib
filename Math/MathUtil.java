@@ -1,6 +1,6 @@
 package SushiFrcLib.Math;
 
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.spark.SparkMax;
 
 import SushiFrcLib.Sensors.absoluteEncoder.AbsoluteEncoder;
 import SushiFrcLib.SmartDashboard.TunableNumber;
@@ -24,15 +24,15 @@ public class MathUtil {
     return Math.abs(target - setpoint);
    }
 
-   public static double getError(CANSparkMax target, double setpoint) {
+   public static double getError(SparkMax target, double setpoint) {
     return getError(target.getEncoder().getPosition(), setpoint);
    }
 
-   public static double getError(CANSparkMax target, TunableNumber setpoint) {
+   public static double getError(SparkMax target, TunableNumber setpoint) {
     return getError(target.getEncoder().getPosition(), setpoint.get());
    }
 
-   public static double getError(CANSparkMax target, AbsoluteEncoder setpoint) {
+   public static double getError(SparkMax target, AbsoluteEncoder setpoint) {
     return getError(target.getEncoder().getPosition(), setpoint.getNormalizedPosition());
    }
 }
