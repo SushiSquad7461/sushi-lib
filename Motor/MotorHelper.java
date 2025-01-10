@@ -11,8 +11,10 @@ import edu.wpi.first.math.controller.PIDController;
  */
 public class MotorHelper {
     public static void setConversionFactor(SparkMax motor, double factor) {
-        motor.getEncoder().setPositionConversionFactor(factor);
-        motor.getEncoder().setVelocityConversionFactor(factor / 60);
+        MotorConfig motorConfig = new MotorConfig(motor.getDeviceId());
+
+        motorConfig.getTalonConfig().Feedback.SensorToMechanismRatio = factor;
+        //motor.getEncoder().setVelocityConversionFactor(factor / 60);
     }
 
     public static void setDegreeConversionFactor(SparkMax motor, double gearing) {
@@ -32,8 +34,8 @@ public class MotorHelper {
         CurrentLimitsConfigs config = new CurrentLimitsConfigs();
 
         config.SupplyCurrentLimit = currentLimit;
-        config.SupplyCurrentThreshold = currentLimit;
-        config.SupplyTimeThreshold = 0;
+        config.SupplyCurrentLowerLimit = currentLimit;
+        config.SupplyCurrentLowerTime = 0;
         config.SupplyCurrentLimitEnable = true;
 
         return config;
@@ -41,8 +43,9 @@ public class MotorHelper {
 
     public static void updateSupplyCurrentLimit(int currentLimit, TalonFXConfiguration config) {
         config.CurrentLimits.SupplyCurrentLimit = currentLimit;
-        config.CurrentLimits.SupplyTimeThreshold = 0;
-        config.CurrentLimits.SupplyCurrentThreshold = currentLimit;
+        config.CurrentLimits.SupplyCurrentLowerTime = 0;
+
+        config.CurrentLimits.SupplyCurrentLowerLimit = currentLimit;
         config.CurrentLimits.SupplyCurrentLimitEnable = true;
     }
 

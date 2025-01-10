@@ -2,7 +2,6 @@ package SushiFrcLib.Sensors.absoluteEncoder;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -16,9 +15,11 @@ public class CANCoder {
         this.encoder = new CANcoder(id);
 
         CANcoderConfiguration config = new CANcoderConfiguration();
-        config.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
-        config.MagnetSensor.SensorDirection = inverted;
-        config.MagnetSensor.MagnetOffset = -offset.getRotations();
+        
+        //setting discontinuity point to 1.0 for unsigned [0,1) range
+        config.MagnetSensor.withAbsoluteSensorDiscontinuityPoint(1.0)
+                          .withSensorDirection(inverted)
+                          .withMagnetOffset(-offset.getRotations());
 
         encoder.getConfigurator().apply(config);
     }

@@ -119,7 +119,8 @@ public class SwerveModuleConstants {
         CANcoder angleEncoder = new CANcoder(cancoderId, Constants.Ports.CANIVORE_NAME);
 
         CANcoderConfiguration config = new CANcoderConfiguration();
-        config.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
+        //setting discontinuity point to 1.0 for unsigned [0,1) range
+        config.MagnetSensor.withAbsoluteSensorDiscontinuityPoint(1.0);
         config.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
         config.MagnetSensor.MagnetOffset = -angleOffset.getRotations();
 
