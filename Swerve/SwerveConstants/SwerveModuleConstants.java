@@ -54,8 +54,8 @@ public class SwerveModuleConstants {
         this.angleOffset = angleOffset;
 
         driveMotorId = (moduleNumber * 3) + 1;
-        cancoderId = (moduleNumber * 3) + 2;
-        angleMotorId = (moduleNumber * 3) + 3;
+        angleMotorId = (moduleNumber * 3) + 2;
+        cancoderId = (moduleNumber * 3) + 3;
 
         this.moduleInfo = moduleInfo;
 

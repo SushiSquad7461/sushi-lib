@@ -58,6 +58,7 @@ public class Pigeon extends Gyro {
     @Override
     public void setAngle(Rotation2d newAngle) {
         gyro.setYaw(newAngle.getDegrees()); 
+        //might need to set as pitch
     }
 
 }
