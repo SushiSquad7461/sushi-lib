@@ -36,8 +36,10 @@ public class SwerveModuleNeo extends SwerveModule {
 
     @Override
     protected void applySwerveModuleState(double velocityMPS, Rotation2d angleRadians) {
-        anglePID.setReference(angleRadians.getRadians(), SparkMax.ControlType.kPosition);
+        anglePID.setReference(angleRadians.getDegrees(), SparkMax.ControlType.kPosition);
         drivePID.setReference(velocityMPS, SparkBase.ControlType.kVelocity);
+        SmartDashboard.putNumber("Angle Motor Ref: " + swerveModuleConstants.moduleNumber, angleRadians.getDegrees());
+        SmartDashboard.putNumber("Drive Motor Ref: " + swerveModuleConstants.moduleNumber, velocityMPS);
     }
 
     @Override
@@ -47,7 +49,7 @@ public class SwerveModuleNeo extends SwerveModule {
 
     @Override
     protected Rotation2d getEncoderAngle() {
-        return Rotation2d.fromRadians(angleEncoder.getPosition());
+        return Rotation2d.fromDegrees(angleEncoder.getPosition());
     }
 
     @Override
@@ -66,10 +68,11 @@ public class SwerveModuleNeo extends SwerveModule {
         drive.updatePID(driveMotor);
     }
 
+    @Override
     public void publishTelemetry(){
-        SmartDashboard.putNumber("Current Encoder Angle: " + swerveModuleConstants.moduleNumber, Rotation2d.fromRadians(angleEncoder.getPosition()).getDegrees());
-        SmartDashboard.putNumber("Angle Motor" + swerveModuleConstants.moduleNumber, angleMotor.get());
-        SmartDashboard.putNumber("Drive Motor" + swerveModuleConstants.moduleNumber, driveMotor.get());
-
+        super.publishTelemetry();
+        SmartDashboard.putNumber("Current Encoder Angle: " + swerveModuleConstants.moduleNumber, angleEncoder.getPosition());
+        SmartDashboard.putNumber("Angle Motor Out: " + swerveModuleConstants.moduleNumber, angleMotor.get());
+        SmartDashboard.putNumber("Drive Motor Out: " + swerveModuleConstants.moduleNumber, driveMotor.get());
     }
 }

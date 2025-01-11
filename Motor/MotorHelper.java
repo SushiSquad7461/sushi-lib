@@ -12,10 +12,17 @@ import edu.wpi.first.math.controller.PIDController;
  * Create Motor Functions deprecated as of Novemeber 2023, use MotorConfig instead
  */
 public class MotorHelper {
+
+    /**
+     * Sets Spark Max to multiply default position unit of rotations by the conversion factor. 
+     * Also sets Spark Max to multiply default velocity unit of RPM by factor and divide by 60 to get target units per second.
+     * @param motor
+     * @param factor
+     */
     public static void setConversionFactor(SparkMax motor, double factor) {
         SparkMaxConfig sparkMaxConfig = new SparkMaxConfig();
         sparkMaxConfig.apply(new EncoderConfig().positionConversionFactor(factor));
-        sparkMaxConfig.apply(new EncoderConfig().velocityConversionFactor(factor/60));
+        sparkMaxConfig.apply(new EncoderConfig().velocityConversionFactor(factor / 60));
     }
 
     public static void setDegreeConversionFactor(SparkMax motor, double gearing) {

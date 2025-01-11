@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class SwerveModule {
     public SwerveModuleConstants swerveModuleConstants;
@@ -66,5 +67,9 @@ public abstract class SwerveModule {
         lastAngle = angle;
 
         applySwerveModuleState(state.speedMetersPerSecond, angle);
+    }
+
+    public void publishTelemetry() {
+        SmartDashboard.putNumber("Cancoder Angle :" + swerveModuleConstants.moduleNumber, getAbsoluteAngleDegrees());
     }
 }

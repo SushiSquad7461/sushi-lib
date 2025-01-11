@@ -175,9 +175,7 @@ abstract public class BaseSwerve extends SubsystemBase {
 
         for (SwerveModule i : swerveMods) {
             if (tuningMode) {
-                SmartDashboard.putNumber("Cancoder Angle " + i.swerveModuleConstants.moduleNumber,
-                        i.getAbsoluteAngleDegrees());
-
+                i.publishTelemetry();
                 i.updatePID(angleTuning, driveTuning);
             }
             i.log();
