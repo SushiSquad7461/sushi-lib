@@ -38,7 +38,6 @@ public class SwerveModuleNeo extends SwerveModule {
     protected void applySwerveModuleState(double velocityMPS, Rotation2d angleRadians) {
         anglePID.setReference(angleRadians.getRadians(), SparkMax.ControlType.kPosition);
         drivePID.setReference(velocityMPS, SparkBase.ControlType.kVelocity);
-        SmartDashboard.putNumber("Current Encoder Angle: " + swerveModuleConstants.moduleNumber, Rotation2d.fromRadians(angleEncoder.getPosition()).getDegrees());
     }
 
     @Override
@@ -63,6 +62,14 @@ public class SwerveModuleNeo extends SwerveModule {
 
     @Override
     public void updatePID(PIDTuning angle, PIDTuning drive) {
-        throw new UnsupportedOperationException("Unimplemented method 'updatePID'");
+        angle.updatePID(angleMotor);
+        drive.updatePID(driveMotor);
+    }
+
+    public void publishTelemetry(){
+        SmartDashboard.putNumber("Current Encoder Angle: " + swerveModuleConstants.moduleNumber, Rotation2d.fromRadians(angleEncoder.getPosition()).getDegrees());
+        SmartDashboard.putNumber("Angle Motor" + swerveModuleConstants.moduleNumber, angleMotor.get());
+        SmartDashboard.putNumber("Drive Motor" + swerveModuleConstants.moduleNumber, driveMotor.get());
+
     }
 }

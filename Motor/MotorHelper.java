@@ -3,6 +3,8 @@ package SushiFrcLib.Motor;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.EncoderConfig;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.controller.PIDController;
 
@@ -11,14 +13,13 @@ import edu.wpi.first.math.controller.PIDController;
  */
 public class MotorHelper {
     public static void setConversionFactor(SparkMax motor, double factor) {
-        MotorConfig motorConfig = new MotorConfig(motor.getDeviceId());
-
-        motorConfig.getTalonConfig().Feedback.SensorToMechanismRatio = factor;
-        //motor.getEncoder().setVelocityConversionFactor(factor / 60);
+        SparkMaxConfig sparkMaxConfig = new SparkMaxConfig();
+        sparkMaxConfig.apply(new EncoderConfig().positionConversionFactor(factor));
+        sparkMaxConfig.apply(new EncoderConfig().velocityConversionFactor(factor/60));
     }
 
     public static void setDegreeConversionFactor(SparkMax motor, double gearing) {
-        setConversionFactor(motor, 360 / gearing);
+        setConversionFactor(motor, 360. / gearing);
     }
 
     public static TalonFXConfiguration setConversionFactor(TalonFXConfiguration config, double factor) {

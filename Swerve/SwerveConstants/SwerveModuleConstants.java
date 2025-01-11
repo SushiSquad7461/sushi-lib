@@ -12,7 +12,6 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import SushiFrcLib.Motor.MotorConfig;
 import SushiFrcLib.Motor.MotorHelper;
-import edu.wpi.first.hal.PortsJNI;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -116,7 +115,7 @@ public class SwerveModuleConstants {
     }
 
     public CANcoder getCanCoder() {
-        CANcoder angleEncoder = new CANcoder(cancoderId, Constants.Ports.CANIVORE_NAME);
+        CANcoder angleEncoder = new CANcoder(cancoderId);
 
         CANcoderConfiguration config = new CANcoderConfiguration();
         //setting discontinuity point to 1.0 for unsigned [0,1) range
