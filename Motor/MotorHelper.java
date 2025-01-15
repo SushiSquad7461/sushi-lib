@@ -3,6 +3,8 @@ package SushiFrcLib.Motor;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.config.EncoderConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
@@ -20,8 +22,9 @@ public class MotorHelper {
      * @param factor
      */
     public static void setConversionFactor(SparkMax motor, double factor) {
-        SparkMaxConfig sparkMaxConfig = new SparkMaxConfig();
-        sparkMaxConfig.apply(new EncoderConfig().positionConversionFactor(factor).velocityConversionFactor(factor / 60));
+        SparkMaxConfig config = new SparkMaxConfig();
+        config.apply(new EncoderConfig().positionConversionFactor(factor).velocityConversionFactor(factor / 60));
+        motor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public static void setDegreeConversionFactor(SparkMax motor, double gearing) {
