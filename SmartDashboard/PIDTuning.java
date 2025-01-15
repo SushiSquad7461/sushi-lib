@@ -3,7 +3,6 @@ package SushiFrcLib.SmartDashboard;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.config.ClosedLoopConfig;
 
 import SushiFrcLib.Control.PIDConfig;
