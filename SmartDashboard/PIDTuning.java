@@ -3,7 +3,10 @@ package SushiFrcLib.SmartDashboard;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.config.ClosedLoopConfig;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import SushiFrcLib.Control.PIDConfig;
 
@@ -32,6 +35,9 @@ public class PIDTuning {
         if (kI.hasChanged()) closedLoopConfig.i(kI.get());
         if (kD.hasChanged()) closedLoopConfig.d(kD.get());
         if (kF.hasChanged()) closedLoopConfig.velocityFF(kF.get());
+        SparkMaxConfig config = new SparkMaxConfig();
+        config.apply(closedLoopConfig);
+        motor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public void updatePID(TalonFX motor){

@@ -21,8 +21,7 @@ public class MotorHelper {
      */
     public static void setConversionFactor(SparkMax motor, double factor) {
         SparkMaxConfig sparkMaxConfig = new SparkMaxConfig();
-        sparkMaxConfig.apply(new EncoderConfig().positionConversionFactor(factor));
-        sparkMaxConfig.apply(new EncoderConfig().velocityConversionFactor(factor / 60));
+        sparkMaxConfig.apply(new EncoderConfig().positionConversionFactor(factor).velocityConversionFactor(factor / 60));
     }
 
     public static void setDegreeConversionFactor(SparkMax motor, double gearing) {

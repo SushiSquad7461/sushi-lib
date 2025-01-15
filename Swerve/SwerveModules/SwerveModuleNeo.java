@@ -32,6 +32,8 @@ public class SwerveModuleNeo extends SwerveModule {
         angleMotor = constants.getAngleNeo();
         angleEncoder = angleMotor.getEncoder();
         anglePID = angleMotor.getClosedLoopController();
+
+        resetToAbsolute();
     }
 
     @Override
