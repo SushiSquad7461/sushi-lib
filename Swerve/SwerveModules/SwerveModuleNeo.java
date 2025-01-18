@@ -39,11 +39,13 @@ public class SwerveModuleNeo extends SwerveModule {
     @Override
     protected void applySwerveModuleState(double velocityMPS, Rotation2d angleRadians) {
         anglePID.setReference(angleRadians.getDegrees(), SparkMax.ControlType.kPosition);
-        if(Math.abs(velocityMPS) < 0.1) {
-            driveMotor.stopMotor();
-        } else {
-            drivePID.setReference(velocityMPS, SparkBase.ControlType.kVelocity);
-        }
+        driveMotor.set(velocityMPS / 5.6);
+
+        // if(Math.abs(velocityMPS) < 0.1) {
+        //     driveMotor.stopMotor();
+        // } else {
+        //     drivePID.setReference(velocityMPS, SparkBase.ControlType.kVelocity);
+        // }
         SmartDashboard.putNumber("Angle Motor Ref: " + swerveModuleConstants.moduleNumber, angleRadians.getDegrees());
         SmartDashboard.putNumber("Drive Motor Ref: " + swerveModuleConstants.moduleNumber, velocityMPS);
     }

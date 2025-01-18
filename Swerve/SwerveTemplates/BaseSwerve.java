@@ -184,5 +184,10 @@ abstract public class BaseSwerve extends SubsystemBase {
         setPrevPose(newOdomPose);
     }
 
+    public void resetModulesToAbsolute(){
+        for (var i : swerveMods){
+            i.resetToAbsolute();
+        }
+    }
     abstract public ChassisSpeeds getChassisSpeeds();
 }

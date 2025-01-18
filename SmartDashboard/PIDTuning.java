@@ -31,13 +31,33 @@ public class PIDTuning {
   
     public void updatePID(SparkMax motor){
         ClosedLoopConfig closedLoopConfig = new ClosedLoopConfig();
-        if (kP.hasChanged()) closedLoopConfig.p(kP.get());
-        if (kI.hasChanged()) closedLoopConfig.i(kI.get());
-        if (kD.hasChanged()) closedLoopConfig.d(kD.get());
-        if (kF.hasChanged()) closedLoopConfig.velocityFF(kF.get());
-        SparkMaxConfig config = new SparkMaxConfig();
-        config.apply(closedLoopConfig);
-        motor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+        boolean hasChanged = false;
+
+        if (kP.hasChanged()) {
+            hasChanged = true;
+            closedLoopConfig.p(kP.get());
+        }
+
+        if (kI.hasChanged()) {
+            hasChanged = true;
+            closedLoopConfig.i(kI.get());
+        }
+
+        if (kD.hasChanged()) {
+            hasChanged = true;
+            closedLoopConfig.d(kD.get());
+        }
+        
+        if (kF.hasChanged()) {
+            hasChanged = true;
+            closedLoopConfig.velocityFF(kF.get());
+        }
+
+        if (hasChanged) {
+            SparkMaxConfig config = new SparkMaxConfig();
+            config.apply(closedLoopConfig);
+            motor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+        }
     }
 
     public void updatePID(TalonFX motor){
