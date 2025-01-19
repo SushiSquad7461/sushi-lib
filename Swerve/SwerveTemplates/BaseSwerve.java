@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 abstract public class BaseSwerve extends SubsystemBase {
-    private final SwerveModule[] swerveMods;
+    protected final SwerveModule[] swerveMods;
     private final Gyro gyro;
 
     protected final Field2d field;
@@ -84,6 +84,15 @@ abstract public class BaseSwerve extends SubsystemBase {
 
     public Command zeroGyro() {
         return runOnce(() -> gyro.zeroGyro());
+    }
+
+    
+    public SwerveModulePosition[] getModulePositions(){
+        SwerveModulePosition[] positions = new SwerveModulePosition[4];
+        for (SwerveModule mod : swerveMods){
+            positions[mod.swerveModuleConstants.moduleNumber] = mod.getPose();
+        }
+        return positions;
     }
 
     // Vector is in mps, and rot is in radians per sec
