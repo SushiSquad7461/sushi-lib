@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 abstract public class BaseSwerve extends SubsystemBase {
     protected final SwerveModule[] swerveMods;
-    private final Gyro gyro;
+    protected final Gyro gyro;
 
     protected final Field2d field;
 
@@ -115,16 +115,6 @@ abstract public class BaseSwerve extends SubsystemBase {
         }
     }
 
-    public SwerveModulePosition[] getPose() {
-        SwerveModulePosition[] ret = new SwerveModulePosition[] { null, null, null, null };
-
-        for (SwerveModule i : swerveMods) {
-            ret[i.swerveModuleConstants.moduleNumber] = i.getPose();
-        }
-
-        return ret;
-    }
-
     public SwerveModuleState[] getStates() {
         SwerveModuleState[] ret = new SwerveModuleState[] { null, null, null, null };
 
@@ -143,16 +133,6 @@ abstract public class BaseSwerve extends SubsystemBase {
 
     public Gyro getGyro() {
         return gyro;
-    }
-
-    public void resetGyro() {
-        gyro.zeroGyro();
-    }
-
-    public Command resetGyroCommand() {
-        return runOnce(() -> {
-            resetGyro();
-        });
     }
 
     public double getAngleVelo() {

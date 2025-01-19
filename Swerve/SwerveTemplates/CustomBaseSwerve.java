@@ -17,7 +17,7 @@ public abstract class CustomBaseSwerve extends BaseSwerve {
     public CustomBaseSwerve(SwerveModule[] swerveMods, Gyro gyro, SwerveKinematics kinematics) {
         super(swerveMods, gyro);
         this.kinematics = kinematics;
-        this.odom = new SwerveOdom(kinematics, getPose());
+        this.odom = new SwerveOdom(kinematics, getModulePositions());
         setPrevPose(this.odom.getPose());
     }
 
@@ -44,6 +44,6 @@ public abstract class CustomBaseSwerve extends BaseSwerve {
     @Override
     public void periodic() {
         super.periodic();
-        odom.updatePoseWithGyro(getPose(), getGyro().getAngle());
+        odom.updatePoseWithGyro(getModulePositions(), getGyro().getAngle());
     }
 }
