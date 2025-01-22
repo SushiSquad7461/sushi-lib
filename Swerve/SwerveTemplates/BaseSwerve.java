@@ -10,11 +10,11 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 abstract public class BaseSwerve extends SubsystemBase {
     protected final SwerveModule[] swerveMods;
@@ -43,9 +43,13 @@ abstract public class BaseSwerve extends SubsystemBase {
 
         this.field = new Field2d();
 
-        this.maxSpeed = swerveMods[0].swerveModuleConstants.moduleInfo.maxSpeed;
-        this.maxAngularVelocity = swerveMods[0].swerveModuleConstants.moduleInfo.maxAngularVelocity;
-
+        this.maxSpeed = Constants.Swerve.REDUCE_SPEED 
+            ? Constants.Swerve.LOW_SPEED 
+            : swerveMods[0].swerveModuleConstants.moduleInfo.maxSpeed;
+        this.maxAngularVelocity = Constants.Swerve.REDUCE_SPEED 
+            ? Constants.Swerve.LOW_ROT 
+            : swerveMods[0].swerveModuleConstants.moduleInfo.maxAngularVelocity;
+ 
         angleTuning = new PIDTuning("Swerve Angle", swerveMods[0].swerveModuleConstants.angleConfig.pid,  swerveMods[0].swerveModuleConstants.swerveTuningMode);
         driveTuning = new PIDTuning("Swerve Drive",  swerveMods[0].swerveModuleConstants.driveConfig.pid,  swerveMods[0].swerveModuleConstants.swerveTuningMode);
 

@@ -2,20 +2,17 @@ package SushiFrcLib.Swerve.SwerveModules;
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkMax;
 
 import SushiFrcLib.SmartDashboard.PIDTuning;
 import SushiFrcLib.Swerve.SwerveConstants.SwerveModuleConstants;
-
-import com.revrobotics.spark.SparkBase;
-import com.revrobotics.spark.SparkMax;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveModuleNeo extends SwerveModule {
     private final SparkMax driveMotor;
     private final RelativeEncoder driveEncoder;
-    private final SparkClosedLoopController drivePID;
+    // private final SparkClosedLoopController drivePID; // TODO use PID
 
     private final SparkMax angleMotor;
     private final RelativeEncoder angleEncoder;
@@ -27,7 +24,7 @@ public class SwerveModuleNeo extends SwerveModule {
 
         driveMotor = constants.getDriveNeo();
         driveEncoder = driveMotor.getEncoder();
-        drivePID = driveMotor.getClosedLoopController();
+        // drivePID = driveMotor.getClosedLoopController();
 
         angleMotor = constants.getAngleNeo();
         angleEncoder = angleMotor.getEncoder();
