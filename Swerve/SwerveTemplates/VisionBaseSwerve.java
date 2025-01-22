@@ -16,6 +16,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class VisionBaseSwerve extends BaseSwerve {
     protected final SwerveDrivePoseEstimator odom;
@@ -41,6 +43,19 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
         this(swerveMods, gyro, kinematics, VecBuilder.fill(0.1, 0.1, 0.05),
                 VecBuilder.fill(0.9, 0.9, 0.9));
     }
+
+    @Override
+    public void drive(Translation2d vector, double rot) {
+        vector = vector.times(maxSpeed);
+        rot *= maxAngularVelocity;
+        final var chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+            vector.getX(), 
+            vector.getY(), 
+            rot, 
+            odom.getEstimatedPosition().getRotation());
+        driveChassis(chassisSpeeds);
+    }
+
 
     public void addVisionTargets(List<EstimatedRobotPose> poses) {
         for (int i = 0; i < poses.size(); ++i) {
@@ -78,6 +93,9 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
     @Override
     public void periodic() {
         super.periodic();
-        odom.update(getGyro().getAngle(), getModulePositions());
+        final var pose = odom.update(getGyro().getAngle(), getModulePositions());
+        if(tuningMode) {
+            SmartDashboard.putString("Odometry", pose.toString());
+        }
     }
 }

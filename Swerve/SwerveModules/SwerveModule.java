@@ -50,7 +50,7 @@ public abstract class SwerveModule {
         return new SwerveModuleState(getVelocityMeter(), getEncoderAngle());
     }
 
-    public SwerveModulePosition getPose() {
+    public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(getPositionMeter(), getEncoderAngle());
     }
 

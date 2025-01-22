@@ -31,7 +31,7 @@ public class SwerveModuleTalon extends SwerveModule {
 
         resetToAbsolute();
 
-        lastAngle = getPose().angle;
+        lastAngle = getPosition().angle;
 
         drivePID = new VelocityDutyCycle(0); 
         anglePID = new PositionDutyCycle(0); 

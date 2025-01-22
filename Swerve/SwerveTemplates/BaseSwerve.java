@@ -22,10 +22,10 @@ abstract public class BaseSwerve extends SubsystemBase {
 
     protected final Field2d field;
 
-    private final double maxSpeed;
-    private final double maxAngularVelocity;
+    protected final double maxSpeed;
+    protected final double maxAngularVelocity;
 
-    private final boolean tuningMode;
+    protected final boolean tuningMode;
 
     protected Pose2d prevPose;
     protected double prevPoseTimeStamp;
@@ -90,19 +90,19 @@ abstract public class BaseSwerve extends SubsystemBase {
     public SwerveModulePosition[] getModulePositions(){
         SwerveModulePosition[] positions = new SwerveModulePosition[4];
         for (SwerveModule mod : swerveMods){
-            positions[mod.swerveModuleConstants.moduleNumber] = mod.getPose();
+            positions[mod.swerveModuleConstants.moduleNumber] = mod.getPosition();
         }
         return positions;
     }
 
     // Vector is in mps, and rot is in radians per sec
-    public void drive(Translation2d vector, double rot, Alliance color) {
+    public void drive(Translation2d vector, double rot) {
         vector = vector.times(maxSpeed);
         rot *= maxAngularVelocity;
 
         vector = vector.rotateBy(
                         //Rotation2d.fromRadians(getDriveVelo() * 0.0).plus 
-                        Rotation2d.fromDegrees(color == Alliance.Red ? 180 : 0).minus(gyro.getAngle())); // We are adding a value for
+                        Rotation2d.fromDegrees(0).minus(gyro.getAngle())); // We are adding a value for
                                                                                            // latency conpensation,
                                                                                            // currently untuned
 

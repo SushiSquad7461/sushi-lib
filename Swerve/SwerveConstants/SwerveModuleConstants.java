@@ -14,7 +14,6 @@ import SushiFrcLib.Motor.MotorConfig;
 import SushiFrcLib.Motor.MotorHelper;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 /**
@@ -49,11 +48,11 @@ public class SwerveModuleConstants {
      */
     public SwerveModuleConstants(int moduleNumber, Rotation2d angleOffset, SDSModules moduleInfo,
             boolean swerveTuningMode, MotorConfig driveConfig, MotorConfig angleConfig) {
-                this(moduleNumber, angleOffset, moduleInfo, swerveTuningMode, driveConfig, angleConfig, (moduleNumber * 3) + 2, (moduleNumber * 3) + 1, (moduleNumber * 3) + 3);
+                this(moduleNumber, angleOffset, moduleInfo, swerveTuningMode, driveConfig, angleConfig, (moduleNumber * 3) + 1, (moduleNumber * 3) + 2, (moduleNumber * 3) + 3);
     }
 
     public SwerveModuleConstants(int moduleNumber, Rotation2d angleOffset, SDSModules moduleInfo,
-    boolean swerveTuningMode, MotorConfig driveConfig, MotorConfig angleConfig, int angleMotorId, int driveMotorId, int cancoderId) {
+    boolean swerveTuningMode, MotorConfig driveConfig, MotorConfig angleConfig, int driveMotorId, int angleMotorId, int cancoderId) {
         this.moduleNumber = moduleNumber;
         this.angleOffset = angleOffset;
 

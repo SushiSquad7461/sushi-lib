@@ -31,7 +31,7 @@ public class SwerveModuleNeoTalon extends SwerveModule {
         resetToAbsolute();
 
         drivePID = new VelocityVoltage(0); 
-        lastAngle = getPose().angle;
+        lastAngle = getPosition().angle;
     }
 
 
