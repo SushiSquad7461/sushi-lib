@@ -109,4 +109,8 @@ public class MotorConfig {
         setCanSparkMaxConfig(motor, type);
         return motor;
    }
+
+   public MotorConfig withCanId(int canId) {
+     return new MotorConfig(canId, this.canBus, this.currentLimit, this.inversion, this.pid, this.mode);
+   }
 }

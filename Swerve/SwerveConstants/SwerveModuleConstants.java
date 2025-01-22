@@ -48,13 +48,14 @@ public class SwerveModuleConstants {
      * Swerve Module Constants to be used when creating swerve modules.
      */
     public SwerveModuleConstants(int moduleNumber, Rotation2d angleOffset, SDSModules moduleInfo,
-            boolean swerveTuningMode, MotorConfig driveConfig, MotorConfig anglConfig) {
+            boolean swerveTuningMode, MotorConfig driveConfig, MotorConfig angleConfig) {
+                this(moduleNumber, angleOffset, moduleInfo, swerveTuningMode, driveConfig, angleConfig, (moduleNumber * 3) + 2, (moduleNumber * 3) + 1, (moduleNumber * 3) + 3);
+    }
+
+    public SwerveModuleConstants(int moduleNumber, Rotation2d angleOffset, SDSModules moduleInfo,
+    boolean swerveTuningMode, MotorConfig driveConfig, MotorConfig angleConfig, int angleMotorId, int driveMotorId, int cancoderId) {
         this.moduleNumber = moduleNumber;
         this.angleOffset = angleOffset;
-
-        driveMotorId = (moduleNumber * 3) + 1;
-        angleMotorId = (moduleNumber * 3) + 2;
-        cancoderId = (moduleNumber * 3) + 3;
 
         this.moduleInfo = moduleInfo;
 
@@ -63,7 +64,10 @@ public class SwerveModuleConstants {
         this.swerveTuningMode = swerveTuningMode;
 
         this.driveConfig = driveConfig;
-        this.angleConfig = anglConfig;
+        this.angleConfig = angleConfig;
+        this.cancoderId = cancoderId;
+        this.angleMotorId = angleMotorId;
+        this.driveMotorId = driveMotorId;
     }
 
     public static SwerveModuleConstants[] generateConstants(Rotation2d[] angleOffsets, SDSModules moduleInfo,
