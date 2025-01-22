@@ -59,7 +59,6 @@ public class SwerveModuleConstants {
         this.moduleInfo = moduleInfo;
 
         driveRotationsToMeters = wheelCircumference * moduleInfo.driveGearRatio;
-        SmartDashboard.putNumber("Rot to Meters", driveRotationsToMeters);
 
         this.swerveTuningMode = swerveTuningMode;
 
