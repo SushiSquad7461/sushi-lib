@@ -3,13 +3,21 @@ package SushiFrcLib.Swerve.SwerveTemplates;
 import java.util.List;
 
 import org.photonvision.EstimatedRobotPose;
+import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.targeting.PhotonPipelineResult;
 
 import SushiFrcLib.Sensors.gyro.Gyro;
+import SushiFrcLib.SmartDashboard.TunableNumber;
 import SushiFrcLib.Swerve.SwerveModules.SwerveModule;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -17,10 +25,15 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 
 public abstract class VisionBaseSwerve extends BaseSwerve {
     protected final SwerveDrivePoseEstimator odom;
     private final SwerveDriveKinematics kinematics;
+    private final PhotonCamera camera;
+    private final PhotonPoseEstimator camFilter;
+    private final TunableNumber maxDistanceCamToTarget;
+
 
     public VisionBaseSwerve(SwerveModule[] swerveMods, Gyro gyro, SwerveDriveKinematics kinematics,
             Matrix<N3, N1> stateStdDevs, Matrix<N3, N1> visionMeasurementStdDevs) {
@@ -36,6 +49,13 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
                 visionMeasurementStdDevs);
 
         setPrevPose(this.odom.getEstimatedPosition());
+        camera = new PhotonCamera("2025");
+        camFilter = new PhotonPoseEstimator(
+                AprilTagFields.k2025Reefscape.loadAprilTagLayoutField(),
+                PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
+                new Transform3d());
+        maxDistanceCamToTarget = new TunableNumber("Max Cam->Target (m)", 6, true);
+
     }
 
     public VisionBaseSwerve(SwerveModule[] swerveMods, Gyro gyro, SwerveDriveKinematics kinematics) {
@@ -89,6 +109,11 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
         return odom.getEstimatedPosition();
     }
 
+    public Command autoAlign() {
+        return runOnce(() -> {
+            camera.getAllUnreadResults();
+        });
+    }
     @Override
     public void periodic() {
         super.periodic();
@@ -96,5 +121,31 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
         if(tuningMode) {
             SmartDashboard.putString("Odometry", pose.toString());
         }
+
+        if (!camera.isConnected())
+            return;
+        
+        List<PhotonPipelineResult> camResults = camera.getAllUnreadResults();
+        PhotonPipelineResult camPhotonPipelineResult = camResults.get(camResults.size()-1); //set idx to wanted target
+        
+        var camPose = camFilter.update(camPhotonPipelineResult);
+
+        if (!camPose.isPresent() || camPose.get().targetsUsed.size() < 2)
+            return;
+
+        var targetsCloseEnough = true;
+        for (var target : camPose.get().targetsUsed) {
+            var transform = target.getBestCameraToTarget();
+            double cameraToTagDistance = new Pose3d().transformBy(transform).getTranslation().getNorm();
+            if (cameraToTagDistance > maxDistanceCamToTarget.get()) {
+                targetsCloseEnough = false;
+                break;
+            }
+        }
+
+        if (targetsCloseEnough) {
+            addVisionTargets(List.of(camPose.get()));
+        }
+
     }
 }
