@@ -49,7 +49,7 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
                 visionMeasurementStdDevs);
 
         setPrevPose(this.odom.getEstimatedPosition());
-        camera = new PhotonCamera("2025");
+        camera = new PhotonCamera("Arducam");
         camFilter = new PhotonPoseEstimator(
                 AprilTagFields.k2025Reefscape.loadAprilTagLayoutField(),
                 PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
