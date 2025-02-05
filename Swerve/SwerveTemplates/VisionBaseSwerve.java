@@ -30,7 +30,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public abstract class VisionBaseSwerve extends BaseSwerve {
     protected final SwerveDrivePoseEstimator odom;
     private final SwerveDriveKinematics kinematics;
-    private final PhotonCamera camera;
+    protected final PhotonCamera camera;
     private final PhotonPoseEstimator camFilter;
     private final TunableNumber maxDistanceCamToTarget;
 
@@ -49,7 +49,7 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
                 visionMeasurementStdDevs);
 
         setPrevPose(this.odom.getEstimatedPosition());
-        camera = new PhotonCamera("Arducam");
+        camera = new PhotonCamera("Arducam_OV9281_USB_Camera");
         camFilter = new PhotonPoseEstimator(
                 AprilTagFields.k2025Reefscape.loadAprilTagLayoutField(),
                 PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
@@ -126,6 +126,9 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
             return;
         
         List<PhotonPipelineResult> camResults = camera.getAllUnreadResults();
+        if (camResults.size() == 0) {
+            return;
+        }
         PhotonPipelineResult camPhotonPipelineResult = camResults.get(camResults.size()-1); //set idx to wanted target
         
         var camPose = camFilter.update(camPhotonPipelineResult);
@@ -136,6 +139,7 @@ public abstract class VisionBaseSwerve extends BaseSwerve {
         var targetsCloseEnough = true;
         for (var target : camPose.get().targetsUsed) {
             var transform = target.getBestCameraToTarget();
+            SmartDashboard.putString(transform.toString(), "transform");
             double cameraToTagDistance = new Pose3d().transformBy(transform).getTranslation().getNorm();
             if (cameraToTagDistance > maxDistanceCamToTarget.get()) {
                 targetsCloseEnough = false;
